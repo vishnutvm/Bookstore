@@ -5,8 +5,9 @@ const hbs = require('express-handlebars')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const indexRouter = require('./routes/admin');
+const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
+const db = require('./config/connections')
 
 const app = express();
 
@@ -19,9 +20,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
+db.connect((err)=>{
+  if(err) console.log(err)
+  else  
+  console.log("Database connected")
+})
+app.use('/', usersRouter);
+app.use('/admin', adminRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

@@ -3,6 +3,9 @@
     padding: 0;
     box-sizing: border-box;
 }
+body{
+    overflow-x: hidden;
+}
 img{
     width: 100%;
 }
@@ -14,7 +17,7 @@ a{
 nav{
     padding: 7px 10px;
     width: 100vw;
-    min-height:5rem;
+    min-height:4rem;
 
    display: flex;
    align-items: center;
@@ -78,6 +81,11 @@ nav .nav-btn{
 }
 #admin-header .menu ul li.active a{
     color: rgba(239, 55, 114, 0.73);
+}
+
+button.log-reg-btn{
+    background-color:#F36D98;
+    color: #fff;
 }
 
 
