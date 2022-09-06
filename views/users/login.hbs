@@ -11,7 +11,7 @@
                 <div class="col-md-6 col-lg-7 d-flex align-items-center">
                   <div class="card-body p-4 p-lg-5 text-black">
     
-                    <form>
+                    <form action="/user_signin" method="post">
     
                       <div class="d-flex align-items-center mb-3 pb-1">
                         <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i>
@@ -21,17 +21,17 @@
                       <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
     
                       <div class="form-outline mb-4">
-                        <input style="font-weight: 300; font-size: 15px;" type="email" id="form2Example17" class="form-control form-control-lg" placeholder="Your Email" />
+                        <input style="font-weight: 300; font-size: 15px;" type="email" id="form2Example17" class="form-control form-control-lg" placeholder="Your Email" name="email" />
                    
                       </div>
     
                       <div class="form-outline mb-4">
-                        <input style="font-weight: 300; font-size: 15px;"  type="password" id="form2Example27" class="form-control form-control-lg" / placeholder="Password"  >
+                        <input style="font-weight: 300; font-size: 15px;"  type="password" id="form2Example27" class="form-control form-control-lg" / placeholder="Password"  name="password" >
                        
                       </div>
     
                       <div class="pt-1 mb-4 d-grid">
-                        <button   class="btn btn-lg log-reg-btn" type="button">Login</button>
+                        <button   class="btn btn-lg log-reg-btn" type="submit">Login</button>
                       </div>
     
            

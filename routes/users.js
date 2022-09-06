@@ -11,6 +11,15 @@ router.get('/', function(req, res, next) {
 router.get('/user_signin',(req,res)=>{
   res.render('users/login')
 })
+router.post('/user_signin',(req,res)=>{
+  userHealpers.doLogin(req.body).then((response)=>{
+   if(response.status){
+    res.redirect('/')
+   }else{
+    res.redirect('/user_signin')
+   }
+  })
+})
 router.get('/user_registration',(req,res)=>{
 res.render('users/register')
 })
