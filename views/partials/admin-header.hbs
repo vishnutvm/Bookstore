@@ -1,0 +1,33 @@
+    <header id="admin-header">
+       
+      <nav>
+        <div class="nav-leftside">
+     <img src="images/logo.png" alt="images">
+        </div>
+      
+
+   
+
+
+            {{#if adminLoggin}}
+            <div  class="menu">
+               <ul>
+                <li class="active" ><a  href="#">Dashbord</a></li>
+                <li><a href="#">Products</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="#">Orders</a></li>
+             
+               </ul>
+            </div>
+
+               <div  class=" login-btn">
+            <a type="button" class="btn nav-btn">Login</a>
+          </div>
+
+          {{else}}
+          <h5 class="admin-panel-text">Admin panel</h5>
+          {{/if}}
+        </div>
+
+      </nav>
+    </header>

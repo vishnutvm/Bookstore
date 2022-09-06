@@ -1,0 +1,140 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+img{
+    width: 100%;
+}
+a{
+    text-decoration: none;
+
+}
+
+nav{
+    padding: 7px 10px;
+    width: 100vw;
+    min-height:5rem;
+
+   display: flex;
+   align-items: center;
+   justify-content: space-between;
+   box-shadow: 0px 4px 31px 14px rgba(0, 0, 0, 0.05);
+}
+nav .nav-leftside{
+
+    width: 8rem;
+}
+nav .nav-rightside{
+    display: flex;
+    align-items: center;
+   gap: 0.5rem;
+   padding-right: 1rem;
+
+}
+nav .nav-btn{
+    font-size: 15px;
+    color: #fff;
+    text-align: center;
+    background: rgba(239, 55, 114, 0.73);
+    margin-right: 1rem;
+}
+
+.icons{
+    font-size: 19px;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
+    background: rgba(14, 116, 144, 0.74);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2px;
+}
+
+/* Admin panel */
+#admin-header .admin-panel-text{
+    color: rgba(239, 55, 114, 0.73);
+    margin-bottom: 0;
+}
+#admin-header .menu ul{
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style-type: none;
+
+}
+
+#admin-header .menu ul li{
+    
+    display: inline-block;
+
+}
+#admin-header .menu ul li a{
+    text-decoration: none;
+    color: rgb(0, 0, 0);
+    font-weight: 400;
+}
+#admin-header .menu ul li.active a{
+    color: rgba(239, 55, 114, 0.73);
+}
+
+
+
+/* respossive */
+@media screen and (max-width:480px){
+    
+  
+    .icons{
+        font-size: 17px;
+        height: 27px;
+        width: 27px;
+
+    }
+    nav .nav-rightside{
+        padding-right: 5px; 
+        gap: 5px;
+    }
+    #admin-header nav .nav-leftside{
+        display: none;
+    }
+   #admin-header nav{
+   
+        position: relative;
+        justify-content: center;
+    }
+    #admin-header nav .login-btn{
+        position: absolute;
+        bottom: 5px;
+        left: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        
+    }
+    #admin-header nav{
+        align-items: flex-start;
+    }
+    
+
+
+
+  
+}
+
+@media screen and (max-width:600px) {
+    #admin-header .menu ul{
+        gap: 1rem;
+     
+    }
+    nav .nav-leftside{
+        width: 5rem;
+    }
+      nav .nav-btn{
+        
+        padding: 3px 18px;
+        margin-right: 5px;
+    }
+
+}

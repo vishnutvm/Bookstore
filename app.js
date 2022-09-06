@@ -5,7 +5,7 @@ const hbs = require('express-handlebars')
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 
-const indexRouter = require('./routes/index');
+const indexRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
 
 const app = express();
