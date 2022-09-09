@@ -1,19 +1,27 @@
 const express = require('express');
 const router = express.Router();
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('admin/login',{admin:true})
 
+// adminlogg err
+var adminLoggErr;
+// setting admin id and pass
+const adminDb={
+  username:"vishnu",
+  password:'1234'
+}
+router.get('/adminLogin',(req,res)=>{
+  res.render('admin/login',{adminLoggErr:adminLoggErr,admin:true})
+  adminLoggErr=false
+})
+
+router.get('/', function(req, res, next) {
+ res.redirect('/admin/adminLogin')
 });
 
 
 
 
 
-const adminDb={
-  username:"vishnu",
-  password:'1234'
-}
 router.post('/adminLogin',function (req,res){
   if(req.body.name == adminDb.username && req.body.password == adminDb.password){
     req.adminLoggined=true
@@ -21,8 +29,9 @@ router.post('/adminLogin',function (req,res){
     res.render('admin/dashbord')
     
   }else{
- 
-    res.render('/',{adminLoggErr:true})
+    console.log(false)
+    adminLoggErr=true
+    res.redirect('/admin')
     
   }
 })

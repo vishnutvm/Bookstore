@@ -8,6 +8,8 @@ router.get('/', function(req, res, next) {
   res.render('users/view-product',{admin:false})
 });
 
+
+// user login
 router.get('/user_signin',(req,res)=>{
   res.render('users/login')
 })
@@ -16,13 +18,14 @@ router.post('/user_signin',(req,res)=>{
    if(response.status){
     res.redirect('/')
    }else{
-    
     res.render('users/login',{logginErr:true})
     
    }
   })
 
 })
+
+// user register  
 router.get('/user_registration',(req,res)=>{
 res.render('users/register')
 })
