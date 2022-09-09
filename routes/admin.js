@@ -9,27 +9,29 @@ const adminDb={
   username:"vishnu",
   password:'1234'
 }
-router.get('/adminLogin',(req,res)=>{
-  res.render('admin/login',{adminLoggErr:adminLoggErr,admin:true})
-  adminLoggErr=false
-})
 
+
+// admin page
 router.get('/', function(req, res, next) {
  res.redirect('/admin/adminLogin')
 });
 
 
-
+// admin loggin
+router.get('/adminLogin',(req,res)=>{
+  res.render('admin/login',{adminLoggErr:adminLoggErr,admin:true})
+  adminLoggErr=false
+})
 
 
 router.post('/adminLogin',function (req,res){
   if(req.body.name == adminDb.username && req.body.password == adminDb.password){
     req.adminLoggined=true
-    console.log("successs")
+    console.log("admin log success")
     res.render('admin/dashbord')
     
   }else{
-    console.log(false)
+    console.log('admin log false')
     adminLoggErr=true
     res.redirect('/admin')
     

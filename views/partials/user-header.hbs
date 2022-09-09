@@ -7,9 +7,21 @@
         </div>
 
         <div class="nav-rightside">
-          <div class="login-btn">
+          {{#if userid}}
+  
+     <div class="login-btn">
+            <a href="/user_logout" type="button" class="btn nav-btn">Logout</a>
+          </div>
+        
+         {{else}}
+
+            <div class="login-btn">
             <a href="/user_signin" type="button" class="btn nav-btn">Login</a>
           </div>
+          {{/if}}
+         
+       
+      
 
           <div class="home icons">
            <a href="#"> <i class="bx bxs-home" style="color: #ffffff"></i></a>
