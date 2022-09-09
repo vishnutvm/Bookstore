@@ -1,4 +1,4 @@
-const { response } = require('express');
+
 var express = require('express');
 const userHealpers = require('../helpers/user-healpers');
 var router = express.Router();
@@ -16,9 +16,12 @@ router.post('/user_signin',(req,res)=>{
    if(response.status){
     res.redirect('/')
    }else{
-    res.redirect('/user_signin')
+    
+    res.render('users/login',{logginErr:true})
+    
    }
   })
+
 })
 router.get('/user_registration',(req,res)=>{
 res.render('users/register')
@@ -27,7 +30,7 @@ res.render('users/register')
 router.post('/user_registration',(req,res)=>{
 userHealpers.doSignup(req.body).then((response)=>{
 
-  res.send(response)
+ res.redirect('/user_signin')
 })
   
 })
