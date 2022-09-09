@@ -4,12 +4,14 @@ const userHealpers = require('../helpers/user-healpers');
 var router = express.Router();
 
 var session;
+var userLoggin;
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   session= req.session;
   if(session.userid){
 
-  res.render('users/view-product',{admin:false,userid:session.userid})
+  res.render('users/view-product',{user:true,userLoggin:true})
+ 
   }else{
     res.redirect('/user_signin')
   }
@@ -19,7 +21,7 @@ router.get('/user_signin',(req,res)=>{
   if(session.userid){
    res.redirect('/')
   }
-   res.render('users/login',{logginErr:req.session.logginErr})
+   res.render('users/login',{logginErr:req.session.logginErr,user:true})
    
    req.session.logginErr=false;
 })
@@ -40,8 +42,9 @@ router.post('/user_signin',(req,res)=>{
 
 })
 router.get('/user_logout',(req,res)=>{
-  req.session.destroy()
+  req.session.userid=null;
   res.redirect('/')
+  userLoggin=false
 })
   
 

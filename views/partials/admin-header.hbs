@@ -8,10 +8,10 @@
 
    
 
-
-            {{#if adminLoggined}}
+            {{#if adminLogin}}
             <div  class="menu">
                <ul>
+    
                 <li class="active" ><a  href="#">Dashbord</a></li>
                 <li><a href="#">Products</a></li>
                 <li><a href="#">Orders</a></li>
@@ -21,11 +21,13 @@
             </div>
 
                <div  class=" login-btn">
-            <a type="button" class="btn nav-btn">Login</a>
+            <a href="/admin/adminLogout" type="button" class="btn nav-btn">Logout</a>
           </div>
 
+
           {{else}}
-          <h5 class="admin-panel-text">Admin panel</h5>
+
+          <h5 class="admin-panel-text">Adminpanel &nbsp;&nbsp;</h5>
           
           {{/if}}
         </div>

@@ -14,12 +14,20 @@
 
   </head>
   <body>
-
-{{#if admin}}  
+{{!-- 
+{{#if adminid}}  
 {{>admin-header}}
-{{else }}
+{{else if}}
 {{>user-header}}
+{{/if}} --}}
+
+{{#if admin}}
+{{>admin-header}}
+{{else if user}}
+{{>user-header}}
+
 {{/if}}
+
   
 
     {{{body}}}
