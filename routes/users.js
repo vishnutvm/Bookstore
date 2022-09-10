@@ -30,10 +30,11 @@ router.get('/user_signin',(req,res)=>{
 router.post('/user_signin',(req,res)=>{
   userHealpers.doLogin(req.body).then((response)=>{
    if(response.status){
-    
+    // userHealpers.otpVerification().then((response))
     session = req.session;
     session.userid = req.body.email;
     console.log(req.session)
+
     res.redirect('/')
    }else{
     

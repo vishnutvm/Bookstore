@@ -18,7 +18,6 @@ module.exports={
         return new Promise (async(res,rej)=>{
             let response={}
             let user =await db.get().collection(collection.USER_COLLECTIONS).findOne({email: userData.email})
-
             console.log(user)
             if(user){
                 console.log('email find')
