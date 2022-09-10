@@ -42,7 +42,7 @@ router.post('/adminLogin',function (req,res){
     session.adminid=req.body.name
     adminLogin=true
     console.log("admin log success")
-
+   adminLoggErr=false
 
     res.redirect('/admin')
     

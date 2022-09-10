@@ -5,11 +5,11 @@ var router = express.Router();
 
 var session;
 var userLoggin;
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  session= req.session;
+session=req.session
   if(session.userid){
-
   res.render('users/view-product',{user:true,userLoggin:true})
  
   }else{
@@ -18,10 +18,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/user_signin',(req,res)=>{
+  session= req.session;
   if(session.userid){
    res.redirect('/')
   }
-   res.render('users/login',{logginErr:req.session.logginErr,user:true})
+   res.render('users/login',{logginErr:req.session.logginErr})
    
    req.session.logginErr=false;
 })
@@ -29,6 +30,7 @@ router.get('/user_signin',(req,res)=>{
 router.post('/user_signin',(req,res)=>{
   userHealpers.doLogin(req.body).then((response)=>{
    if(response.status){
+    
     session = req.session;
     session.userid = req.body.email;
     console.log(req.session)
