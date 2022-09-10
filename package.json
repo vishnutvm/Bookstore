@@ -16,7 +16,8 @@
     "hbs": "^4.2.0",
     "http-errors": "~1.6.3",
     "mongodb": "^4.9.1",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "twilio": "^3.82.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.19"

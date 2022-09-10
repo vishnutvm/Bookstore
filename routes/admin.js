@@ -54,6 +54,8 @@ router.post('/adminLogin',function (req,res){
     
   }
 })
+
+// admin logout 
 router.get('/adminLogout',(req,res)=>{
   console.log("admin loggout")
   req.session.adminid=null;
@@ -61,6 +63,11 @@ router.get('/adminLogout',(req,res)=>{
   res.redirect('/admin')
 })
 
+
+// user managerment
+router.get('/users',(req,res)=>{
+  res.render('admin/users',{admin:true,adminLogin:adminLogin})
+})
 
 module.exports = router;
 

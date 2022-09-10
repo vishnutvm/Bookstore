@@ -10,7 +10,8 @@ var userLoggin;
 router.get('/', function(req, res, next) {
 session=req.session
   if(session.userid){
-  res.render('users/view-product',{user:true,userLoggin:true})
+    req.session.userLoggin= true
+  res.render('users/view-product',{user:true,userLoggin:req.session.userLoggin})
  
   }else{
     res.redirect('/user_signin')
@@ -27,15 +28,17 @@ router.get('/user_signin',(req,res)=>{
    req.session.logginErr=false;
 })
 
-router.post('/user_signin',(req,res)=>{
-  userHealpers.doLogin(req.body).then((response)=>{
+router.post('/user_signin',async(req,res)=>{
+  await userHealpers.doLogin(req.body).then((response)=>{
    if(response.status){
-    // userHealpers.otpVerification().then((response))
     session = req.session;
-    session.userid = req.body.email;
-    console.log(req.session)
 
-    res.redirect('/')
+    session.userid = req.body.email;
+    console.log(session)
+
+session.phone=response.user.phone
+ userHealpers.sendOtp(response.user.phone)
+    res.redirect('/otp')
    }else{
     
      req.session.logginErr=true;
@@ -44,10 +47,41 @@ router.post('/user_signin',(req,res)=>{
   })
 
 })
+
+// otp verification
+
+router.get('/otp',(req,res)=>{
+  if(req.session.userLoggin){
+    res.redirect('/')
+  }else{
+    res.render('users/otp',{phone:session.phone,otpErr:req.session.otpErr})
+    req.session.otpErr=false;
+  }
+
+
+})
+router.post('/verifyOtp',(req,res)=>{
+
+  userHealpers.veriOtp(req.body.otpval,session.phone).then((verifi)=>{
+    console.log(verifi)
+    if(verifi){
+      console.log("otp success")
+      res.redirect('/')
+    }else{
+      console.log("otp failed");
+      req.session.userid=null
+      req.session.otpErr=true
+      res.redirect('/otp')
+    }
+  })
+})
+
+
+
 router.get('/user_logout',(req,res)=>{
   req.session.userid=null;
   res.redirect('/')
-  userLoggin=false
+  req.session.userLoggin= false
 })
   
 
