@@ -67,6 +67,7 @@ router.post('/verifyOtp',(req,res)=>{
     if(verifi){
       console.log("otp success")
       res.redirect('/')
+      
     }else{
       console.log("otp failed");
       req.session.userid=null
@@ -80,8 +81,8 @@ router.post('/verifyOtp',(req,res)=>{
 
 router.get('/user_logout',(req,res)=>{
   req.session.userid=null;
-  res.redirect('/')
   req.session.userLoggin= false
+  res.redirect('/')
 })
   
 

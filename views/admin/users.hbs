@@ -1,4 +1,4 @@
-<section class="px-5 pt-5">
+<section class="px-5 pt-5 text-center">
 
 <div class="table-responsive mt-5">
   <table class="table table-hover table-borderless">
@@ -14,7 +14,7 @@
       </tr>
     </thead>
     <tbody>
-   
+   {{#each user}}
       <tr>
         <th scope="row">1</th>
         <td>Cell</td>
@@ -23,6 +23,9 @@
         <td>Cell</td>
         <td><a href="/blockOrunBlock" class="btn btn-danger ">Block</a></td>
       </tr>
+
+{{/user}}
+
     </tbody>
   </table>
 </div>

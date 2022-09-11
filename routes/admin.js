@@ -66,6 +66,7 @@ router.get('/adminLogout',(req,res)=>{
 
 // user managerment
 router.get('/users',(req,res)=>{
+  
   res.render('admin/users',{admin:true,adminLogin:adminLogin})
 })
 

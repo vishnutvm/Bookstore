@@ -2,8 +2,6 @@ const db = require("../config/connections");
 const collection = require("../config/collections");
 const config = require('../config/otpConfig')
 const client = require('twilio')(config.accountSID,config.authToken)
-
-
 const bcrypt = require("bcrypt");
 module.exports = {
   doSignup: (userData) => {
@@ -76,14 +74,17 @@ console.log(phone)
     });
     console.log(OTP)
     // chcking the otp
-    await client
+
+    if(!OTP == ""){
+      await client
     .verify
     .services(config.serviceID)
     .verificationChecks
     .create({
         to:phone,
         code:OTP
-    }).then((data)=>{
+    })
+    .then((data)=>{
       console.log(data)
         if(data.status == 'approved'){
         otpverify=true;
@@ -92,6 +93,10 @@ console.log(phone)
         }
 
     })
+    }else{
+
+      otpverify = false
+    }
     console.log(otpverify)
     res(otpverify)
     
