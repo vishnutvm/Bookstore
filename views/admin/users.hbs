@@ -14,17 +14,18 @@
       </tr>
     </thead>
     <tbody>
-   {{#each user}}
+   {{#each allUsersDetails}}
       <tr>
-        <th scope="row">1</th>
-        <td>Cell</td>
-        <td>Cell</td>
-        <td>Cell</td>
-        <td>Cell</td>
+        <th scope="row"></th>
+        <td>{{this.name}}</td>
+        <td>{{this.email}}</td>
+        <td>{{this.address}}</td>
+        <td>{{this.phone}}</td>
+  
         <td><a href="/blockOrunBlock" class="btn btn-danger ">Block</a></td>
       </tr>
 
-{{/user}}
+{{/each}}
 
     </tbody>
   </table>

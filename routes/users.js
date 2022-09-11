@@ -8,6 +8,7 @@ var userLoggin;
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+  res.header('Cache-control', 'no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0')
 session=req.session
   if(session.userid){
     req.session.userLoggin= true
@@ -51,6 +52,7 @@ session.phone=response.user.phone
 // otp verification
 
 router.get('/otp',(req,res)=>{
+  res.header('Cache-control', 'no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0')
   if(req.session.userLoggin){
     res.redirect('/')
   }else{
@@ -61,7 +63,7 @@ router.get('/otp',(req,res)=>{
 
 })
 router.post('/verifyOtp',(req,res)=>{
-
+  
   userHealpers.veriOtp(req.body.otpval,session.phone).then((verifi)=>{
     console.log(verifi)
     if(verifi){

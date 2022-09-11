@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const adminhelpers = require('../helpers/admin-healpers')
 /* GET home page. */
 
 // adminlogg err
@@ -15,6 +16,7 @@ const adminDb={
 
 // admin page
 router.get('/', function(req, res, next) {
+  res.header('Cache-control', 'no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0')
   session= req.session;
   if(session.adminid){
     res.render('admin/dashbord',{admin:true,adminLogin:adminLogin})
@@ -66,8 +68,16 @@ router.get('/adminLogout',(req,res)=>{
 
 // user managerment
 router.get('/users',(req,res)=>{
-  
-  res.render('admin/users',{admin:true,adminLogin:adminLogin})
+  res.header('Cache-control', 'no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0')
+  if(session.adminid){
+      adminhelpers.getAllUsers().then((allUsersDetails)=>{
+        
+    res.render('admin/users',{admin:true,adminLogin:adminLogin,allUsersDetails})
+  })
+  }else{
+    res.redirect('/admin')
+  }
+
 })
 
 module.exports = router;

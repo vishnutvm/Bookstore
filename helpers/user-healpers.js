@@ -7,6 +7,7 @@ module.exports = {
   doSignup: (userData) => {
     return new Promise(async (res, rej) => {
       userData.password = await bcrypt.hash(userData.password, 10);
+      userData.address = "Not given"
       db.get()
         .collection(collection.USER_COLLECTIONS)
         .insertOne(userData)
