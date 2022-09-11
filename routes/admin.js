@@ -1,6 +1,8 @@
+
 const express = require('express');
+const adminhelpers = require('../helpers/admin-healpers');
 const router = express.Router();
-const adminhelpers = require('../helpers/admin-healpers')
+
 /* GET home page. */
 
 // adminlogg err
@@ -71,14 +73,31 @@ router.get('/users',(req,res)=>{
   res.header('Cache-control', 'no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0')
   if(session.adminid){
       adminhelpers.getAllUsers().then((allUsersDetails)=>{
-        
-    res.render('admin/users',{admin:true,adminLogin:adminLogin,allUsersDetails})
+
+    res.render('admin/userManagement',{admin:true,adminLogin:adminLogin,allUsersDetails})
   })
   }else{
     res.redirect('/admin')
   }
 
 })
+
+// block user
+router.get("/block/",(req,res)=>{
+  adminhelpers.blockUser(req.query.id).then((response)=>{
+    console.log(response)
+    res.redirect('/admin/users')
+  })
+})
+
+// unblock user
+router.get("/unblock/",(req,res)=>{
+  adminhelpers.unblockUser(req.query.id).then((response)=>{
+    res.redirect('/admin/users')
+  })
+})
+
+
 
 module.exports = router;
 

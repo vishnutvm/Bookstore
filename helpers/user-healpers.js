@@ -26,6 +26,14 @@ module.exports = {
         .findOne({ email: userData.email });
       console.log(user);
       if (user) {
+
+        // checking if the user is blocked or not blocked
+        if(user.blocked){
+         
+          res({status:false})
+        }
+
+
         console.log("email find");
         bcrypt.compare(userData.password, user.password).then((status) => {
           console.log(status);

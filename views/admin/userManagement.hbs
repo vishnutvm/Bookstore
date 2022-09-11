@@ -21,8 +21,19 @@
         <td>{{this.email}}</td>
         <td>{{this.address}}</td>
         <td>{{this.phone}}</td>
-  
-        <td><a href="/blockOrunBlock" class="btn btn-danger ">Block</a></td>
+
+         
+        <td>
+
+            {{#if this.blocked}}
+
+    
+           <a href="/admin/Unblock?id={{this._id}}" class="btn btn-danger ">Unblock</a>
+          
+          {{else}}
+                    <a href="/admin/block?id={{this._id}}" class="btn btn-danger ">Block</a>
+          {{/if}}
+          </td>
       </tr>
 
 {{/each}}
