@@ -12,6 +12,7 @@ module.exports = {
      })   
     },
     blockUser:(userId)=>{
+        console.log(userId)
         return new Promise ((resolve,reject)=>{
             db.get().collection(collection.USER_COLLECTIONS).updateOne({_id:objectId(userId)},{$set:{blocked:true}}).then((response)=>{
                 resolve(response)

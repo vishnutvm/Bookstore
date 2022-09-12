@@ -123,12 +123,11 @@ router.post('/add-product',(req,res)=>{
    let id = response.toString()
    let image = req.files.image;
    console.log(image)
-  // var ext = path.extname(image.name)
-  //  console.log(ext)
+
    image.mv('./public/product-images/'+id+'.jpg')
 
 
-  res.redirect('/admin/product')
+  res.redirect('admin/product')
 
 
   })
