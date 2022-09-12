@@ -1,0 +1,44 @@
+<section  class="d-flex justify-content-center " >
+  <div class=" container row  d-flex justify-content-center ">
+    <div class="ml-5 col-md-6">
+      <h2 class="text-center my-5 ">Add Products</h2>
+      <form class="d-flex aling-item-center flex-column" action="/admin/add-product" method="post"   enctype="multipart/form-data">
+        
+        <input type="text" name="name" class="form-control mb-3" placeholder="Name" required>
+
+        <input type="number" name="price" class="form-control mb-3" placeholder="Price" required>
+
+        <textarea type="text" name="description" class="form-control mb-3" placeholder="Description" rows="3"></textarea>
+            <input type="text" name="stock" class="form-control mb-3" placeholder="Stock" required>
+
+   <input type="file" name="image" class="form-control mb-3" required>
+
+<div class="mb-3">
+
+  <select style="background-color:#4D98AD;color:#fff" class="form-select text center"  aria-label="Default select example" name="category" required>
+  <option>Category</option>
+  <option>Tech</option>
+  <option>Thriller</option>
+  <option>Fiction</option>
+  <option>Romance</option>
+</select>
+</div>
+
+<div class="mb-3">
+
+
+  <select  style="background-color:#4D98AD;color:#fff" class="form-select text-center" aria-label="Default select example " name="subcategory" required>
+  <option>Sub Category</option>
+  <option>English</option>
+  <option>Malayalam</option>
+  <option>Hindi</option>
+</select>
+</div>
+
+
+        <button  style="background-color:#EF3772; color:#fff;" type="submit" class="btn mt-1" required>Submit</button>
+
+      </form>
+    </div>
+  </div>
+</section>

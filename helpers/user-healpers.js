@@ -8,6 +8,7 @@ module.exports = {
     return new Promise(async (res, rej) => {
       userData.password = await bcrypt.hash(userData.password, 10);
       userData.address = "Not given"
+      userData.blocked = false;
       db.get()
         .collection(collection.USER_COLLECTIONS)
         .insertOne(userData)
@@ -25,15 +26,14 @@ module.exports = {
         .collection(collection.USER_COLLECTIONS)
         .findOne({ email: userData.email });
       console.log(user);
-      if (user) {
 
         // checking if the user is blocked or not blocked
-        if(user.blocked){
-         
-          res({status:false})
-        }
+      if(user.blocked){
+        response.blocked=true
+         res(response)
+       }else{
 
-
+         if (user) {
         console.log("email find");
         bcrypt.compare(userData.password, user.password).then((status) => {
           console.log(status);
@@ -47,9 +47,15 @@ module.exports = {
             res({ status: false });
           }
         });
+        
+
       } else {
         res({ status: false });
       }
+
+
+       }
+     
     });
   },
   sendOtp: (phone) => {

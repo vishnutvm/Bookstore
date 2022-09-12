@@ -13,6 +13,14 @@ a{
     text-decoration: none;
 
 }
+textarea:focus,textarea:focus, input:focus{
+    outline: none;
+}
+
+.dataTables_wrapper .dataTables_filter input{
+    border-radius: 8px;
+    margin-left: 10px;
+}
 
 nav{
     padding: 7px 10px;
@@ -78,7 +86,7 @@ nav .nav-btn{
     color: rgb(0, 0, 0);
     font-weight: 400;
 }
-#admin-header .menu ul li.active a{
+#admin-header .menu ul li a.active{
     color: rgba(239, 55, 114, 0.73);
 }
 

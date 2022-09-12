@@ -12,8 +12,8 @@
             <div  class="menu">
                <ul>
     
-                <li class="active" ><a  href="#">Dashbord</a></li>
-                <li><a href="#">Products</a></li>
+                <li  ><a  href="/admin">Dashbord</a></li>
+                <li><a href="/admin/product">Products</a></li>
                 <li><a href="#">Orders</a></li>
                 <li><a href="/admin/users">Users</a></li>
              
@@ -39,7 +39,7 @@
 {{!-- for toglle the color of menu items on click --}}
     <script>
 
-      var list = document.querySelectorAll(".menu > ul > li")
+      var list = document.querySelectorAll(".menu > ul > li > a ")
 
 for(i in list){
 list[i].addEventListener("click",function(){

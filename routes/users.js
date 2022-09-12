@@ -24,27 +24,44 @@ router.get('/user_signin',(req,res)=>{
   if(session.userid){
    res.redirect('/')
   }
-   res.render('users/login',{logginErr:req.session.logginErr})
+   res.render('users/login',{logginErr:req.session.logginErr,blocked:req.session.blocked})
    
+   req.session.blocked=false;
    req.session.logginErr=false;
 })
 
 router.post('/user_signin',async(req,res)=>{
   await userHealpers.doLogin(req.body).then((response)=>{
-   if(response.status){
-    session = req.session;
+if(response.blocked){
+  console.log("The user is blocked")
+  req.session.blocked=true;
+  res.redirect('/user_signin')
+}else{
 
-    session.userid = req.body.email;
-    console.log(session)
-
-session.phone=response.user.phone
- userHealpers.sendOtp(response.user.phone)
-    res.redirect('/otp')
-   }else{
+  if(response.status){
+        session = req.session;
     
-     req.session.logginErr=true;
-    res.redirect('/user_signin')
-   }
+        session.userid = req.body.email;
+        console.log(session)
+    
+    session.phone=response.user.phone
+     userHealpers.sendOtp(response.user.phone)
+        res.redirect('/otp')
+       }else{
+        console.log("else is also wroking")
+         req.session.logginErr=true;
+        res.redirect('/user_signin')
+       }
+
+
+}
+
+      
+
+    
+ 
+
+     
   })
 
 })

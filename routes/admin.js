@@ -1,7 +1,9 @@
 
 const express = require('express');
 const adminhelpers = require('../helpers/admin-healpers');
+const productHelpers = require('../helpers/product-helpers');
 const router = express.Router();
+const path = require('path')
 
 /* GET home page. */
 
@@ -97,7 +99,40 @@ router.get("/unblock/",(req,res)=>{
   })
 })
 
+// addproduct
+router.get('/product',(req,res)=>{
+  productHelpers.getAllProduct().then((product)=>{
 
+    res.render('admin/view-product',{admin:true,adminLogin:adminLogin,product})
+  })
+
+
+
+})
+
+
+
+router.get('/add-product', (req, res) => {
+  res.render('admin/add-product',{admin:true,adminLogin:adminLogin})
+})
+
+router.post('/add-product',(req,res)=>{
+  console.log(req.body)
+  console.log(req.files.image)
+  productHelpers.addProduct(req.body).then((response)=>{
+   let id = response.toString()
+   let image = req.files.image;
+   console.log(image)
+  // var ext = path.extname(image.name)
+  //  console.log(ext)
+   image.mv('./public/product-images/'+id+'.jpg')
+
+
+  res.redirect('/admin/product')
+
+
+  })
+})
 
 module.exports = router;
 

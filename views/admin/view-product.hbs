@@ -1,0 +1,103 @@
+
+
+
+<section class="px-5 pt-5 ">
+
+    <a style="margin-bottom: 4px;" href="/admin/add-product" class="btn btn-primary">Add Prodcut</a>
+    <a href="#" class="btn btn-primary">Add Coupon</a>
+ 
+
+<div class="table-responsive mt-5">
+  <table class="table table-hover table-borderless " id="productTable">
+    <thead class="" >
+      <tr class="border border-1 border-seconday border-start-0 border-end-0">
+        <th scope="col">Title</th>
+        <th scope="col">Category</th>
+        <th scope="col">Sub Category</th>
+        <th scope="col">Price</th>
+        <th scope="col">Stoke</th>
+        <th scope="col">Image</th>
+        <th scope="col">Edit/Delete</th>
+
+      </tr>
+    </thead>
+    <tbody>
+   {{#each product}}
+      <tr>
+        <td>{{this.name}}</td>
+        <td>{{this.category}} </td>
+        <td>{{this.subcategory}}</td>
+        <td>{{this.price}}</td>
+        <td>{{this.stock}}</td>
+        <td><img style="width: 50px; height:50px" src="/product-images/{{this._id}}.jpg" alt="product"></td>
+
+         
+        <td>
+
+
+    
+           <a data-bs-toggle="modal" data-bs-target="#editmodel" class="btn btn-danger ">Edit</a>
+
+
+                   <div class="modal fade" id="editmodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-success" id="exampleModalLabel">Are you sure to Edit {{this.name}} ?</h5>
+      
+      </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="/admin/Unblock?id={{this._id}}" type="button" class="btn btn-success">Edit</a>
+      </div>
+    </div>
+  </div>
+</div>
+    
+                    <a data-bs-toggle="modal" data-bs-target="#deleteModel" class="btn btn-danger ">Delete</a>
+
+
+
+                    <div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure to Delete {{this.name}} ?</h5>
+      
+      </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="/admin/block?id={{this._id}}" type="button" class="btn btn-danger">Delete</a>
+      </div>
+    </div>
+  </div>
+</div>
+       
+          </td>
+          
+      </tr>
+
+{{/each}}
+
+    </tbody>
+  </table>
+</div>
+
+
+
+
+</section>
+
+
+
+
+<script>
+
+$(document).ready( function () {
+    $('#productTable').DataTable();
+} );
+</script>
+
+
