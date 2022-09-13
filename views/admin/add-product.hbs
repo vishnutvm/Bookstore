@@ -6,6 +6,8 @@
         
         <input type="text" name="name" class="form-control mb-3" placeholder="Name" required>
 
+        <input type="text" name="authname" class="form-control mb-3" placeholder="Author name" required>
+
         <input type="number" name="price" class="form-control mb-3" placeholder="Price" required>
 
         <textarea type="text" name="description" class="form-control mb-3" placeholder="Description" rows="3"></textarea>
@@ -13,9 +15,15 @@
 
    <input type="file" name="image" class="form-control mb-3" required>
 
+
+   {{!-- crop the image and uplod --}}
+
+
+   
+
 <div class="mb-3">
 
-  <select style="background-color:#4D98AD;color:#fff" class="form-select text center"  aria-label="Default select example" name="category" required>
+  <select style="background-color:#4D98AD;color:#fff" class="form-select text-center"  aria-label="Default select example" name="category" required>
   <option>Category</option>
   <option>Tech</option>
   <option>Thriller</option>

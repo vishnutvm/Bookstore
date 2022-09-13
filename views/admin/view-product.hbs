@@ -15,6 +15,7 @@
   <table class="table table-borderless " id="productTable">
     <thead class="" >
       <tr class="border border-1 border-seconday border-start-0 border-end-0">
+        <th scope="col">#</th>
         <th scope="col">Title</th>
         <th scope="col">Category</th>
         <th scope="col">Sub Category</th>
@@ -28,22 +29,32 @@
     <tbody>
    {{#each product}}
       <tr>
-        <td>{{this.name}}</td>
+        <th></th>
+        <td>
+          {{this.name}}
+          <br>
+          -{{this.authname}}
+        </td>
         <td>{{this.category}} </td>
         <td>{{this.subcategory}}</td>
         <td>{{this.price}}</td>
         <td>{{this.stock}}</td>
-        <td><img style="width: 50px; height:50px" src="/product-images/{{this._id}}.jpg" alt="product"></td>
+        <td><div style="width: 50px; height:80px">
+
+             <img style="width:100%; height:100%" src="/product-images/{{this._id}}.jpg" alt="product">
+        </div>
+       
+          </td>
 
          
         <td>
 
 
     
-           <a data-bs-toggle="modal" data-bs-target="#editmodel" class="btn btn-danger ">Edit</a>
+           <a data-bs-toggle="modal" data-bs-target="#{{this.name}}model" class="btn btn-danger ">Edit</a>
 
 
-                   <div class="modal fade" id="editmodel" tabindex="-1" aria-labelledby="usereditmodel" aria-hidden="true">
+                   <div class="modal fade" id="{{this.name}}model" tabindex="-1" aria-labelledby="usereditmodel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -59,11 +70,11 @@
   </div>
 </div>
     
-                    <a data-bs-toggle="modal" data-bs-target="#deleteModel" class="btn btn-danger ">Delete</a>
+                    <a data-bs-toggle="modal" data-bs-target="#{{this.name}}Model" class="btn btn-danger ">Delete</a>
 
 
 
-                    <div class="modal fade" id="deleteModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="{{this.name}}Model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

@@ -1,7 +1,16 @@
 
 var express = require('express');
+const productHelpers = require('../helpers/product-helpers');
 const userHealpers = require('../helpers/user-healpers');
 var router = express.Router();
+
+const verifyuserlogin = (req,res,next)=>{
+  if(req.session.userid){
+    next()
+  }else{
+    res.redirect('/user_signin')
+  }
+}
 
 var session;
 var userLoggin;
@@ -12,12 +21,16 @@ router.get('/', function(req, res, next) {
 session=req.session
   if(session.userid){
     req.session.userLoggin= true
-  res.render('users/view-product',{user:true,userLoggin:req.session.userLoggin})
+    productHelpers.getAllProduct().then((products)=>{
+        res.render('users/view-product',{user:true,userLoggin:req.session.userLoggin,products})
+    })
+
  
   }else{
     res.redirect('/user_signin')
   }
 });
+
 
 router.get('/user_signin',(req,res)=>{
   session= req.session;

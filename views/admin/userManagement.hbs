@@ -24,17 +24,17 @@
         <td>{{this.email}}</td>
         <td>{{this.address}}</td>
         <td>{{this.phone}}</td>
-
+  
          
         <td>
-{{!-- 
+
             {{#if this.blocked}}
 
     
-           <a data-bs-toggle="modal" data-bs-target="#unblockModel" class="btn btn-danger ">Unblock</a>
+           <a data-bs-toggle="modal" data-bs-target="#{{this.name}}Model" class="btn btn-success ">Unblock</a>
 
 
-                   <div class="modal fade" id="unblockModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                   <div class="modal fade" id="{{this.name}}Model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -44,18 +44,18 @@
   
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="/admin/Unblock?id={{this._id}}" type="button" class="btn btn-success">Unblock</a>
+        <a href="/admin/Unblock/{{this._id}}" type="button" class="btn btn-success">Unblock</a>
       </div>
     </div>
   </div>
 </div>
           
           {{else}}
-                    <a data-bs-toggle="modal" data-bs-target="#blockModel" class="btn btn-danger ">Block</a>
+                    <a data-bs-toggle="modal" data-bs-target="#{{this.name}}model" class="btn btn-danger ">Block</a>
 
 
 
-                    <div class="modal fade" id="blockModel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="{{this.name}}model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -65,23 +65,25 @@
   
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="/admin/block?id={{this._id}}" type="button" class="btn btn-danger">Block</a>
+        <a href="/admin/block/{{this._id}}" type="button" class="btn btn-danger">Block</a>
       </div>
     </div>
   </div>
 </div>
-          {{/if}} --}}
+          {{/if}}
 
 
-          {{#if this.blocked}}
+          {{!-- {{#if this.blocked}}
+<td><a href="/admin/Unblock/{{this._id}} "  class="btn btn-success ">Unblock</a></td>
 
-
-<a href="/admin/Unblock?id={{this._id}} "  class="btn btn-success ">Unblock</a>
 
           {{else}}
+<td><a href="/admin/block/{{this._id}} "  class="btn btn-danger ">Block</a></td>
 
-<a href="/admin/block?id={{this._id}} "  class="btn btn-danger ">Block</a>
-          {{/if}}
+          {{/if}}  --}}
+
+
+
           </td>
           
       </tr>
