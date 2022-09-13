@@ -2,13 +2,6 @@
 
 
 
-<script>
-
-$(document).ready( function () {
-    $('#productTable').DataTable();
-} );
-</script>
-
 
 
 
@@ -50,11 +43,11 @@ $(document).ready( function () {
            <a data-bs-toggle="modal" data-bs-target="#editmodel" class="btn btn-danger ">Edit</a>
 
 
-                   <div class="modal fade" id="editmodel" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                   <div class="modal fade" id="editmodel" tabindex="-1" aria-labelledby="usereditmodel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-success" id="exampleModalLabel">Are you sure to Edit {{this.name}} ?</h5>
+        <h5 class="modal-title text-success" id="usereditmodel">Are you sure to Edit {{this.name}} ?</h5>
       
       </div>
   
@@ -101,3 +94,12 @@ $(document).ready( function () {
 
 </section>
 
+
+
+
+<script>
+
+$(document).ready( function () {
+    $('#productTable').DataTable();
+} );
+</script>

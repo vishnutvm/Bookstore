@@ -27,7 +27,7 @@
 
          
         <td>
-
+{{!-- 
             {{#if this.blocked}}
 
     
@@ -70,6 +70,17 @@
     </div>
   </div>
 </div>
+          {{/if}} --}}
+
+
+          {{#if this.blocked}}
+
+
+<a href="/admin/Unblock?id={{this._id}} "  class="btn btn-success ">Unblock</a>
+
+          {{else}}
+
+<a href="/admin/block?id={{this._id}} "  class="btn btn-danger ">Block</a>
           {{/if}}
           </td>
           
