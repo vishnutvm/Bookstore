@@ -12,7 +12,7 @@ const verifyuserlogin = (req, res, next) => {
 };
 
 /* GET users listing. */
-router.get("/", verifyuserlogin, function (req, res, next) {
+router.get("/", function (req, res, next) {
   res.header(
     "Cache-control",
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
@@ -47,15 +47,13 @@ router.post("/user_signin", async (req, res) => {
       res.redirect("/user_signin");
     } else {
       if (response.status) {
-        // req.session.userLoggin=true
         req.session.phone = response.user.phone;
-        // userHealpers.sendOtp(response.user.phone);
         res.redirect("/otp");
       } else {
         req.session.logginErr = true;
         res.redirect("/user_signin");
       }
-    }
+    } 
   });
 });
 

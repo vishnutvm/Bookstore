@@ -1,13 +1,24 @@
-<section id="otp" class="vh-100" style="background: rgba(77, 152, 173, 1);">
+<section id="otp" class="vh-100" style="background:url(images/otp-pag.jpg)no-repeat center center; background-size: cover;" >
     <div  class="d-flex justify-content-center align-items-center container ">
-        <div class="card py-5 px-3  shadow" style="border-radius: 1rem;">
+
+
+            
+        <div class="card py-5 px-3  shadow " style="border-radius: 1rem;">        
+            {{!-- back to login page  --}}
+            <div class="back-btn">
+      
+            </div>
+
+
+
+
             <h5 class="m-0">Mobile phone verification</h5><span class="mobile-text">Enter the code we just send on your mobile phone <b class="text-danger">{{phone}}</b></span>
             <form action="/verifyOtp" method="post">
-            <div class="d-flex flex-row mt-5">
-                <input type="text" class="form-control" name="otpval" autofocus="">
-                <input type="text" class="form-control" name="otpval">
-                <input type="text" class="form-control" name="otpval">
-                <input type="text" class="form-control mr-0" name="otpval">
+            <div class="d-flex flex-row mt-3">
+                <input type="text" class="form-control" name="otpval"  maxlength="1" >
+                <input type="text" class="form-control" name="otpval" maxlength="1" >
+                <input type="text" class="form-control" name="otpval" maxlength="1"  >
+                <input type="text" class="form-control mr-0" name="otpval" maxlength="1" >
                 </div>
             <div class="text-center mt-4"><button class="d-inline  btn btn-danger shadow-sm" type="submit">Submit</button></div>
         
@@ -22,12 +33,22 @@
             <div class="text-center mt-2">
                 <span class="d-block mobile-text">Don't receive the code?</span>
                 
-                <a class="font-weight-bold text-danger cursor" href="/resend">Resend</a></div>
+                <a class="font-weight-bold text-danger cursor" href="/resend">Resend</a>
+                <a class="font-weight-bold text-danger cursor">/</a>
+                <a class="font-weight-bold text-danger cursor" href="/">Back</a>
+                </div>
 
-          
             </form>
         </div>
 </div>
 </section>
 
 
+{{!-- focus on next input automaticaly --}}
+<script>
+  $("input").keyup(function () {
+    if (this.value.length == this.maxLength) {
+      $(this).next('input').focus();
+    }
+});  
+</script>

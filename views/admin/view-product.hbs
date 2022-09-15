@@ -2,14 +2,33 @@
 
 
 
+<!-- Example single danger button -->
 
 
 
 <section class="px-5 pt-5 ">
 
-    <a style="margin-bottom: 4px;" href="/admin/add-product" class="btn btn-primary">Add Prodcut</a>
-    <a href="#" class="btn btn-primary">Add Coupon</a>
- 
+    <a href="/admin/add-product" class="btn btn-primary mb-2">Add Prodcut</a>
+    <a href="" class="btn btn-primary mb-2">Add Coupon</a>
+    
+
+    {{!-- category --}}
+
+
+<div class="btn-group">
+  <a  class="btn btn-primary dropdown-toggle mb-2" data-bs-toggle="dropdown" aria-expanded="false">
+   Category
+  </a>
+  <ul class="dropdown-menu">
+    <li ><a class="dropdown-item" href="manage-category">Category</a></li>
+    <li><a class="dropdown-item" href="mange-subCategory">Sub category</a></li>
+
+  </ul>
+</div>
+
+
+
+
 
 <div class="table-responsive mt-5">
   <table class="table table-borderless table-responsive " id="productTable">

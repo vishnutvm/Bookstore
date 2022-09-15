@@ -1,4 +1,6 @@
 
+// show the number to table
+
 var table_row = document.querySelectorAll("tbody > tr")
 
 for(i in table_row){
@@ -7,9 +9,6 @@ for(i in table_row){
    th.innerHTML=n
    
 }
-
-
-
 
 
 

@@ -1,0 +1,24 @@
+<section  class="d-flex justify-content-center " >
+  <div class=" container row  d-flex justify-content-center ">
+    <div class="ml-5 col-md-6">
+      <h2 class="text-center my-5 ">Add Sub Category</h2>
+      <form class="d-flex aling-item-center flex-column" action="/admin/add-subCategory" method="post" >
+        
+        <input id="categoryInput" type="text" name="name" class="form-control mb-3" placeholder="Category Name" required>
+
+
+        <button  style="background-color:#EF3772; color:#fff;" type="submit" class="btn mt-1" required>Submit</button>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+    // to prevent  entering numbers in category input
+const input = document.querySelector('#categoryInput');
+input.addEventListener('keydown', function(event){
+  if((/\d/g).test(event.key)) event.preventDefault();
+})
+
+</script>

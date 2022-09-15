@@ -74,6 +74,15 @@ nav .nav-btn{
     padding-top: 2px;
 }
 
+
+/* preset the tables */
+.table td.fit, 
+.table th.fit {
+    white-space: nowrap;
+    width: 1%;
+}
+
+
 /* Admin panel */
 #admin-header .admin-panel-text{
     color: rgba(239, 55, 114, 0.73);
@@ -117,6 +126,7 @@ button.log-reg-btn{
     min-height: 350px;
     max-width: 400px;
     position: relative;
+    text-align: center;
   }
   
   #otp .container {
@@ -127,6 +137,7 @@ button.log-reg-btn{
   #otp .mobile-text {
     color: #989696b8;
     font-size: 15px;
+    margin-top: 10px;
   }
   
   #otp .form-control {
