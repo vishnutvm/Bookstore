@@ -2,7 +2,7 @@ const express = require("express");
 const adminhelpers = require("../helpers/admin-healpers");
 const productHelpers = require("../helpers/product-helpers");
 const router = express.Router();
-const path = require("path");
+
 
 /* GET home page. */
 
