@@ -28,33 +28,33 @@ module.exports = {
       console.log(user);
 
         // checking if the user is blocked or not blocked
-      if(user.blocked){
-        response.blocked=true
-         res(response)
-       }else{
+        if(user){
+          if(user.blocked){
+            response.blocked=true
+             res(response)
+           }else{
+            console.log("email find");
+            bcrypt.compare(userData.password, user.password).then((status) => {
+              console.log(status);
+              if (status) {
+                console.log("login success");
+                response.user = user;
+                response.status = true;
+                res(response);
+              } else {
+                console.log("login filed");
+                res({ status: false });
+              }
+            });
+           }
+        }   else {
+          res({ status: false });
+        }
+ 
 
-         if (user) {
-        console.log("email find");
-        bcrypt.compare(userData.password, user.password).then((status) => {
-          console.log(status);
-          if (status) {
-            console.log("login success");
-            response.user = user;
-            response.status = true;
-            res(response);
-          } else {
-            console.log("login filed");
-            res({ status: false });
-          }
-        });
         
-
-      } else {
-        res({ status: false });
-      }
-
-
-       }
+       
+   
      
     });
   },
@@ -90,7 +90,7 @@ console.log(phone)
     console.log(OTP)
     // chcking the otp
 
-    if(!OTP == ""){
+    if(OTP.length==4){
       await client
     .verify
     .services(config.serviceID)

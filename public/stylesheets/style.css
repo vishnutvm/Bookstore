@@ -37,7 +37,7 @@ textarea:focus,textarea:focus, input:focus{
 nav{
     padding: 7px 10px;
     width: 100vw;
-    min-height:4rem;
+    min-height:5rem;
 
    display: flex;
    align-items: center;
@@ -110,11 +110,12 @@ button.log-reg-btn{
 /* otp  */
 #otp .card {
     width: 350px;
-    padding: 10px;
+    padding: 7px;
     border-radius: 20px;
     background: #fff;
     border: none;
-    height: 350px;
+    min-height: 350px;
+    max-width: 400px;
     position: relative;
   }
   
@@ -189,15 +190,6 @@ button.log-reg-btn{
 		transition: all 0.3s;
 }
 
-/* .section-products .single-product:hover .part-1::before {
-		transform: scale(1.2,1.2) rotate(5deg);
-} */
-
-/* .section-products #product-1 .part-1::before {
-    background: url("https://i.ibb.co/L8Nrb7p/1.jpg") no-repeat center;
-    background-size: cover;
-		transition: all 0.3s;
-} */
 
 .section-products #product-1 .part-1 img{
 width: 100%;

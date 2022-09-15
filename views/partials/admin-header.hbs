@@ -2,13 +2,17 @@
        
       <nav>
          <div class="nav-leftside">
-          <a href="/">  <img src="/images/logo.png" alt="images"></a>
+          <a href="/admin">  <img src="/images/logo.png" alt="images"></a>
    
         </div>
 
-   
 
-            {{#if adminLogin}}
+  {{#if adminLogginPage}}
+   
+          <h5 class="admin-panel-text">Adminpanel &nbsp;&nbsp;</h5>
+          
+  {{else}}
+
             <div  class="menu">
                <ul>
     
@@ -24,13 +28,8 @@
             <a href="/admin/adminLogout" type="button" class="btn nav-btn">Logout</a>
           </div>
 
+{{/if}}
 
-          {{else}}
-
-          <h5 class="admin-panel-text">Adminpanel &nbsp;&nbsp;</h5>
-          
-          {{/if}}
-        </div>
 
       </nav>
     </header>
