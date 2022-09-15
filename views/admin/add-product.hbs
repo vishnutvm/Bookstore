@@ -25,11 +25,11 @@
 <div class="mb-3">
 
   <select style="background-color:#4D98AD;color:#fff" class="form-select text-center"  aria-label="Default select example" name="category" required>
-  <option>Category</option>
-  <option>Tech</option>
-  <option>Thriller</option>
-  <option>Fiction</option>
-  <option>Romance</option>
+
+<option>Category</option>
+    {{#each category}}
+  <option>{{this.name}}</option>
+{{/each}}
 </select>
 </div>
 
@@ -38,9 +38,9 @@
 
   <select  style="background-color:#4D98AD;color:#fff" class="form-select text-center" aria-label="Default select example " name="subcategory" required>
   <option>Sub Category</option>
-  <option>English</option>
-  <option>Malayalam</option>
-  <option>Hindi</option>
+  {{#each subCategory}}
+  <option>{{this.name}}</option>
+{{/each}}
 </select>
 </div>
 

@@ -120,7 +120,11 @@ router.get("/product", verifyAdminLogin, (req, res) => {
 // add products
 
 router.get("/add-product", verifyAdminLogin, (req, res) => {
-  res.render("admin/add-product", { admin: true, adminLogin: adminLogin });
+  Promise.all([productHelpers.getAllCategory(),productHelpers.getAllSubCategory()]).then((response)=>{
+    
+     res.render("admin/add-product", { admin: true, adminLogin: adminLogin,category:response[0],subCategory:response[1]});
+  })
+ 
 });
 
 router.post("/add-product", (req, res) => {
