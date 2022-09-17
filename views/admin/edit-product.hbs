@@ -1,0 +1,71 @@
+<section  class="d-flex justify-content-center " >
+  <div class=" container row  d-flex justify-content-center ">
+    <div class="ml-5 col-md-6">
+      <h2 class="text-center my-5 ">Add Products</h2>
+      <form class="d-flex aling-item-center flex-column" action="/admin/EditProduct/{{editingProduct._id}}" method="post"    enctype="multipart/form-data" >
+    
+        <input type="text" name="name" class="form-control mb-3" placeholder="Name" required value="{{editingProduct.name}}">
+
+        <input type="text" name="authname" class="form-control mb-3" placeholder="Author name" required value="{{editingProduct.authname}}">
+
+        <input type="number" name="price" class="form-control mb-3" placeholder="Price" required value="{{editingProduct.price}}">
+
+        <textarea type="text" name="discription" class="form-control mb-3" value="testefhadfi" placeholder="Discription" rows="3" >{{editingProduct.discription}}</textarea>
+
+            <input type="text" name="stock" class="form-control mb-3" placeholder="Stock" required  value="{{editingProduct.stock}}">
+
+{{!-- preview image --}}
+<div style="width: 80px; height:110px" class="mb-3">
+
+             <img style="width:100%; height:100%" src="/product-images/{{editingProduct._id}}.jpg" alt="product" id="imagePreview">
+        </div>
+
+
+   <input type="file" name="image" class="form-control mb-3" onchange="changeImagePreview(event)">
+
+
+
+
+<div class="mb-3">
+
+  <select style="background-color:#4D98AD;color:#fff" class="form-select text-center"  aria-label="Default select example" name="category" required>
+
+<option>{{editingProduct.category}}</option>
+    {{#each category}}
+  <option>{{this.name}}</option>
+{{/each}}
+</select>
+</div>
+
+
+
+<div class="mb-3">
+
+
+  <select  style="background-color:#4D98AD;color:#fff" class="form-select text-center" aria-label="Default select example " name="subcategory" required>
+  <option>{{editingProduct.subcategory}}</option>
+  {{#each subCategory}}
+  <option>{{this.name}}</option>
+{{/each}}
+</select>
+</div>
+
+
+        <button  style="background-color:#EF3772; color:#fff;" type="submit" class="btn mt-1" required>Submit</button>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<script>
+  const Imagepreview = document.getElementById("imagePreview")
+  const changeImagePreview= (event)=>{
+  
+Imagepreview.src=URL.createObjectURL(event.target.files[0])
+  }
+
+
+
+</script>

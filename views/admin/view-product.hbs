@@ -70,7 +70,7 @@
 
 
     
-           <a data-bs-toggle="modal" data-bs-target="#ModelEdit{{this._id}}" class="btn btn-danger ">Edit</a>
+           <a data-bs-toggle="modal" data-bs-target="#ModelEdit{{this._id}}" class="btn btn-danger mb-2">Edit</a>
 
 
                    <div class="modal fade" id="ModelEdit{{this._id}}" tabindex="-1" aria-labelledby="usereditmodel" aria-hidden="true">
@@ -83,13 +83,13 @@
   
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="#" type="button" class="btn btn-success">Edit</a>
+        <a href="/admin/EditProduct/{{this._id}}" type="button" class="btn btn-success">Edit</a>
       </div>
     </div>
   </div>
 </div>
     
-                    <a data-bs-toggle="modal" data-bs-target="#ModelDelete{{this._id}}" class="btn btn-danger ">Delete</a>
+                    <a data-bs-toggle="modal" data-bs-target="#ModelDelete{{this._id}}" class="btn btn-danger mb-2">Delete</a>
 
 
 
@@ -101,9 +101,11 @@
       
       </div>
   
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="#" type="button" class="btn btn-danger">Delete</a>
+      <div class="modal-footer ">
+        <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">Cancel</button>
+        <a href="/admin/DeleteProduct/{{this._id}}" type="button" class="btn btn-danger ">Delete</a>
+
+    
       </div>
     </div>
   </div>
