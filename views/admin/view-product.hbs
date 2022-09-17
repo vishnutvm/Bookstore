@@ -70,10 +70,10 @@
 
 
     
-           {{!-- <a data-bs-toggle="modal" data-bs-target="#{{this.name}}model" class="btn btn-danger ">Edit</a>
+           <a data-bs-toggle="modal" data-bs-target="#ModelEdit{{this._id}}" class="btn btn-danger ">Edit</a>
 
 
-                   <div class="modal fade" id="{{this.name}}model" tabindex="-1" aria-labelledby="usereditmodel" aria-hidden="true">
+                   <div class="modal fade" id="ModelEdit{{this._id}}" tabindex="-1" aria-labelledby="usereditmodel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -88,12 +88,12 @@
     </div>
   </div>
 </div>
-     --}}
-                    <a data-bs-toggle="modal" data-bs-target="#Model{{this._id}}" class="btn btn-danger ">Delete</a>
+    
+                    <a data-bs-toggle="modal" data-bs-target="#ModelDelete{{this._id}}" class="btn btn-danger ">Delete</a>
 
 
 
-                    <div class="modal fade" id="Model{{this._id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="ModelDelete{{this._id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">

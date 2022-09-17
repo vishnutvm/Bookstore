@@ -18,6 +18,7 @@ router.get("/", function (req, res, next) {
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
   );
   productHelpers.getAllProduct().then((products) => {
+    console.log(req.session.userLoggin)
     res.render("users/view-product", {
       user: true,
       userLoggin: req.session.userLoggin,
