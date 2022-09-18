@@ -28,6 +28,9 @@ router.get("/", function (req, res, next) {
 });
 
 router.get("/user_signin", (req, res) => {
+  // hard setting for wrok with code
+
+
   if (req.session.userLoggin) {
     res.redirect("/");
   } else {
@@ -49,6 +52,8 @@ router.post("/user_signin", async (req, res) => {
     } else {
       if (response.status) {
         req.session.phone = response.user.phone;
+        req.session.user = response.user
+     
         res.redirect("/otp");
       } else {
         req.session.logginErr = true;
@@ -61,6 +66,10 @@ router.post("/user_signin", async (req, res) => {
 // otp verification
 
 router.get("/otp",(req, res) => {
+// hard setting for otp verificatoi need to remove
+req.session.userLoggin =true
+
+
   res.header(
     "Cache-control",
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
@@ -87,7 +96,6 @@ router.post("/verifyOtp", (req, res) => {
       res.redirect("/");
     } else {
       console.log("otp failed");
-      req.session.userid = null;
       req.session.otpErr = true;
       res.redirect("/otp");
     }
@@ -99,6 +107,7 @@ router.get('/resend',(req,res)=>{
 })
 
 router.get("/user_logout", (req, res) => {
+
   req.session.userLoggin = false;
   res.redirect("/");
 });
@@ -112,5 +121,26 @@ router.post("/user_registration", (req, res) => {
     res.redirect("/user_signin");
   });
 });
+
+
+// cart
+
+router.get("/cart",async (req,res)=>{
+ let products =await userHealpers.getAllCart(req.session.user._id)
+console.log(products)
+  res.render("users/cart")
+})
+
+
+// add to cart
+router.get("/add-to-cart/:id",(req,res)=>{
+  console.log(req.params.id)
+  console.log(req.session.user)
+  userHealpers.addToCart(req.params.id,req.session.user._id).then((response)=>{
+    res.redirect('/')
+  })
+
+
+})
 
 module.exports = router;

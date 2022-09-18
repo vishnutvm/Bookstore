@@ -1,8 +1,10 @@
 const db = require("../config/connections");
 const collection = require("../config/collections");
 const config = require('../config/otpConfig')
+const objectid = require("mongodb").ObjectId;
 const client = require('twilio')(config.accountSID,config.authToken)
 const bcrypt = require("bcrypt");
+
 module.exports = {
   doSignup: (userData) => {
     return new Promise(async (res, rej) => {
@@ -115,6 +117,48 @@ console.log(phone)
     console.log(otpverify)
     res(otpverify)
     
+    })
+  },
+  addToCart:(proId,userId)=>{
+    return new Promise (async(res,rej)=>{
+         const userCart =await db.get().collection(collection.CART_COLLECTIONS).findOne({user:objectid(userId)})
+         if(userCart){
+          console.log("have the user cart")
+           db.get().collection(collection.CART_COLLECTIONS).updateOne({user:objectid(userId)},{$push:{products:objectid(proId)}}).then((response)=>{
+            res(response)
+          })
+         }else{
+          console.log("creating the usercart for new")
+            const cartObj={
+              user:objectid(userId),
+              products:[objectid(proId)]
+            }
+             db.get().collection(collection.CART_COLLECTIONS).insertOne(cartObj).then((response)=>{
+              console.log(cartObj)
+              res(response)
+            })
+         }
+    })
+  },
+  getAllCart:(userId)=>{
+    
+    return new Promise(async(res,rej)=>{
+      let cartItems=await db.get().collection(collection.CART_COLLECTIONS).aggregate([
+        {
+          $match:{user:objectid(userId)}
+        },
+        {
+          $lookup:
+          {
+            from:"product",
+            localField:"products",
+            foreignField:"_id",
+              as:"productData"
+          }
+        }
+      ]).toArray()
+      res(cartItems)
+          
     })
   }
 

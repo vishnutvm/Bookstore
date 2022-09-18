@@ -21,8 +21,11 @@
                     <img class="img-fluid" src="/product-images/{{this._id}}.jpg" alt="image">
             </div>
             <ul>
-              <li ><a href="#"><i class="fas fa-shopping-cart"></i></a></li>
+              {{!-- add to cart --}}
+              <li ><a href="/add-to-cart/{{this._id}}"><i class="fas fa-shopping-cart"></i></a></li>
+              {{!-- add to fav --}}
               <li><a href="#"><i  class="fas fa-heart"></i></a></li>
+              {{!-- detail view --}}
               <li><a href="#"><i class="fas fa-expand"></i></a></li>
             </ul>
           </div>

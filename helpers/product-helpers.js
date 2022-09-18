@@ -135,13 +135,5 @@ module.exports = {
         });
     });
   },
+
 };
-
-// addProduct:(productdata)=>{
-//     return new Promise(async(res,rej)=>{
-//        await db.get().collection(collection.PRODUCT_COLLECTIONS).insertOne(productdata).then((response)=>{
-
-//             res(response.insertedId)
-//         })
-//     })
-// },
