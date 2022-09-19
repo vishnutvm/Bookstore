@@ -17,7 +17,7 @@ router.get("/",async function (req, res, next) {
     "Cache-control",
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
   );
-let cartCount = 3
+let cartCount = 0
 if(req.session.userLoggin){
 
   cartCount=await userHealpers.getCartCount(req.session.user._id)
@@ -160,6 +160,12 @@ router.get("/add-to-cart/:id",(req,res)=>{
   })
 
 
+})
+
+router.post("/change-pro-quantity",(req,res,next)=>{
+  userHealpers.changeProductCount(req.body).then(()=>{
+    
+  })
 })
 
 module.exports = router;

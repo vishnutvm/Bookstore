@@ -193,18 +193,14 @@ console.log(phone)
             foreignField:'_id',
             as:'products'
           }
+        },{
+          $project:{
+            item:1,quantity:1,product:{$arrayElemAt:['$products',0]}
+          }
         }
-        // {
-        //   $lookup:
-        //   {
-        //     from:"product",
-        //     localField:"products",
-        //     foreignField:"_id",
-        //       as:"productData"
-        //   }
-        // }
+   
       ]).toArray()
-      console.log(cartItems)
+      
       res(cartItems)
           
     })
@@ -222,6 +218,21 @@ console.log(phone)
       }
       res(count)
     })
+  },
+  changeProductCount:(details)=>{
+    console.log(details)
+count = parseInt(details.count)
+    return new Promise((res,rej)=>{
+      db.get().collection(collection.CART_COLLECTIONS).updateOne({_id:objectid(details.cart),'products.item':objectid(details.product)},{
+        $inc:{'products.$.quantity':count}
+      }
+      
+      ).then(()=>{
+        res()
+      })
+    })
+
   }
+
 
 };

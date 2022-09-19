@@ -19,37 +19,37 @@
 
 
                     {{#each cartProduct}}
-                    {{#each this.products}}
+            
                     <div class="row mb-4 d-flex justify-content-between align-items-center">
                       <div class="col-md-2 col-lg-2 col-xl-2">
                         <img
-                         src="/product-images/{{this._id}}.jpg"
+                         src="/product-images/{{this.product._id}}.jpg"
                           class="img-fluid rounded-3" alt="ProductImage">
                       </div>
                       <div class="col-md-3 col-lg-3 col-xl-3">
-                        <h6 class="text-muted">{{this.category}}</h6>
-                        <h6 class="text-black mb-0">{{this.name}}</h6>
+                        <h6 class="text-muted">{{this.product.category}}</h6>
+                        <h6 class="text-black mb-0">{{this.product.name}}</h6>
                       </div>
 
-                      {{/each}}
+                 
                       <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                         <button class="btn btn-link px-2"
-                          onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">
                           <i class="fas fa-minus"></i>
                         </button>
   
-                        <input id="form1" min="0" name="quantity" value="{{this.quantity}}" type="number"
+                        <input id=" {{this.product._id}}" min="0" name="quantity" value="{{this.quantity}}" type="number"
                           class="form-control form-control-sm" />
   
                         <button class="btn btn-link px-2"
-                          onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                          onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">
                           <i class="fas fa-plus"></i>
                         </button>
                       </div>
                       <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                     {{#each this.products}}
-                        <h6 class="mb-0">{{this.price}}</h6>
-                        {{/each}}
+                    
+                        <h6 class="mb-0">{{this.product.price}}</h6>
+                  
                       </div>
                       <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                         <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
@@ -130,3 +130,25 @@
       </div>
     </div>
   </section>
+
+
+  <script>
+
+    function changeQuantity(cartId,proId,count){
+      let quantity = parseInt(document.getElementById(proId).value)
+      count= parseInt(count)
+      $.ajax({
+        url:'/change-pro-quantity',
+        data:{
+          cart:cartId,
+          product:proId,
+          count:count,
+          quantity:quantity
+        },
+        method:'post',
+        success:(response)=>{
+          alert(response)
+        }
+      })
+    }
+  </script>
