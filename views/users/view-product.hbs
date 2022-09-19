@@ -22,7 +22,13 @@
             </div>
             <ul>
               {{!-- add to cart --}}
-              <li ><a href="/add-to-cart/{{this._id}}"><i class="fas fa-shopping-cart"></i></a></li>
+              <li >
+                {{!-- <a href="/add-to-cart/{{this._id}}"><i class="fas fa-shopping-cart"></i></a> --}}
+                {{!-- <a href="#" onclick="addTocart({{this._id}})" ><i class="fas fa-shopping-cart"></i></a> --}}
+                <button  onclick="addTocart('{{this._id}}')" ><i class="fas fa-shopping-cart"></i></button>
+
+      
+                </li>
               {{!-- add to fav --}}
               <li><a href="#"><i  class="fas fa-heart"></i></a></li>
               {{!-- detail view --}}

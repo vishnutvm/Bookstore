@@ -12,20 +12,32 @@ const verifyuserlogin = (req, res, next) => {
 };
 
 /* GET users listing. */
-router.get("/", function (req, res, next) {
+router.get("/",async function (req, res, next) {
   res.header(
     "Cache-control",
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
   );
+let cartCount = 3
+if(req.session.userLoggin){
+
+  cartCount=await userHealpers.getCartCount(req.session.user._id)
+  req.session.cartCount=cartCount
+}
+  
   productHelpers.getAllProduct().then((products) => {
     console.log(req.session.userLoggin)
     res.render("users/view-product", {
       user: true,
       userLoggin: req.session.userLoggin,
       products,
+      cartCount
     });
+
+
   });
 });
+
+
 
 router.get("/user_signin", (req, res) => {
   // hard setting for wrok with code
@@ -126,18 +138,25 @@ router.post("/user_registration", (req, res) => {
 // cart
 
 router.get("/cart",async (req,res)=>{
- let products =await userHealpers.getAllCart(req.session.user._id)
-console.log(products)
-  res.render("users/cart")
+ let cartProduct =await userHealpers.getAllCart(req.session.user._id)
+  res.render("users/cart",{cartProduct:cartProduct[0],
+    user: true,
+    userLoggin: req.session.userLoggin,
+  cartCount:req.session.cartCount
+  })
 })
+
+
+
 
 
 // add to cart
 router.get("/add-to-cart/:id",(req,res)=>{
-  console.log(req.params.id)
-  console.log(req.session.user)
+  console.log("api call")
+  // console.log(req.params.id)
+  // console.log(req.session.user)
   userHealpers.addToCart(req.params.id,req.session.user._id).then((response)=>{
-    res.redirect('/')
+    res.json({status:true})
   })
 
 

@@ -160,6 +160,18 @@ console.log(phone)
       res(cartItems)
           
     })
+  },
+  getCartCount:(userId)=>{
+    return new Promise(async(res,rej)=>{
+      let count=0;
+      let cart =await db.get().collection(collection.CART_COLLECTIONS).findOne({user:objectid(userId)})
+
+
+      if(cart){
+        count = cart.products.length
+      }
+      res(count)
+    })
   }
 
 };

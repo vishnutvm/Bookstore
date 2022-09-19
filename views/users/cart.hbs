@@ -1,1 +1,125 @@
-<h1>the cart is empty</h1>
+  <section class="h-100 h-custom">
+    <div class="container py-3 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12">
+          <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+            <div class="card-body p-0">
+              <div class="row g-0">
+
+
+                <!-- left side -->
+                <div class="col-lg-8">
+                  <div class="p-5">
+                    <div class="d-flex justify-content-between align-items-center mb-5">
+                      <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                      <h6 class="mb-0 text-muted">3 items</h6>
+                    </div>
+                    <hr class="my-4">
+                    {{#each cartProduct.productData}}
+                    <div class="row mb-4 d-flex justify-content-between align-items-center">
+                      <div class="col-md-2 col-lg-2 col-xl-2">
+                        <img
+                         src="/product-images/{{this._id}}.jpg"
+                          class="img-fluid rounded-3" alt="ProductImage">
+                      </div>
+                      <div class="col-md-3 col-lg-3 col-xl-3">
+                        <h6 class="text-muted">{{this.category}}</h6>
+                        <h6 class="text-black mb-0">{{this.name}}</h6>
+                      </div>
+                      <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                        <button class="btn btn-link px-2"
+                          onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+                          <i class="fas fa-minus"></i>
+                        </button>
+  
+                        <input id="form1" min="0" name="quantity" value="1" type="number"
+                          class="form-control form-control-sm" />
+  
+                        <button class="btn btn-link px-2"
+                          onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+                          <i class="fas fa-plus"></i>
+                        </button>
+                      </div>
+                      <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+                        <h6 class="mb-0">{{this.price}}</h6>
+                      </div>
+                      <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                        <a href="#!" class="text-muted"><i class="fas fa-times"></i></a>
+                      </div>
+                    </div>
+  
+                    <hr class="my-4">
+  
+
+  {{/each}}
+                    <div class="pt-5">
+                      <h6 class="mb-0"><a href="/" class="text-body"><i
+                            class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- right side -->
+                <div class="col-lg-4">
+                  <div class="p-5 ">
+
+                    <!-- card -->
+                    <div class="card"> 
+                      <div class="card-header py-3 bg-white">
+                        <h5 class="mb-1">Summary</h5>
+                      </div>
+                      <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                            Products
+                            <span>$53.98</span>
+                          </li>
+                          <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                            Shipping
+                            <span>Free</span>
+                          </li>
+                          <li class="coupon list-group-item d-flex justify-content-between align-items-center px-0 ">
+                            Apply Coupon
+                            <span>
+                              <form action="#">
+                                
+                                <div class="form-outline ">
+                                  <input  style="font-size:10px ;" type="text" id="form3Examplea2" class="form-control"  placeholder="Try New book" />
+                               
+                                </div>
+                         
+                              
+                             
+                            </span>
+                          </li>
+                          <li
+                            class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                            <div>
+                              <strong>Total amount</strong>
+                              <strong>
+                                <p class="mb-0">(including GST)</p>
+                              </strong>
+                            </div>
+                            <span><strong>$53.98</strong></span>
+                          </li>
+                        </ul>
+                        <div class="button d-grid ">
+                          <button style="background-color: #eb227ddb;  color: #ffff;" type="submit"  class="btn ">Place Order</button>
+                        </div>
+                      </form>
+                        
+                      </div>
+                    </div>
+                   
+
+                    <!-- card -->
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
