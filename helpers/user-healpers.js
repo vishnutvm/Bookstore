@@ -120,18 +120,49 @@ console.log(phone)
     })
   },
   addToCart:(proId,userId)=>{
+    var proObj ={
+      item:objectid(proId),
+      quantity:1
+    }
+    console.log(proId)
     return new Promise (async(res,rej)=>{
          const userCart =await db.get().collection(collection.CART_COLLECTIONS).findOne({user:objectid(userId)})
+         console.log(userCart)
          if(userCart){
-          console.log("have the user cart")
-           db.get().collection(collection.CART_COLLECTIONS).updateOne({user:objectid(userId)},{$push:{products:objectid(proId)}}).then((response)=>{
-            res(response)
-          })
+          console.log("alredy have a cart")
+          console.log(userCart.products[0].item)
+          var productExist=userCart.products.findIndex(product=> 
+           product.item == proId
+            )
+            console.log(productExist)
+            if(productExist!= -1){
+            
+              db.get().collection(collection.CART_COLLECTIONS).updateOne({'products.item':objectid(proId)},{
+                $inc:{'products.$.quantity':1}
+              }
+              
+              ).then(()=>{
+                res()
+              })
+            }else{
+
+              console.log(objectid(proId))
+              console.log(productExist)
+    
+              console.log("have the user cart")
+               db.get().collection(collection.CART_COLLECTIONS).updateOne({user:objectid(userId)},
+
+                {$push:{products:proObj}}
+
+                ).then((response)=>{
+                res(response)
+              })
+            }
          }else{
-          console.log("creating the usercart for new")
+          console.log("creating the new user cart ")
             const cartObj={
               user:objectid(userId),
-              products:[objectid(proId)]
+              products:[proObj]
             }
              db.get().collection(collection.CART_COLLECTIONS).insertOne(cartObj).then((response)=>{
               console.log(cartObj)
@@ -146,17 +177,34 @@ console.log(phone)
       let cartItems=await db.get().collection(collection.CART_COLLECTIONS).aggregate([
         {
           $match:{user:objectid(userId)}
+        },{
+          $unwind:'$products'
         },
         {
-          $lookup:
-          {
-            from:"product",
-            localField:"products",
-            foreignField:"_id",
-              as:"productData"
+          $project:{
+            item:'$products.item',
+            quantity:'$products.quantity'
+          }
+        },
+        {
+          $lookup:{
+            from:collection.PRODUCT_COLLECTIONS,
+            localField:'item',
+            foreignField:'_id',
+            as:'products'
           }
         }
+        // {
+        //   $lookup:
+        //   {
+        //     from:"product",
+        //     localField:"products",
+        //     foreignField:"_id",
+        //       as:"productData"
+        //   }
+        // }
       ]).toArray()
+      console.log(cartItems)
       res(cartItems)
           
     })
@@ -165,10 +213,12 @@ console.log(phone)
     return new Promise(async(res,rej)=>{
       let count=0;
       let cart =await db.get().collection(collection.CART_COLLECTIONS).findOne({user:objectid(userId)})
-
-
+     
       if(cart){
-        count = cart.products.length
+      
+       cart.products.forEach((val)=>{
+        count += val.quantity
+        })
       }
       res(count)
     })

@@ -139,7 +139,7 @@ router.post("/user_registration", (req, res) => {
 
 router.get("/cart",async (req,res)=>{
  let cartProduct =await userHealpers.getAllCart(req.session.user._id)
-  res.render("users/cart",{cartProduct:cartProduct[0],
+  res.render("users/cart",{cartProduct,
     user: true,
     userLoggin: req.session.userLoggin,
   cartCount:req.session.cartCount
