@@ -11,84 +11,38 @@
                 <div class="col-lg-8">
                   <div class="p-5">
                     <div class="d-flex justify-content-between align-items-center mb-5">
-                      <h1 class="fw-bold mb-0 text-black">Shopping Cart</h1>
+                      <h1 class="fw-light mb-0 text-black">Billing Details</h1>
                       {{!-- <h6 class="mb-0 text-muted">3 items</h6> --}}
                     </div>
                     <hr class="my-4">
 
 
 
-                    {{#each cartProduct}}
-            
-                    <div class="row mb-4 d-flex justify-content-between align-items-center">
-                      <div class="col-md-2 col-lg-2 col-xl-2">
-                        <img
-                         src="/product-images/{{this.product._id}}.jpg"
-                          class="img-fluid rounded-3" alt="ProductImage">
-                      </div>
-                      <div class="col-md-3 col-lg-3 col-xl-3">
-                        <h6 class="text-muted">{{this.product.category}}</h6>
-                        <h6 class="text-black mb-0">{{this.product.name}}</h6>
-                      </div>
+         {{!-- adding address entering page --}}
 
-                 
-                      <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                        <button class="btn btn-link px-2"
-                            onclick="changeQuantity('{{this._id}}','{{this.product._id}}',-1)">
-                          <i class="fas fa-minus"></i>
-                        </button>
-  
-                        <input id="{{this.product._id}}" name="quantity" value="{{this.quantity}}" type="number"
-                          class="form-control form-control-sm" />
-
-                          {{!-- <span id="{{this.product._id}}">{{this.quantity}}</span> --}}
-  
-                        <button class="btn btn-link px-2"
-                          onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">
-                          <i class="fas fa-plus"></i>
-                        </button>
-                      </div>
-                      <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
-                    
-                        <h6 class="mb-0">{{this.product.price}}</h6>
-                  
-                      </div>
-                      <div class="col-md-1 col-lg-1 col-xl-1 text-end">
-                        <a data-bs-toggle="modal" data-bs-target="#{{this.product.name}}Model"  class="text-muted" ><i  class="fas fa-times"></i></a>
-
-                    {{!-- <a data-bs-toggle="modal" data-bs-target="#{{this.name}}Model" class="btn btn-danger ">Delete</a> --}}
+<div class="ml-5 col-md-6">
+      <form class="d-flex aling-item-center flex-column" action="/admin/add-product" method="post"   enctype="multipart/form-data">
+        
+        <input type="text" name="name" class="form-control mb-3" placeholder="Full Name" required>
 
 
+        <input type="number" name="phone" class="form-control mb-3" placeholder="Phone Number" required>
 
-                    <div class="modal fade" id="{{this.product.name}}Model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure to Remove {{this.product.name}} ?</h5>
-      
-      </div>
-  
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="/remove-product/?cartId={{this._id}}&proId={{this.product._id}}" type="button" class="btn btn-danger">Remove</a>
-      </div>
+        <textarea type="text" name="address" class="form-control mb-3" placeholder="Enter Your Address" rows="3"></textarea>
+
+            <input type="text" name="pincode" class="form-control mb-3" placeholder="Pincode" required>
+
+      </form>
     </div>
-  </div>
-</div>
 
 
 
 
 
+         {{!-- adding address entering page --}}
 
 
 
-                      </div>
-                    </div> 
-  
-                    <hr class="my-4">
-                
-  {{/each}}
                     <div class="pt-5">
                       <h6 class="mb-0"><a href="/" class="text-body"><i
                             class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
@@ -161,31 +115,3 @@
   </section>
 
 
-  <script>
-
-    function changeQuantity(cartId,proId,count){
-      console.log("working")
-      let quantity = parseInt(document.getElementById(proId).value)
-      count= parseInt(count)
-      $.ajax({
-        url:'/change-pro-quantity',
-        data:{
-          cart:cartId,
-          product:proId,
-          count:count,
-          quantity:quantity
-        },
-        method:'post',
-        success:(response)=>{
-
-     if(response.removeProduct){
-      location.reload()
-     }else{
-      document.getElementById(proId).value = quantity+count  
-     }
-        }
-      })
-    }
-
-   
-  </script>

@@ -130,7 +130,7 @@ console.log(phone)
          console.log(userCart)
          if(userCart){
           console.log("alredy have a cart")
-          console.log(userCart.products[0].item)
+      
           var productExist=userCart.products.findIndex(product=> 
            product.item == proId
             )
@@ -221,17 +221,49 @@ console.log(phone)
   },
   changeProductCount:(details)=>{
     console.log(details)
+    
 count = parseInt(details.count)
+quantity = parseInt(details.quantity)
+
     return new Promise((res,rej)=>{
-      db.get().collection(collection.CART_COLLECTIONS).updateOne({_id:objectid(details.cart),'products.item':objectid(details.product)},{
-        $inc:{'products.$.quantity':count}
-      }
-      
-      ).then(()=>{
-        res()
-      })
+
+
+  if(count == -1 && quantity ==1){
+    console.log("removing the c")
+    db.get().collection(collection.CART_COLLECTIONS).uvarpdateOne({_id:objectid(details.cart)},
+    {
+      $pull:{products:{item:objectid(details.product)}}
+    }
+    ).then((response)=>{
+      res({removeProduct:true})
+    })
+   
+  }else{
+    
+    
+          db.get().collection(collection.CART_COLLECTIONS).updateOne({_id:objectid(details.cart),'products.item':objectid(details.product)},{
+            $inc:{'products.$.quantity':count}
+          }
+          
+          ).then((response)=>{
+            res(true)
+          })
+  }
     })
 
+  },
+  removeProduct:(prodData)=>{
+    return new Promise((res,rej)=>{
+      db.get().collection(collection.CART_COLLECTIONS).updateOne({_id:objectid(prodData.cartId)},
+      {
+        $pull:{products:{item:objectid(prodData.proId)}}
+      }
+      
+      
+      ).then((response)=>{
+        res(response)
+      })
+    })
   }
 
 

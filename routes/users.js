@@ -1,7 +1,7 @@
-var express = require("express");
+const express = require("express");
 const productHelpers = require("../helpers/product-helpers");
 const userHealpers = require("../helpers/user-healpers");
-var router = express.Router();
+const router = express.Router();
 
 const verifyuserlogin = (req, res, next) => {
   if (req.session.userLoggin) {
@@ -137,7 +137,10 @@ router.post("/user_registration", (req, res) => {
 
 // cart
 
-router.get("/cart",async (req,res)=>{
+router.get("/cart",verifyuserlogin,async (req,res)=>{
+
+  cartCount=await userHealpers.getCartCount(req.session.user._id)
+  req.session.cartCount=cartCount
  let cartProduct =await userHealpers.getAllCart(req.session.user._id)
   res.render("users/cart",{cartProduct,
     user: true,
@@ -147,15 +150,13 @@ router.get("/cart",async (req,res)=>{
 })
 
 
-
-
-
 // add to cart
-router.get("/add-to-cart/:id",(req,res)=>{
+router.get("/add-to-cart/:id",verifyuserlogin,(req,res)=>{
   console.log("api call")
   // console.log(req.params.id)
   // console.log(req.session.user)
   userHealpers.addToCart(req.params.id,req.session.user._id).then((response)=>{
+
     res.json({status:true})
   })
 
@@ -163,8 +164,30 @@ router.get("/add-to-cart/:id",(req,res)=>{
 })
 
 router.post("/change-pro-quantity",(req,res,next)=>{
-  userHealpers.changeProductCount(req.body).then(()=>{
-    
+
+  console.log(req.body);
+  userHealpers.changeProductCount(req.body).then((response)=>{
+
+res.json(response)
+  })
+})
+router.get("/remove-product",(req,res,next)=>{
+  console.log(req.query)
+  console.log(req.query.cartId)
+  console.log(req.query.proId)
+
+  userHealpers.removeProduct(req.query).then((response)=>{
+    res.redirect('/cart')
+  })
+  
+})
+
+//order page
+router.get("/place-order",(req,res)=>{
+  res.render('users/placeOrder',{
+    user: true,
+    userLoggin: req.session.userLoggin,
+    cartCount:req.session.cartCount
   })
 })
 
