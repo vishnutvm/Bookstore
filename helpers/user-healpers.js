@@ -230,7 +230,7 @@ quantity = parseInt(details.quantity)
 
   if(count == -1 && quantity ==1){
     console.log("removing the c")
-    db.get().collection(collection.CART_COLLECTIONS).uvarpdateOne({_id:objectid(details.cart)},
+    db.get().collection(collection.CART_COLLECTIONS).updateOne({_id:objectid(details.cart)},
     {
       $pull:{products:{item:objectid(details.product)}}
     }
@@ -263,6 +263,65 @@ quantity = parseInt(details.quantity)
       ).then((response)=>{
         res(response)
       })
+    })
+  },
+  getTotalAmount:(userId)=>{
+    return new Promise(async(res,rej)=>{
+    prodata=await db.get().collection(collection.CART_COLLECTIONS).aggregate([
+        {
+          $match:{user:objectid(userId)}
+        },{
+          $unwind:'$products'
+        },
+        {
+          $project:{
+            item:'$products.item',
+            quantity:'$products.quantity'
+          }
+        },
+        {
+          $lookup:{
+            from:collection.PRODUCT_COLLECTIONS,
+            localField:'item',
+            foreignField:'_id',
+            as:'products'
+          }
+        },{
+          $project:{
+            item:1,quantity:1,product:{$arrayElemAt:['$products',0]}
+          }
+        }
+       
+      ]).toArray()
+    //  console.log(totalPrice)
+    //  totalPrice.forEach((val)=>{
+    //    var total = val.quantity * parseInt(val.product.price)
+    //    total +=total
+    //   console.log(total)
+    //  })
+
+    // addig total product to the page
+// var total;
+//     for(x in totalPrice){
+//        console.log(total)
+//       total = totalPrice[x].quantity * parseInt(totalPrice[x].product.price)
+//       console.log(total)
+//       total +=total
+//     }
+
+    let total=0;
+    let grandTotal=0
+    prodata.forEach((x)=>{
+      
+      // console.log(x.quantity)
+      // console.log(x.product.price)
+       total= (x.quantity) * (x.product.price)
+       console.log(total)
+       grandTotal += total
+     })
+     
+
+      res(grandTotal)  
     })
   }
 

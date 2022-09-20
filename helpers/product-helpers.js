@@ -4,6 +4,7 @@ const objectid = require("mongodb").ObjectId;
 
 module.exports = {
   addProduct: (productdata) => {
+    console.log(productdata)
     return new Promise(async (res, rej) => {
       await db
         .get()

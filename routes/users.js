@@ -138,14 +138,18 @@ router.post("/user_registration", (req, res) => {
 // cart
 
 router.get("/cart",verifyuserlogin,async (req,res)=>{
-
+  let totalPrice =await userHealpers.getTotalAmount(req.session.user._id)
+  req.session.totalPrice = totalPrice;
   cartCount=await userHealpers.getCartCount(req.session.user._id)
   req.session.cartCount=cartCount
  let cartProduct =await userHealpers.getAllCart(req.session.user._id)
+
+ 
   res.render("users/cart",{cartProduct,
     user: true,
     userLoggin: req.session.userLoggin,
-  cartCount:req.session.cartCount
+  cartCount:req.session.cartCount,
+  totalPrice:totalPrice
   })
 })
 
@@ -183,11 +187,15 @@ router.get("/remove-product",(req,res,next)=>{
 })
 
 //order page
-router.get("/place-order",(req,res)=>{
+router.get("/place-order",verifyuserlogin,async(req,res)=>{
+
+
+
   res.render('users/placeOrder',{
     user: true,
     userLoggin: req.session.userLoggin,
-    cartCount:req.session.cartCount
+    cartCount:req.session.cartCount,
+    totalPrice:req.session.totalPrice
   })
 })
 
