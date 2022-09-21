@@ -157,8 +157,6 @@ router.get("/cart",verifyuserlogin,async (req,res)=>{
 // add to cart
 router.get("/add-to-cart/:id",verifyuserlogin,(req,res)=>{
   console.log("api call")
-  // console.log(req.params.id)
-  // console.log(req.session.user)
   userHealpers.addToCart(req.params.id,req.session.user._id).then((response)=>{
 
     res.json({status:true})
@@ -198,5 +196,7 @@ router.get("/place-order",verifyuserlogin,async(req,res)=>{
     totalPrice:req.session.totalPrice
   })
 })
+
+
 
 module.exports = router;
