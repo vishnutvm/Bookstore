@@ -56,7 +56,7 @@
                       <div class="col-md-1 col-lg-1 col-xl-1 text-end">
                         <a data-bs-toggle="modal" data-bs-target="#a{{this.product._id}}Model"  class="text-muted" ><i  class="fas fa-times"></i></a>
 
-                    {{!-- <a data-bs-toggle="modal" data-bs-target="#{{this.name}}Model" class="btn btn-danger ">Delete</a> --}}
+             
 
 
 
@@ -110,7 +110,7 @@
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
                             Products
-                            <span>${{totalPrice}}</span>
+                            <span>{{totalPrice}}</span>
                           </li>
                           <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                             Shipping
@@ -161,11 +161,11 @@
   </section>
 
 
+
   <script>
 
     function changeQuantity(cartId,proId,count){
       console.log("working")
-    
       let quantity = parseInt(document.getElementById(proId).value)
       count= parseInt(count)
       $.ajax({
@@ -174,7 +174,7 @@
           cart:cartId,
           product:proId,
           count:count,
-          quantity:quantity,
+          quantity:quantity
         },
         method:'post',
         success:(response)=>{
@@ -182,8 +182,7 @@
      if(response.removeProduct){
       location.reload()
      }else{
-      document.getElementById(proId).value = quantity+count,
-    //  location.reload()
+      document.getElementById(proId).value = quantity+count  
      }
         }
       })
