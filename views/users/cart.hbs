@@ -41,7 +41,7 @@
                         <input id="{{this.product._id}}" name="quantity" value="{{this.quantity}}" type="number"
                           class="form-control form-control-sm" />
 
-                          {{!-- <span id="{{this.product._id}}">{{this.quantity}}</span> --}}
+           
   
                         <button class="btn btn-link px-2"
                           onclick="changeQuantity('{{this._id}}','{{this.product._id}}',1)">
@@ -165,6 +165,7 @@
 
     function changeQuantity(cartId,proId,count){
       console.log("working")
+    
       let quantity = parseInt(document.getElementById(proId).value)
       count= parseInt(count)
       $.ajax({
@@ -182,7 +183,7 @@
       location.reload()
      }else{
       document.getElementById(proId).value = quantity+count,
-      location.reload()
+    //  location.reload()
      }
         }
       })
