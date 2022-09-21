@@ -23,5 +23,17 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.19"
-  }
+  },
+  "main": "app.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vishnutvm/Bookstore.git"
+  },
+  "author": "vichu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/vishnutvm/Bookstore/issues"
+  },
+  "homepage": "https://github.com/vishnutvm/Bookstore#readme",
+  "description": ""
 }
