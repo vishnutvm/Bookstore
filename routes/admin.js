@@ -139,6 +139,7 @@ router.get("/EditProduct/:id", (req, res) => {
       category: response[0],
       subCategory: response[1],
       editingProduct: response[2],
+      modelJqury:true
     });
   });
 });
@@ -173,6 +174,7 @@ router.get("/add-product", verifyAdminLogin, (req, res) => {
       adminLogin: adminLogin,
       category: response[0],
       subCategory: response[1],
+      modelJqury:true
     });
   });
 });
