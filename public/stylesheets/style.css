@@ -390,3 +390,18 @@ height: 100%;
     border-bottom-right-radius: 16px;
     }
     }
+
+
+/* style for cropping image */
+
+#img {
+    display: block;
+    max-width: 100%;
+}
+.preview {
+    overflow: hidden;
+    width: 160px; 
+    height: 160px;
+    margin: 10px;
+    border: 1px solid red;
+}
