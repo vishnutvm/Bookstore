@@ -27,3 +27,4 @@ function addTocart(proId) {
     },
   });
 }
+

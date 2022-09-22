@@ -79,7 +79,7 @@ router.post("/user_signin", async (req, res) => {
 
 router.get("/otp",(req, res) => {
 // hard setting for otp verificatoi need to remove
-req.session.userLoggin =true
+// req.session.userLoggin =true
 
 
   res.header(

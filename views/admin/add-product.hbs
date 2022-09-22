@@ -20,7 +20,7 @@
 </div>
 
 
-   <input id="inputImage" type="file" name="image" class="form-control mb-3 image" >
+   <input id="inputImage" type="file" name="image" class="form-control mb-3 image" accept="image/*" >
    {{!-- <div  class="text-start mb-4 " >
      
 <a  type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#cropModel">
@@ -63,7 +63,7 @@
 
 {{!-- Re-input file for crop button --}}
                         <label type="button" class="btn btn-primary" id="upload" for="reinputImage"><i class='bx bx-cloud-upload'></i>
-                        <input type="file" name="input" id="reinputImage" style="display:none ;">
+                        <input type="file" name="input" id="reinputImage" style="display:none ; " accept="image/*">
 
                         </label> 
 
@@ -121,6 +121,9 @@
 </section>
 
 
+
+{{!-- image cropping and its additnal actions --}}
+
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
@@ -138,10 +141,12 @@
 reupload.addEventListener("change",(action)=>{
        let resetFile = action.target.files;
          if (resetFile && resetFile.length > 0) {
-            var newfile = resetFile[0];
+
+ if(file.type.split('/')[0] === 'image'){
+   var newfile = resetFile[0];
 
             if (URL) {
-              alert("test 2")
+              
              url= URL.createObjectURL(newfile);
              image.url=url
              cropper.replace(url)
@@ -153,6 +158,11 @@ reupload.addEventListener("change",(action)=>{
                 };
                 reader.readAsDataURL(newfile);
             }
+ }else{
+  alert("Plees choos a image")
+ }
+
+           
         }
 
 })
@@ -173,7 +183,9 @@ reupload.addEventListener("change",(action)=>{
         if (files && files.length > 0) {
             file = files[0];
 
-            if (URL) {
+     
+ if(file.type.split('/')[0] === 'image'){
+   if (URL) {
                 done(URL.createObjectURL(file));
             } else if (FileReader) {
                 reader = new FileReader();
@@ -182,6 +194,13 @@ reupload.addEventListener("change",(action)=>{
                 };
                 reader.readAsDataURL(file);
             }
+ }else{
+  alert("Plees choos a image file")
+ }
+
+
+
+           
         }
     });
 
