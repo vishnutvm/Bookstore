@@ -61,11 +61,10 @@
 
 
 
-
+{{!-- Re-input file for crop button --}}
                         <label type="button" class="btn btn-primary" id="upload" for="reinputImage"><i class='bx bx-cloud-upload'></i>
                         <input type="file" name="input" id="reinputImage" style="display:none ;">
-                        
-                        
+
                         </label> 
 
 
@@ -125,7 +124,7 @@
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 <script>
-    var upload = document.getElementById("upload")
+    var reupload = document.getElementById("reinputImage")
     var reset =document.getElementById("reset")
     var rotateLeft = document.getElementById("rotateLeft")
     var rotateRight = document.getElementById("rotateRight")
@@ -135,8 +134,32 @@
     var cropper,reader,file;
    
 
+   {{!-- re-uploading the image  --}}
+reupload.addEventListener("change",(action)=>{
+       let resetFile = action.target.files;
+         if (resetFile && resetFile.length > 0) {
+            var newfile = resetFile[0];
 
- var done = function(url) {
+            if (URL) {
+              alert("test 2")
+             url= URL.createObjectURL(newfile);
+             image.url=url
+             cropper.replace(url)
+            } else if (FileReader) {
+           
+                reader = new FileReader();
+                reader.onload = function(action) {
+                    done(reader.result);
+                };
+                reader.readAsDataURL(newfile);
+            }
+        }
+
+})
+
+
+    var done = function(url) {
+      console.log(url)
             image.src = url;
             bs_modal.modal('show');
         };
@@ -174,6 +197,9 @@
         cropper = null;
     });
 
+{{!-- additional functions --}}
+
+
     {{!-- rotate left and right --}}
 rotateLeft.addEventListener("click",()=>{
   cropper.rotate(-45)
@@ -184,6 +210,8 @@ rotateRight.addEventListener("click",()=>{
 reset.addEventListener("click",()=>{
   cropper.reset()
 })
+
+  
 
 
 
@@ -212,28 +240,7 @@ reset.addEventListener("click",()=>{
 
 
 
-upload.addEventListener("change",(action)=>{
 
-alert("eor")
-
-       let resetFile = action.target.files;
-       
-
-         if (resetFile && resetFile.length > 0) {
-            var newfile = resetFile[0];
-
-            if (URL) {
-                done(URL.createObjectURL(file));
-            } else if (FileReader) {
-                reader = new FileReader();
-                reader.onload = function(e) {
-                    done(reader.result);
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-})  
 
 
 
