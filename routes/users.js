@@ -40,9 +40,8 @@ if(req.session.userLoggin){
 
 
 router.get("/user_signin", (req, res) => {
-  // hard setting for wrok with code
 
-
+   
   if (req.session.userLoggin) {
     res.redirect("/");
   } else {
@@ -78,7 +77,7 @@ router.post("/user_signin", async (req, res) => {
 // otp verification
 
 router.get("/otp",(req, res) => {
-// hard setting for otp verificatoi need to remove
+// hard setting for dev mod need to remove
 // req.session.userLoggin =true
 
 
@@ -186,8 +185,8 @@ router.get("/remove-product",(req,res,next)=>{
 
 //order page
 router.get("/place-order",verifyuserlogin,async(req,res)=>{
-
-
+  let totalPrice =await userHealpers.getTotalAmount(req.session.user._id)
+  req.session.totalPrice = totalPrice;
 
   res.render('users/placeOrder',{
     user: true,
