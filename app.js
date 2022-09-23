@@ -4,8 +4,8 @@ const path = require('path');
 const hbs = require('express-handlebars')
 const cookieParser = require('cookie-parser');
 const session = require('express-session')
-
 const logger = require('morgan');
+require('dotenv').config()
 
 const adminRouter = require('./routes/admin');
 const usersRouter = require('./routes/users');
@@ -13,6 +13,8 @@ const db = require('./config/connections')
 
 const app = express();
 const fileUpload= require('express-fileupload')
+
+require('dotenv').config()
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

@@ -1,8 +1,13 @@
+// setting otp twilio credentials 
+const accountSID=process.env.accountSID;
+const serviceID=process.env.serviceID;
+const authToken=process.env.authToken
+
 const db = require("../config/connections");
 const collection = require("../config/collections");
 const config = require('../config/otpConfig')
 const objectid = require("mongodb").ObjectId;
-const client = require('twilio')(config.accountSID,config.authToken)
+const client = require('twilio')(accountSID,authToken)
 const bcrypt = require("bcrypt");
 
 module.exports = {
@@ -67,7 +72,7 @@ phone="+91"+phone
 console.log(phone)
     client
     .verify
-      .services(config.serviceID)
+      .services(serviceID)
       .verifications
       .create({
         to: phone,
@@ -95,7 +100,7 @@ console.log(phone)
     if(OTP.length==4){
       await client
     .verify
-    .services(config.serviceID)
+    .services(serviceID)
     .verificationChecks
     .create({
         to:phone,

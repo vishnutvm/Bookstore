@@ -12,36 +12,29 @@ const verifyuserlogin = (req, res, next) => {
 };
 
 /* GET users listing. */
-router.get("/",async function (req, res, next) {
+router.get("/", async function (req, res, next) {
   res.header(
     "Cache-control",
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
   );
-let cartCount = 0
-if(req.session.userLoggin){
+  let cartCount = 0;
+  if (req.session.userLoggin) {
+    cartCount = await userHealpers.getCartCount(req.session.user._id);
+    req.session.cartCount = cartCount;
+  }
 
-  cartCount=await userHealpers.getCartCount(req.session.user._id)
-  req.session.cartCount=cartCount
-}
-  
   productHelpers.getAllProduct().then((products) => {
-    console.log(req.session.userLoggin)
+    console.log(req.session.userLoggin);
     res.render("users/view-product", {
       user: true,
       userLoggin: req.session.userLoggin,
       products,
-      cartCount
+      cartCount,
     });
-
-
   });
 });
 
-
-
 router.get("/user_signin", (req, res) => {
-
-   
   if (req.session.userLoggin) {
     res.redirect("/");
   } else {
@@ -63,39 +56,37 @@ router.post("/user_signin", async (req, res) => {
     } else {
       if (response.status) {
         req.session.phone = response.user.phone;
-        req.session.user = response.user
-     
+        req.session.user = response.user;
+
         res.redirect("/otp");
       } else {
         req.session.logginErr = true;
         res.redirect("/user_signin");
       }
-    } 
+    }
   });
 });
 
 // otp verification
 
-router.get("/otp",(req, res) => {
-// hard setting for dev mod need to remove
-// req.session.userLoggin =true
-
+router.get("/otp", (req, res) => {
+  // hard setting for dev mod need to remove
+  req.session.userLoggin = true;
 
   res.header(
     "Cache-control",
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
   );
-  if(req.session.userLoggin){
-    res.redirect('/')
-  }else{
-    userHealpers.sendOtp(req.session.phone)
-  res.render("users/otp", {
-    phone: req.session.phone,
-    otpErr: req.session.otpErr,
-  });
-  req.session.otpErr = false;
+  if (req.session.userLoggin) {
+    res.redirect("/");
+  } else {
+    userHealpers.sendOtp(req.session.phone);
+    res.render("users/otp", {
+      phone: req.session.phone,
+      otpErr: req.session.otpErr,
+    });
+    req.session.otpErr = false;
   }
-
 });
 
 router.post("/verifyOtp", (req, res) => {
@@ -113,12 +104,11 @@ router.post("/verifyOtp", (req, res) => {
   });
 });
 
-router.get('/resend',(req,res)=>{
-  res.redirect('/otp')
-})
+router.get("/resend", (req, res) => {
+  res.redirect("/otp");
+});
 
 router.get("/user_logout", (req, res) => {
-
   req.session.userLoggin = false;
   res.redirect("/");
 });
@@ -133,69 +123,62 @@ router.post("/user_registration", (req, res) => {
   });
 });
 
-
 // cart
 
-router.get("/cart",verifyuserlogin,async (req,res)=>{
-  let totalPrice =await userHealpers.getTotalAmount(req.session.user._id)
+router.get("/cart", verifyuserlogin, async (req, res) => {
+  let totalPrice = await userHealpers.getTotalAmount(req.session.user._id);
   req.session.totalPrice = totalPrice;
-  cartCount=await userHealpers.getCartCount(req.session.user._id)
-  req.session.cartCount=cartCount
- let cartProduct =await userHealpers.getAllCart(req.session.user._id)
+  cartCount = await userHealpers.getCartCount(req.session.user._id);
+  req.session.cartCount = cartCount;
+  let cartProduct = await userHealpers.getAllCart(req.session.user._id);
 
- 
-  res.render("users/cart",{cartProduct,
+  res.render("users/cart", {
+    cartProduct,
     user: true,
     userLoggin: req.session.userLoggin,
-  cartCount:req.session.cartCount,
-  totalPrice:totalPrice
-  })
-})
-
+    cartCount: req.session.cartCount,
+    totalPrice: totalPrice,
+  });
+});
 
 // add to cart
-router.get("/add-to-cart/:id",verifyuserlogin,(req,res)=>{
-  console.log("api call")
-  userHealpers.addToCart(req.params.id,req.session.user._id).then((response)=>{
+router.get("/add-to-cart/:id", verifyuserlogin, (req, res) => {
+  console.log("api call");
+  userHealpers
+    .addToCart(req.params.id, req.session.user._id)
+    .then((response) => {
+      res.json({ status: true });
+    });
+});
 
-    res.json({status:true})
-  })
-
-
-})
-
-router.post("/change-pro-quantity",(req,res,next)=>{
-
+router.post("/change-pro-quantity", (req, res, next) => {
   console.log(req.body);
-  userHealpers.changeProductCount(req.body).then((response)=>{
+  userHealpers.changeProductCount(req.body).then((response) => {
+    res.json(response);
+  });
+});
+router.get("/remove-product", (req, res, next) => {
+  console.log(req.query);
+  console.log(req.query.cartId);
+  console.log(req.query.proId);
 
-res.json(response)
-  })
-})
-router.get("/remove-product",(req,res,next)=>{
-  console.log(req.query)
-  console.log(req.query.cartId)
-  console.log(req.query.proId)
-
-  userHealpers.removeProduct(req.query).then((response)=>{
-    res.redirect('/cart')
-  })
-  
-})
+  userHealpers.removeProduct(req.query).then((response) => {
+    res.redirect("/cart");
+  });
+});
 
 //order page
-router.get("/place-order",verifyuserlogin,async(req,res)=>{
-  let totalPrice =await userHealpers.getTotalAmount(req.session.user._id)
+router.get("/place-order", verifyuserlogin, async (req, res) => {
+  // changed total price in the session for render new updated price in the cart
+  let totalPrice = await userHealpers.getTotalAmount(req.session.user._id);
   req.session.totalPrice = totalPrice;
 
-  res.render('users/placeOrder',{
+  res.render("users/placeOrder", {
     user: true,
     userLoggin: req.session.userLoggin,
-    cartCount:req.session.cartCount,
-    totalPrice:req.session.totalPrice
-  })
-})
-
-
+    cartCount: req.session.cartCount,
+    totalPrice: req.session.totalPrice,
+  });
+});
 
 module.exports = router;

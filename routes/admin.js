@@ -7,6 +7,10 @@ const router = express.Router();
 
 // session middleware
 
+// setting id and pass from env
+const adminUsername = process.env.adminUsername;
+const adminPassword = process.env.adminPassword;
+
 const verifyAdminLogin = (req, res, next) => {
   // hard setting login to true for easy coding
   req.session.adminLoggin = true;
@@ -23,11 +27,11 @@ var adminLoggErr;
 var session;
 var adminLogin;
 
-// setting admin id and pass
-const adminDb = {
-  username: "vishnu",
-  password: "1234",
-};
+// setting admin id and pass localy
+// const adminDb = {
+//   username: "vishnu",
+//   password: "1234",
+// };
 
 // admin page
 router.get("/", verifyAdminLogin, function (req, res, next) {
@@ -48,10 +52,7 @@ router.get("/adminLogin", (req, res) => {
 });
 
 router.post("/adminLogin", function (req, res) {
-  if (
-    req.body.name == adminDb.username &&
-    req.body.password == adminDb.password
-  ) {
+  if (req.body.name == adminUsername && req.body.password == adminPassword) {
     req.session.adminLoggin = true;
     console.log("admin log success");
     adminLoggErr = false;
@@ -139,7 +140,7 @@ router.get("/EditProduct/:id", (req, res) => {
       category: response[0],
       subCategory: response[1],
       editingProduct: response[2],
-      modelJqury:true
+      modelJqury: true,
     });
   });
 });
@@ -160,8 +161,6 @@ router.post("/EditProduct/:id", (req, res) => {
   });
 });
 
-
-
 // add products
 
 router.get("/add-product", verifyAdminLogin, (req, res) => {
@@ -174,7 +173,7 @@ router.get("/add-product", verifyAdminLogin, (req, res) => {
       adminLogin: adminLogin,
       category: response[0],
       subCategory: response[1],
-      modelJqury:true
+      modelJqury: true,
     });
   });
 });
