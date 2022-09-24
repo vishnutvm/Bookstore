@@ -298,21 +298,7 @@ quantity = parseInt(details.quantity)
         }
        
       ]).toArray()
-    //  console.log(totalPrice)
-    //  totalPrice.forEach((val)=>{
-    //    var total = val.quantity * parseInt(val.product.price)
-    //    total +=total
-    //   console.log(total)
-    //  })
 
-    // addig total product to the page
-// var total;
-//     for(x in totalPrice){
-//        console.log(total)
-//       total = totalPrice[x].quantity * parseInt(totalPrice[x].product.price)
-//       console.log(total)
-//       total +=total
-//     }
 
     let total=0;
     let grandTotal=0
