@@ -320,17 +320,36 @@ quantity = parseInt(details.quantity)
       console.log(orderData,products,totalPrice);
     let status = orderData.paymentMethod === 'cod'? 'placed' : 'pending';
     // creating obj for insert in order collection
+
+    // getting current time data
+    let date_ob = new Date();
+    let date = ("0" + date_ob.getDate()).slice(-2);
+    let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
+    let year = date_ob.getFullYear();
+    let hours = date_ob.getHours();
+    let AmOrPm = hours >= 12 ? 'pm' : 'am';
+    hours = (hours % 12) || 12;
+    let minutes = date_ob.getMinutes();
+
+      // settig current time
+     let currentTime = (year + "-" + month + "-" + date + "," + hours + ":" + minutes + " " + AmOrPm);
+  
+
+
+
     let orderObj ={
       userId:objectid(orderData.userId),
       paymentMethod:orderData.paymentMethod,
       products:products,
       status:status,
       totalPrice:totalPrice,
+      date:currentTime,
       deliveryDetails:{
         name:orderData.name,
         phone:orderData.phone,
         address:orderData.address,
-        pincode:orderData.pincode
+        pincode:orderData.pincode,
+      
       }
     }
     db.get().collection(collection.ORDER_COLLECTIONS).insertOne(orderObj).then((response)=>{
@@ -351,6 +370,14 @@ quantity = parseInt(details.quantity)
     return new Promise(async(res,rej)=>{
       let cart= await db.get().collection(collection.CART_COLLECTIONS).findOne({user:objectid(userId)})
       res(cart.products)
+    })
+  },
+  getAllOrders:(user)=>{
+    return new Promise(async(res,rej)=>{
+      console.log(user)
+      let orders = await db.get().collection(collection.ORDER_COLLECTIONS).find({userId:objectid(user._id)}).toArray()
+      console.log(orders)
+      res(orders)
     })
   }
 

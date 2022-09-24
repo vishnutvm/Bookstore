@@ -195,11 +195,25 @@ router.post("/place-order",async(req,res)=>{
   userHealpers.placeOrder(req.body,products,totalPrice).then((response)=>{
     res.json({status:true})
   })
-
-
-
-
-
 })
 
+
+
+// order success
+router.get("/orderSuccess",async(req,res)=>{
+  cartCount = await userHealpers.getCartCount(req.session.user._id);
+  req.session.cartCount = cartCount;
+  res.render('users/orderSuccess',{user: true,
+    userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,})
+})
+
+
+router.get("/orders",async(req,res)=>{
+// geting orders form database
+let orders = await userHealpers.getAllOrders(req.session.user)
+
+
+  res.render('users/orders',{user: true,
+    userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,orders})
+})
 module.exports = router;

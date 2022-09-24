@@ -1,0 +1,85 @@
+
+
+
+<section class="px-5 pt-5 ">
+
+<div class="table-responsive mt-5">
+  <table class="table table-borderless " id="usertable">
+    <thead class="" >
+      <tr class="border border-1 border-seconday border-start-0 border-end-0">
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">Amount</th>
+        <th scope="col">Method</th>
+        <th scope="col">Status</th>
+        <th scope="col">Action</th>
+
+      </tr>
+    </thead>
+    <tbody>
+   {{#each orders}}
+      <tr>
+        <th scope="row"></th>
+        <td>{{this.date}}</td>
+        <td>{{this.totalPrice}}</td>
+        <td>{{this.paymentMethod}}</td>
+        <td>Order {{this.status}}</td>
+         
+        <td>
+
+               
+
+                   <a data-bs-toggle="modal" data-bs-target="#ModelBlock{{this._id}}" class="btn btn-danger ">View Product</a>
+
+
+    
+           <a data-bs-toggle="modal" data-bs-target="#{{this.name}}Model" class="btn btn-success ">Cancel</a>
+
+
+                   <div class="modal fade" id="{{this.name}}Model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-success" id="exampleModalLabel">Are you sure to Cancel the Order {{this.name}} ?</h5>
+      
+      </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="/admin/Unblock/{{this._id}}" type="button" class="btn btn-success">Confirm</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+          </td>
+          
+      </tr>
+
+{{/each}}
+
+    </tbody>
+  </table>
+</div>
+
+
+
+</section>
+
+
+
+
+<script>
+
+$(document).ready( function () {
+    $('#usertable').DataTable();
+} );
+</script>
+
+
