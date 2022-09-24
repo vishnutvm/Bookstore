@@ -178,7 +178,28 @@ router.get("/place-order", verifyuserlogin, async (req, res) => {
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
     totalPrice: req.session.totalPrice,
+    user:req.session.user
   });
 });
+
+
+// checkout 
+router.post("/place-order",async(req,res)=>{
+  console.log(req.body);
+  // get total price
+  let totalPrice = await userHealpers.getTotalAmount(req.body.userId);
+  // get product
+  let products= await userHealpers.getCartProductList(req.body.userId)
+  // pass form data ,totalprice,product details to place order
+
+  userHealpers.placeOrder(req.body,products,totalPrice).then((response)=>{
+    res.json({status:true})
+  })
+
+
+
+
+
+})
 
 module.exports = router;

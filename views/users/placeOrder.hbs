@@ -4,8 +4,12 @@
         <div class="col-12">
           <div class="card card-registration card-registration-2" style="border-radius: 15px;">
             <div class="card-body p-0">
+
+<form  id="checkout-form">
               <div class="row g-0">
                 
+
+
                 <!-- left side -->
                 <div class="col-lg-8">
                   <div class="p-5">
@@ -20,7 +24,7 @@
          {{!-- adding address entering page --}}
 
 <div class="ml-5 col-md-6">
-      <form class="d-flex aling-item-center flex-column" action="/admin/add-product" method="post"   enctype="multipart/form-data">
+      <div class="d-flex aling-item-center flex-column" >
         
         <input type="text" name="name" class="form-control mb-3" placeholder="Full Name" required>
 
@@ -31,7 +35,7 @@
 
             <input type="text" name="pincode" class="form-control mb-3" placeholder="Pincode" required>
 
-      </form>
+      </div>
     </div>
 
 
@@ -48,6 +52,8 @@
                     </div>
                   </div>
                 </div>
+
+                {{!-- left side --}}
 
                 <!-- right side -->
                 <div class="col-lg-4">
@@ -88,17 +94,20 @@
                           <li class=" d-flex flex-column px-0 mb-3">
                             
                           <div class="form-check">
-  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1"checked>
+  <input class="form-check-input" type="radio" name="paymentMethod" value="cod" id="flexRadioDefault1"checked>
   <label class="form-check-label" for="flexRadioDefault1">
     COD
   </label>
 </div>
 <div class="form-check">
-  <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" >
+  <input class="form-check-input" type="radio" name="paymentMethod" id="flexRadioDefault2" value="onlinePayment" >
   <label class="form-check-label" for="flexRadioDefault2">
    Online Payment
   </label>
 </div>
+
+{{!-- hidden feald to pass user id  --}}
+          <input type="text" name="userId" value="{{user._id}}" hidden>
                             
                           </li>
 
@@ -110,9 +119,9 @@
                          
                         </ul>
                         <div class="button d-grid ">
-                          <a href="/place-order" style="background-color: #eb227ddb;  color: #ffff;" type="submit"  class="btn ">Checkout</a>
+                          <button  style="background-color: #eb227ddb;  color: #ffff;" type="submit"  class="btn ">Checkout</button>
                         </div>
-                      </form>
+                     
                       </div>
                     </div>
                    
@@ -120,7 +129,23 @@
                     <!-- card -->
                   </div>
                 </div>
+                {{!-- right side --}}
+
+
+
+
+
+
+
               </div>
+              
+      
+    
+              </form>
+
+
+
+
             </div>
           </div>
         </div>
@@ -129,3 +154,19 @@
   </section>
 
 
+{{!-- script for sending the form as ajax --}}
+
+<script>
+$("#checkout-form").submit((e)=>{
+  console.log("ajax working")
+  e.preventDefault()
+  $.ajax({
+    url:'/place-order',
+    method:'post',
+    data:$('#checkout-form').serialize(),
+    success:(response)=>{
+      alert(response)
+    }
+  })
+})
+</script>

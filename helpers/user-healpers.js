@@ -314,7 +314,47 @@ quantity = parseInt(details.quantity)
 
       res(grandTotal)  
     })
+  },
+  placeOrder:(orderData,products,totalPrice)=>{
+    return new Promise((res,rej)=>{
+      console.log(orderData,products,totalPrice);
+    let status = orderData.paymentMethod === 'cod'? 'placed' : 'pending';
+    // creating obj for insert in order collection
+    let orderObj ={
+      userId:objectid(orderData.userId),
+      paymentMethod:orderData.paymentMethod,
+      products:products,
+      status:status,
+      totalPrice:totalPrice,
+      deliveryDetails:{
+        name:orderData.name,
+        phone:orderData.phone,
+        address:orderData.address,
+        pincode:orderData.pincode
+      }
+    }
+    db.get().collection(collection.ORDER_COLLECTIONS).insertOne(orderObj).then((response)=>{
+
+      // clearing the cart after the product checkout
+      db.get().collection(collection.CART_COLLECTIONS).deleteOne({user:objectid(orderData.userId)}).then((response)=>{
+        console.log(response)
+      })
+
+      res(response)
+    })
+    })
+    
+
+  },
+  getCartProductList:(userId)=>{
+
+    return new Promise(async(res,rej)=>{
+      let cart= await db.get().collection(collection.CART_COLLECTIONS).findOne({user:objectid(userId)})
+      res(cart.products)
+    })
   }
+
+  
 
 
 };

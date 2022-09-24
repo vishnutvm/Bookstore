@@ -28,3 +28,6 @@ function addTocart(proId) {
   });
 }
 
+
+
+// ajax for sending the checkout form 
