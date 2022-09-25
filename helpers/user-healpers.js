@@ -322,7 +322,7 @@ quantity = parseInt(details.quantity)
     // creating obj for insert in order collection
 
     // getting current time data
-    let date_ob = new Date();
+    let date_ob = new Date(); 
     let date = ("0" + date_ob.getDate()).slice(-2);
     let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
     let year = date_ob.getFullYear();
@@ -378,6 +378,45 @@ quantity = parseInt(details.quantity)
       let orders = await db.get().collection(collection.ORDER_COLLECTIONS).find({userId:objectid(user._id)}).toArray()
       console.log(orders)
       res(orders)
+    })
+  },
+  getOrderdProducts:(orderId)=>{
+    return new Promise(async(res,rej)=>{
+      let orderDetails= await db.get().collection(collection.ORDER_COLLECTIONS).aggregate([
+        {
+          $match:{_id:objectid(orderId)}
+
+        },
+        {
+          $unwind:'$products'
+        }
+        ,{
+          $project:{
+            paymentMethod:1,
+            totalPrice:1,
+            date:1,
+            status:1,
+            deliveryDetails:1,
+            item:'$products.item',
+            quantity:'$products.quantity'
+          }
+        },
+        {
+          $lookup:{
+            from:collection.PRODUCT_COLLECTIONS,
+            localField:'item',
+            foreignField:'_id',
+            as:'product'
+          }
+          
+        },{
+            $project:{
+              item:1,quantity:1,product:{$arrayElemAt:['$product',0]},paymentMethod:1,totalPrice:1,deliveryDetails:1,date:1,status:1
+            }
+          }
+      ]).toArray()
+    
+      res(orderDetails)
     })
   }
 

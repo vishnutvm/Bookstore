@@ -188,6 +188,7 @@ router.post("/place-order",async(req,res)=>{
   console.log(req.body);
   // get total price
   let totalPrice = await userHealpers.getTotalAmount(req.body.userId);
+  
   // get product
   let products= await userHealpers.getCartProductList(req.body.userId)
   // pass form data ,totalprice,product details to place order
@@ -200,7 +201,7 @@ router.post("/place-order",async(req,res)=>{
 
 
 // order success
-router.get("/orderSuccess",async(req,res)=>{
+router.get("/orderSuccess",verifyuserlogin,async(req,res)=>{
   cartCount = await userHealpers.getCartCount(req.session.user._id);
   req.session.cartCount = cartCount;
   res.render('users/orderSuccess',{user: true,
@@ -208,7 +209,7 @@ router.get("/orderSuccess",async(req,res)=>{
 })
 
 
-router.get("/orders",async(req,res)=>{
+router.get("/orders",verifyuserlogin,async(req,res)=>{
 // geting orders form database
 let orders = await userHealpers.getAllOrders(req.session.user)
 
@@ -216,4 +217,29 @@ let orders = await userHealpers.getAllOrders(req.session.user)
   res.render('users/orders',{user: true,
     userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,orders})
 })
+
+
+// view orderded proudcts
+router.get("/view-orderd-products/:id",verifyuserlogin,async(req,res)=>{
+orderId = req.params.id
+  // get total price
+
+await userHealpers.getOrderdProducts(orderId).then((orderDetails)=>{
+console.log(orderDetails)
+totalPrice= orderDetails[0].totalPrice,
+deliveryDetails= orderDetails[0].deliveryDetails,
+CurrentStatus= orderDetails[0].status
+PaymentMethod=orderDetails[0].paymentMethod.toUpperCase()
+CurrentDate = orderDetails[0].date
+console.log(PaymentMethod)
+paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
+
+
+  res.render('users/viewOrderdProducts',{user: true,
+  userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,orderDetails,totalPrice,deliveryDetails,CurrentStatus,PaymentMethod,CurrentDate,paymentStatus})
+})
+})
+
+
+
 module.exports = router;

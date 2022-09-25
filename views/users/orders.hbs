@@ -28,25 +28,24 @@
         <td>
 
                
-
-                   <a data-bs-toggle="modal" data-bs-target="#ModelBlock{{this._id}}" class="btn btn-danger ">View Product</a>
-
-
-    
-           <a data-bs-toggle="modal" data-bs-target="#{{this.name}}Model" class="btn btn-success ">Cancel</a>
+{{!-- view the products which orderd --}}
+                   <a  href="/view-orderd-products/{{this._id}}" class="btn btn-success mb-1">View Product</a>
+          
+          {{!-- cancel the order --}}
+           <a data-bs-toggle="modal" data-bs-target="#{{this.name}}Model" class="btn btn-danger ">Cancel</a>
 
 
                    <div class="modal fade" id="{{this.name}}Model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-success" id="exampleModalLabel">Are you sure to Cancel the Order {{this.name}} ?</h5>
+        <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure to Cancel the Order {{this.name}} ?</h5>
       
       </div>
   
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="/admin/Unblock/{{this._id}}" type="button" class="btn btn-success">Confirm</a>
+        <a href="/admin/Unblock/{{this._id}}" type="button" class="btn btn-danger">Confirm</a>
       </div>
     </div>
   </div>
