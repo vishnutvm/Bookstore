@@ -198,13 +198,17 @@ router.post("/place-order",async(req,res)=>{
 
     if(req.body['paymentMethod'] ==='cod'){
            res.json({codSuccess:true})
-    }else{
+    }else if(req.body['paymentMethod'] ==='razorpay'){
     console.log("Genarating razorpay")
-    userHealpers.generateRazorpay(orderId,totalPrice).then((response)=>{
-      console.log("the respose is printing in admin .sj")
-      console.log(response)
-      res.json(response)
+    userHealpers.generateRazorpay(orderId,totalPrice).then((order)=>{
+      console.log("the respose is printing in admin.sj")
+      console.log(order)
+      res.json({order,razorpay:true})
     })
+    }else if(req.body['paymentMethod'] ==='paypal'){
+     console.log("paypal")
+
+
     }
 
   })

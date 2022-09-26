@@ -446,7 +446,7 @@ quantity = parseInt(details.quantity)
         }else{
          
            console.log(order);
-        res(order )
+        res(order)
         }
        
       });

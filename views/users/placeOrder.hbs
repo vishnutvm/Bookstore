@@ -95,17 +95,41 @@
                           
                           <li class=" d-flex flex-column px-0 mb-3">
                             
-                          <div class="form-check">
+                          <div class="form-check" >
   <input class="form-check-input" type="radio" name="paymentMethod" value="cod" id="flexRadioDefault1"checked>
-  <label class="form-check-label" for="flexRadioDefault1">
+  <label  class="form-check-label" for="flexRadioDefault1">
     COD
   </label>
 </div>
-<div class="form-check">
-  <input class="form-check-input" type="radio" name="paymentMethod" id="flexRadioDefault2" value="onlinePayment" >
+
+   <h6 style="text-a
+   lign: center;" class="my-1  ">Online Payment</h6>
+
+<div class="form-check onlinePaymentOt">
+
+
+
+<div class="row">
+  <div class="col-md-6">
+    <input class="form-check-input" type="radio" name="paymentMethod" id="flexRadioDefault2" value="razorpay" >
   <label class="form-check-label" for="flexRadioDefault2">
-   Online Payment
+   Razorpay
   </label>
+</div>
+  <div class="col-md-6">
+    <input class="form-check-input" type="radio" name="paymentMethod" id="flexRadioDefault2" value="paypal" >
+  <label class="form-check-label" for="flexRadioDefault2">
+   Paypal
+  </label>
+</div>
+
+
+</div>
+
+
+
+
+
 </div>
 
 {{!-- hidden feald to pass user id  --}}
@@ -177,9 +201,9 @@ $("#checkout-form").submit((e)=>{
       if(response.codSuccess){
      console.log("COD working")
         location.href='/orderSuccess'
-      }else{
+      }else if(response.razorpay){
         console.log("online working")
-        razorpayPayment(response)
+        razorpayPayment(response.order)
       }
     }
   })
@@ -233,3 +257,8 @@ function RazoverifyPayment(payment,order){
   })
 }
 </script>
+
+
+<style>
+
+</style>
