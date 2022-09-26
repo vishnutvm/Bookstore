@@ -253,4 +253,18 @@ router.get("/delete-subCategory/:id", (req, res) => {
   });
 });
 
+// Orders listing
+
+router.get("/orders",(req,res)=>{
+ adminhelpers.getAllOrders().then((allOrders)=>{
+res.render("admin/vew-orders",{ admin: true, adminLogin: adminLogin,allOrders})
+})
+ })
+
+router.get("/view-order-details/:id",(req,res)=>{
+  
+})
+
+  
+
 module.exports = router;

@@ -25,5 +25,21 @@ module.exports = {
                 resolve(response)
             })
         })
-    }
+    },
+    getAllOrders:()=>{
+        return new Promise(async(res,rej)=>{
+            let allOrders = await db.get().collection(collection.ORDER_COLLECTIONS).aggregate([
+                {
+                    $lookup:{
+                        from:collection.USER_COLLECTIONS,
+                        localField:'userId',
+                        foreignField:'_id',
+                        as:'users'
+                      }
+                }
+            ]).toArray()
+            console.log(allOrders.users)
+            res(allOrders)
+        })
+        }
 }

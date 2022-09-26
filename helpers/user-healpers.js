@@ -332,7 +332,7 @@ quantity = parseInt(details.quantity)
     let minutes = date_ob.getMinutes();
 
       // settig current time
-     let currentTime = (year + "-" + month + "-" + date + "," + hours + ":" + minutes + " " + AmOrPm);
+     let currentTime = (year + "-" + month + "-" + date + " / " + hours + ":" + minutes + " " + AmOrPm);
   
 
 
