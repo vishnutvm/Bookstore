@@ -199,7 +199,7 @@ router.post("/place-order",async(req,res)=>{
     if(req.body['paymentMethod'] ==='cod'){
            res.json({codSuccess:true})
     }else{
-    console.log("user side else is working")
+    console.log("Genarating razorpay")
     userHealpers.generateRazorpay(orderId,totalPrice).then((response)=>{
       console.log("the respose is printing in admin .sj")
       console.log(response)
@@ -252,7 +252,9 @@ paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
 })
 })
 
-router.post("/verify-payment",(req,res)=>{
+// razorpay payment system
+
+router.post("/razo-verify-payment",(req,res)=>{
   console.log(req.body)
   userHealpers.verifyPayment(req.body).then(()=>{
     userHealpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
@@ -264,6 +266,8 @@ router.post("/verify-payment",(req,res)=>{
     res.json({status:false})
   })
 })
+
+
 
 
 

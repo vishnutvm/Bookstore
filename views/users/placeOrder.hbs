@@ -175,10 +175,10 @@ $("#checkout-form").submit((e)=>{
       console.log("The response")
       console.log(response)
       if(response.codSuccess){
-        console.log("this feald working")
+     console.log("COD working")
         location.href='/orderSuccess'
       }else{
-        console.log("else is working")
+        console.log("online working")
         razorpayPayment(response)
       }
     }
@@ -195,10 +195,7 @@ var options = {
     "image": "/images/logo.png",
     "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
     "handler": function (response){
-        alert(response.razorpay_payment_id);
-        alert(response.razorpay_order_id);
-        alert(response.razorpay_signature);
-        verifyPayment(response,order)
+        RazoverifyPayment(response,order)
     },
     "prefill": {
         "name": "BookStore",
@@ -218,9 +215,9 @@ var rzp1 = new Razorpay(options);
 }
 
 
-function verifyPayment(payment,order){
+function RazoverifyPayment(payment,order){
   $.ajax({
-    url:'/verify-payment',
+    url:'/razo-verify-payment',
     data:{
       payment,
       order

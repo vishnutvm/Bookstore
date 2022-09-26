@@ -441,10 +441,10 @@ quantity = parseInt(details.quantity)
       console.log("options"+options)
       instance.orders.create(options, function(err, order) {
         if(err){
-          console.log("This is errr")
+         
           console.log(err)
         }else{
-          console.log("This is working")
+         
            console.log(order);
         res(order )
         }
