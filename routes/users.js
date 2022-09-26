@@ -193,8 +193,17 @@ router.post("/place-order",async(req,res)=>{
   let products= await userHealpers.getCartProductList(req.body.userId)
   // pass form data ,totalprice,product details to place order
 
-  userHealpers.placeOrder(req.body,products,totalPrice).then((response)=>{
-    res.json({status:true})
+  userHealpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
+
+    if(req.body['paymentMethod'] ==='cod'){
+           res.json({codSuccess:true})
+    }else{
+    
+    userHealpers.generateRazorpay(orderId,totalPrice).then((response)=>{
+      res.json(response)
+    })
+    }
+
   })
 })
 
@@ -238,6 +247,13 @@ paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
   res.render('users/viewOrderdProducts',{user: true,
   userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,orderDetails,totalPrice,deliveryDetails,CurrentStatus,PaymentMethod,CurrentDate,paymentStatus})
 })
+})
+
+router.post("/verify-payment",(req,res)=>{
+  console.log(req.body)
+  userHealpers.verifyPayment(req.body).then(()=>{
+    
+  })
 })
 
 

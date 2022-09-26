@@ -10,6 +10,14 @@ const objectid = require("mongodb").ObjectId;
 const client = require('twilio')(accountSID,authToken)
 const bcrypt = require("bcrypt");
 
+// rasopay 
+const Razorpay = require('razorpay');
+
+var instance = new Razorpay({
+  key_id: "rzp_test_iuxZcw2GsP7kC4",
+  key_secret:"oq5x15xdQVJG05DyZUcLQa4q" ,
+});
+
 module.exports = {
   doSignup: (userData) => {
     return new Promise(async (res, rej) => {
@@ -358,8 +366,9 @@ quantity = parseInt(details.quantity)
       db.get().collection(collection.CART_COLLECTIONS).deleteOne({user:objectid(orderData.userId)}).then((response)=>{
         console.log(response)
       })
-
-      res(response)
+      console.log("the order id")
+      console.log(response)
+      res(response.insertedId)
     })
     })
     
@@ -417,6 +426,35 @@ quantity = parseInt(details.quantity)
       ]).toArray()
     
       res(orderDetails)
+    })
+  },
+  generateRazorpay:(orderId,totalprice)=>{
+    console.log("Total price"+totalprice)
+    return new Promise((res,rej)=>{
+
+      var options = {
+        amount: totalprice,  // amount in the smallest currency unit
+        currency: "INR",
+        // the receipt must be string and amount must be int so for converting the orderId to string easly - attached to a string(The order id use here only for making unique id)
+        receipt: ""+orderId
+      };
+      instance.orders.create(options, function(err, order) {
+        if(err){
+          console.log(err)
+        }else{
+           console.log(order);
+        res(order )
+        }
+       
+      });
+
+
+    })
+  },
+  verifyPayment:(details)=>{
+    return new Promise((res,rej)=>{
+      const crypto = require('crypto')
+    
     })
   }
 

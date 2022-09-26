@@ -1,3 +1,5 @@
+
+
   <section class="h-100 h-custom">
     <div class="container py-3 h-100">
       <div class="row d-flex justify-content-center align-items-center h-100">
@@ -153,6 +155,9 @@
     </div>
   </section>
 
+  
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 
 {{!-- script for sending the form as ajax --}}
 
@@ -166,10 +171,58 @@ $("#checkout-form").submit((e)=>{
     data:$('#checkout-form').serialize(),
     success:(response)=>{
       alert(response)
-      if(response.status){
+      console.log(response)
+      if(response.codSuccess){
         location.href='/orderSuccess'
+      }else{
+        console.log("else is working")
+        razorpayPayment(response)
       }
     }
   })
 })
+
+function razorpayPayment(order){
+var options = {
+    "key": "rzp_test_iuxZcw2GsP7kC4", // Enter the Key ID generated from the Dashboard
+    "amount":order.amount , // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+    "currency": "INR",
+    "name": "BookStore",
+    "description": "Test Transaction",
+    "image": "/images/logo.png",
+    "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+    "handler": function (response){
+        alert(response.razorpay_payment_id);
+        alert(response.razorpay_order_id);
+        alert(response.razorpay_signature);
+        verifyPayment(response,order)
+    },
+    "prefill": {
+        "name": "BookStore",
+        "email": "bookstorer@example.com",
+        "contact": "+91 893212"
+    },
+    "notes": {
+        "address": "Bookstore ltd Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+    rzp1.open();
+
+}
+
+
+function verifyPayment(payment,order){
+  $.ajax({
+    url:'/verify-payment',
+    data:{
+      payment,
+      order
+    },
+    method:'post'
+  })
+}
 </script>
