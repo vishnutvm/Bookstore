@@ -169,6 +169,7 @@ router.get("/remove-product", (req, res, next) => {
 
 //order page
 router.get("/place-order", verifyuserlogin, async (req, res) => {
+  console.log("enterd in")
   // changed total price in the session for render new updated price in the cart
   let totalPrice = await userHealpers.getTotalAmount(req.session.user._id);
   req.session.totalPrice = totalPrice;
@@ -198,8 +199,10 @@ router.post("/place-order",async(req,res)=>{
     if(req.body['paymentMethod'] ==='cod'){
            res.json({codSuccess:true})
     }else{
-    
+    console.log("user side else is working")
     userHealpers.generateRazorpay(orderId,totalPrice).then((response)=>{
+      console.log("the respose is printing in admin .sj")
+      console.log(response)
       res.json(response)
     })
     }
@@ -252,7 +255,13 @@ paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
 router.post("/verify-payment",(req,res)=>{
   console.log(req.body)
   userHealpers.verifyPayment(req.body).then(()=>{
-    
+    userHealpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+    console.log("payment success")
+      res.json({status:true})
+    })
+  }).catch((err)=>{
+    console.log(err)
+    res.json({status:false})
   })
 })
 

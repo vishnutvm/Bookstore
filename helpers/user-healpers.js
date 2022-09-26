@@ -15,7 +15,7 @@ const Razorpay = require('razorpay');
 
 var instance = new Razorpay({
   key_id: "rzp_test_iuxZcw2GsP7kC4",
-  key_secret:"oq5x15xdQVJG05DyZUcLQa4q" ,
+  key_secret:"oq5x15xdQVJG05DyZUcLQa4q",
 });
 
 module.exports = {
@@ -433,15 +433,18 @@ quantity = parseInt(details.quantity)
     return new Promise((res,rej)=>{
 
       var options = {
-        amount: totalprice,  // amount in the smallest currency unit
+        amount: totalprice*100,  // amount in the smallest currency unit
         currency: "INR",
         // the receipt must be string and amount must be int so for converting the orderId to string easly - attached to a string(The order id use here only for making unique id)
         receipt: ""+orderId
       };
+      console.log("options"+options)
       instance.orders.create(options, function(err, order) {
         if(err){
+          console.log("This is errr")
           console.log(err)
         }else{
+          console.log("This is working")
            console.log(order);
         res(order )
         }
@@ -452,10 +455,34 @@ quantity = parseInt(details.quantity)
     })
   },
   verifyPayment:(details)=>{
+    console.log("enterd to verification")
     return new Promise((res,rej)=>{
       const crypto = require('crypto')
+    let hmac = crypto.createHmac('sha256','oq5x15xdQVJG05DyZUcLQa4q')
     
+    hmac.update(details['payment[razorpay_order_id]'] + '|' + details['payment[razorpay_payment_id]'])
+    hmac = hmac.digest('hex')
+    if (hmac == details['payment[razorpay_signature]']) {
+      console.log('mached')
+      res()
+  }
+  else {
+      console.log('not mached')
+      rej()
+  }
     })
+  },
+  changePaymentStatus:(orderId)=>{
+    return new Promise((res,rej)=>{
+       db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectid(orderId)},{
+      $set:{
+        status:'placed'
+      }
+    }).then(()=>{
+      res()
+    })
+    })
+   
   }
 
   

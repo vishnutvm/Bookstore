@@ -157,6 +157,7 @@
 
   
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 
 
 {{!-- script for sending the form as ajax --}}
@@ -171,8 +172,10 @@ $("#checkout-form").submit((e)=>{
     data:$('#checkout-form').serialize(),
     success:(response)=>{
       alert(response)
+      console.log("The response")
       console.log(response)
       if(response.codSuccess){
+        console.log("this feald working")
         location.href='/orderSuccess'
       }else{
         console.log("else is working")
@@ -200,7 +203,7 @@ var options = {
     "prefill": {
         "name": "BookStore",
         "email": "bookstorer@example.com",
-        "contact": "+91 893212"
+        "contact": "+91 7306162979"
     },
     "notes": {
         "address": "Bookstore ltd Office"
@@ -222,7 +225,14 @@ function verifyPayment(payment,order){
       payment,
       order
     },
-    method:'post'
+    method:'post',
+    success:(response)=>{
+      if(response.status){
+          location.href='/orderSuccess'
+      }else{
+        alert("payment faild")
+      }
+    }
   })
 }
 </script>
