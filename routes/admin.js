@@ -285,6 +285,43 @@ paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
 
 })
 
-  
+  // changing order status
+
+  router.get("/statusToPacking/:id",(req,res)=>{
+    console.log("packing is working")
+    const orderId = req.params.id
+   adminhelpers.satusToPacking(orderId).then((response)=>{
+      console.log(response)
+      res.redirect("/admin/orders")
+    })
+  })
+
+
+
+  router.get("/statusToShipped/:id",(req,res)=>{
+    console.log("shippped is working")
+    const orderId = req.params.id
+   adminhelpers.satusToShipped(orderId).then((response)=>{
+      console.log(response)
+      res.redirect("/admin/orders")
+    })
+  })
+  router.get("/statusToDeliverd/:id",(req,res)=>{
+    console.log("delivery is working")
+    const orderId = req.params.id
+   adminhelpers.satusToDelivered(orderId).then((response)=>{
+      console.log(response)
+      res.redirect("/admin/orders")
+    })
+  })
+
+  router.get("/cancelOrder/:id",(req,res)=>{
+    const orderId = req.params.id
+    adminhelpers.cancelOrder(orderId).then((response)=>{
+      console.log(response)
+      res.redirect("/admin/orders")
+    })
+  })
+
 
 module.exports = router;

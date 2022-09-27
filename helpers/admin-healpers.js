@@ -41,5 +41,51 @@ module.exports = {
             console.log(allOrders.users)
             res(allOrders)
         })
+        },
+        satusToPacking:(orderId)=>{
+            return new Promise((res,rej)=>{
+                db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},{
+               $set:{
+                 status:'Packing'
+               }
+             }).then(()=>{
+               res()
+             })
+             })
+        },
+        satusToShipped:(orderId)=>{
+            return new Promise((res,rej)=>{
+                db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},{
+               $set:{
+                 status:'Shipped'
+               }
+             }).then(()=>{
+               res()
+             })
+             })
+        },
+        satusToDelivered:(orderId)=>{
+            return new Promise((res,rej)=>{
+                db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},{
+               $set:{
+                 status:'Delivered'
+               }
+             }).then(()=>{
+               res()
+             })
+             })
+        },
+        cancelOrder:(orderId)=>{
+            return new Promise((res,rej)=>{
+                db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectId(orderId)},{
+               $set:{
+                 status:'Cancelled By Seller'
+               }
+             }).then(()=>{
+               res()
+             })
+             })
+
         }
+
 }

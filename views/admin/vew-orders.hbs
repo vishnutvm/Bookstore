@@ -55,16 +55,42 @@
    Change Status
   </a>
   <ul class="dropdown-menu " style="z-index: 1;"> 
-    <li ><a class="dropdown-item" href="changeOrder">Order Placed</a></li>
-    <li><a class="dropdown-item" href="">Order Deliverd</a></li>
-    <li><a class="dropdown-item" href="">Order Shipped</a></li>
-    <li><a class="dropdown-item" href="">Order Canceld</a></li>
+
+
+    <li>
+      <a class="dropdown-item"  href="/admin/statusToPacking/{{this._id}}">Order Packing</a>
+      </li>
+    <li><a class="dropdown-item"  href="/admin/statusToShipped/{{this._id}}">Order Shipped</a></li>
+
+    <li><a class="dropdown-item" href="/admin/statusToDeliverd/{{this._id}}">Order Deliverd</a></li>
+    
 
   </ul>
 </div>
 
             <a  href="/admin/view-order-details/{{this._id}}" class="btn btn-success mb-1">View Detaills</a>
-            
+
+                {{!-- <a  href="/admin/view-order-details/{{this._id}}" class="btn btn-danger mb-1">Cancel Order</a> --}}
+                  <a data-bs-toggle="modal" data-bs-target="#ModeladminCancel{{this._id}}" class="btn btn-danger ">Cancel Order</a>
+
+
+
+
+                   <div class="modal fade" id="ModeladminCancel{{this._id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure to Cancel the Order?</h5>
+      
+      </div>
+  
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <a href="/admin/cancelOrder/{{this._id}}" type="button" class="btn btn-danger">Conform</a>
+      </div>
+    </div>
+  </div>
+</div>
 
 
           </td>
