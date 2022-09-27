@@ -135,6 +135,14 @@ router.post("/user_registration", (req, res) => {
 
 // cart
 
+router.get("/product-details/:id",(req,res)=>{
+  const id = req.params.id;
+productHelpers.getProductDetails(id)
+
+
+})
+
+
 router.get("/cart", verifyuserlogin, async (req, res) => {
   let totalPrice = await userHealpers.getTotalAmount(req.session.user._id);
   req.session.totalPrice = totalPrice;
