@@ -81,7 +81,7 @@ router.post("/user_signin", async (req, res) => {
 
 router.get("/otp", (req, res) => {
   // hard setting for dev mod need to remove
-  req.session.userLoggin = true;
+  // req.session.userLoggin = true;
 
   res.header(
     "Cache-control",
@@ -361,8 +361,8 @@ router.post("/paypal-payment", (req, res) => {
         "payment_method": "paypal"
     },
     "redirect_urls": {
-        "return_url": "http://localhost:4000/paypal-payment/success",
-        "cancel_url": "http://localhost:4000/paypal-payment/cancel"
+        "return_url": "http://localhost:3000/paypal-payment/success",
+        "cancel_url": "http://localhost:3000/paypal-payment/cancel"
     },
     "transactions": [{
         "item_list": {
