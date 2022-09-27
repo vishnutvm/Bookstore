@@ -189,7 +189,7 @@
 <script>
 $("#checkout-form").submit((e)=>{
   console.log("ajax working")
-  e.preventDefault()
+  e.preventDefault()  
   $.ajax({
     url:'/place-order',
     method:'post',
@@ -204,11 +204,43 @@ $("#checkout-form").submit((e)=>{
       }else if(response.razorpay){
         console.log("online working")
         razorpayPayment(response.order)
-      }
+      }else{
+      console.log("calling the paypal")
+     paypalPayment(response.totalPrice,response.orderId)
+
+
+
+      } 
     }
   })
 })
 
+function paypalPayment(totalPrice,orderId){
+  console.log("calling the paypal")
+
+ $.ajax({
+    url:'/paypal-payment',
+    data:{
+      totalPrice,
+      orderId
+
+    },
+    method:'post',
+    success:(response)=>{
+      console.log(response)
+      location.href=response.forwardLink
+
+      {{!-- if(response.status){
+          location.href='/orderSuccess'
+      }else{
+        alert("payment faild")
+      } --}}
+
+
+    }
+  })
+}
+    
 function razorpayPayment(order){
 var options = {
     "key": "rzp_test_iuxZcw2GsP7kC4", // Enter the Key ID generated from the Dashboard
@@ -256,6 +288,7 @@ function RazoverifyPayment(payment,order){
     }
   })
 }
+
 </script>
 
 

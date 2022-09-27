@@ -10,6 +10,20 @@ const objectid = require("mongodb").ObjectId;
 const client = require('twilio')(accountSID,authToken)
 const bcrypt = require("bcrypt");
 
+
+// paypal
+// const paypal = require('paypal-rest-sdk');
+ 
+// paypal.configure({
+
+
+//   'mode': 'sandbox', //sandbox or live
+//   'client_id': 'AUMW-aazthVYZUjcjvCRbCZMO1pR0D13gMD_WwL7AgdEIKoTILry3B9rQGzOtZrhqlQZPcYnLD-Vuixu',
+//   'client_secret': 'EPOay6fgqj301VsRw7Gw27GWFPcUpj5ugz-eBSY9MHPvwiyJLk4nvYStQK60m3LjUzaWlsc1O4b57FdH'
+// });
+
+
+
 // rasopay 
 const Razorpay = require('razorpay');
 
@@ -441,7 +455,6 @@ quantity = parseInt(details.quantity)
       console.log("options"+options)
       instance.orders.create(options, function(err, order) {
         if(err){
-         
           console.log(err)
         }else{
          
@@ -484,6 +497,54 @@ quantity = parseInt(details.quantity)
     })
    
   }
+//   ,generatePaypalPay:(totalprice)=>{
+// console.log("gen paypal working")
+//     return new Promise((res,rej)=>{
+//         const create_payment_json = {
+//           "intent": "sale",
+//           "payer": {
+//               "payment_method": "paypal"
+//           },
+//           "redirect_urls": {
+//               "return_url": "http://localhost:3000/success",
+//               "cancel_url": "http://localhost:3000/cancel"
+//           },
+//           "transactions": [{
+//               "item_list": {
+//                   "items": [{
+//                       "name": "Vishhnu",
+//                       "sku": "001",
+//                       "price": totalprice.toString(),
+//                       "currency": "USD",
+//                       "quantity": 1
+//                   }]
+//               },
+//               "amount": {
+//                   "currency": "USD",
+//                   "total": totalprice.toString()
+//               },
+//               "description": "Get best books Here"
+//           }]
+//       };
+      
+//       paypal.payment.create(create_payment_json, function (error, payment) {
+//         if (error) {
+//             throw error;
+//         } else {
+//             for(let i = 0;i < payment.links.length;i++){
+//               if(payment.links[i].rel === 'approval_url'){
+//                 res.redirect(payment.links[i].href);
+//               }
+//             }
+//         }
+//       });
+      
+  
+//     }).then((status)=>{
+//       console.log(status)
+//       res()
+//     })
+//   }
 
   
 
