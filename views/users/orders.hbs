@@ -32,20 +32,20 @@
                    <a  href="/view-orderd-products/{{this._id}}" class="btn btn-success mb-1">View Detaills</a>
           
           {{!-- cancel the order --}}
-           <a data-bs-toggle="modal" data-bs-target="#{{this.name}}Model" class="btn btn-danger ">Cancel</a>
+           <a data-bs-toggle="modal" data-bs-target="#ModelCancel{{this._id}}" class="btn btn-danger ">Cancel</a>
 
 
-                   <div class="modal fade" id="{{this.name}}Model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                   <div class="modal fade" id="ModelCancel{{this._id}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure to Cancel the Order {{this.name}} ?</h5>
+        <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure to Cancel the Order?</h5>
       
       </div>
   
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="/admin/Unblock/{{this._id}}" type="button" class="btn btn-danger">Confirm</a>
+        <a href="/cancelOrder/{{this._id}}" type="button" class="btn btn-danger">Conform</a>
       </div>
     </div>
   </div>

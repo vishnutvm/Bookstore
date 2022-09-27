@@ -253,6 +253,14 @@ let orders = await userHealpers.getAllOrders(req.session.user)
     userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,orders})
 })
 
+router.get("/cancelOrder/:id",(req,res)=>{
+  const orderId = req.params.id
+  userHealpers.cancelOrder(orderId).then((response)=>{
+    console.log(response)
+    res.redirect("/orders")
+  })
+})
+
 
 // view orderded proudcts
 router.get("/view-orderd-products/:id",verifyuserlogin,async(req,res)=>{
@@ -289,6 +297,10 @@ router.post("/razo-verify-payment",(req,res)=>{
     res.json({status:false})
   })
 })
+
+
+// cancel the order
+
 
 
 // router.post('/paypal-payment', (req, res) => {

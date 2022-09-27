@@ -496,7 +496,22 @@ quantity = parseInt(details.quantity)
     })
     })
    
+  },
+  cancelOrder:(orderId)=>{
+    return new Promise((res,rej)=>{
+      db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectid(orderId)},{
+     $set:{
+       status:'Cancelled By Customer'
+     }
+   }).then(()=>{
+     res()
+   })
+   })
   }
+
+
+
+
 //   ,generatePaypalPay:(totalprice)=>{
 // console.log("gen paypal working")
 //     return new Promise((res,rej)=>{

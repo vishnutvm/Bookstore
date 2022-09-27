@@ -1,0 +1,156 @@
+<div class="container-fluid">
+
+<div class="container">
+  <!-- Title -->
+  <div class="d-flex justify-content-between align-items-center py-3">
+    {{!-- <h2 class="h5 mb-0"><a href="#" class="text-muted"></a> Order #16123222</h2> --}}
+  </div>
+
+  <!-- Main content -->
+  <div class="row">
+    <div class="col-lg-8">
+      <!-- Details -->
+      <div class="card mb-4"  style=" box-shadow: 0px 4px 31px 14px rgba(0, 0, 0, 0.05);">
+        <div class="card-body">
+          <div class="mb-3 d-flex justify-content-between">
+            <div>
+              <span class="me-3">{{CurrentDate}}</span>
+              <span class="me-3  text-success">{{PaymentMethod}}</span>
+              <span class="badge rounded-pill bg-info">{{CurrentStatus}}</span>
+            </div>
+
+
+            {{!-- invoice downloading  --}}
+            {{!-- <div class="d-flex">
+              <button class="btn btn-link p-0 me-3 d-none d-lg-block btn-icon-text"><i class="bi bi-download"></i> <span class="text">Invoice</span></button>
+            </div> --}}
+          </div>
+          <table class="table table-borderless table-sm ">
+            <tbody>
+
+
+{{!-- looping the order data --}}
+
+{{#each orderDetails }}
+              <tr>
+                <th></th>
+            
+                <td>
+                  <div class="d-flex mb-2">
+                    <div class="flex-shrink-0" style="width: 35px;height:35px">
+                      {{!-- <img src="http://localhost:4000/product-images/632ac3d0623fb7eb8e2f927f.jpg" alt="" width="100" height="100" class="img-fluid"> --}}
+                         <img class="img-fluid" src="/product-images/{{this.product._id}}.jpg" alt="image">
+                    </div>
+                    <div class="flex-lg-grow-1 ms-3">
+                      <h6 class="small mb-0"><a href="#" class="text-reset">{{this.product.name}}</a><span href="#" class="small" style="font-weight: normal;"> - {{this.product.authname}}</span></h6>
+                      <span class="small">{{this.product.category}} - {{this.product.subcategory}}</span>
+                    </div>
+                  </div>
+                </td>
+                <td>x   {{this.quantity}}</td>
+        
+
+                <td class="text-end">${{this.product.price}}</td>
+              </tr>
+
+
+{{/each}}
+
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="2">Subtotal</td>
+                <td class="text-end">{{totalPrice}}</td>
+              
+              </tr>
+              <tr>
+                <td colspan="2">Shipping</td>
+                <td class="text-end">Free</td>
+              </tr>
+              {{!-- <tr>
+                <td colspan="2">Discount (Code: NEWYEAR)</td>
+                <td class="text-danger text-end">-$10.00</td>
+              </tr> --}}
+              <tr class="fw-bold">
+                <td colspan="2">TOTAL</td>
+                <td class="text-end">{{totalPrice}}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+      <!-- Payment -->
+      <div class="card mb-4" style=" box-shadow: 0px 4px 31px 14px rgba(0, 0, 0, 0.05);">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg-6">
+              <h3 class="h6">Payment Method</h3>
+              <p>{{PaymentMethod}} <br>
+              Total: ${{totalPrice}}
+              {{!-- payement status --}}
+              <span style="text-transform: uppercase" class="badge bg-success rounded-pill">{{paymentStatus}}</span>
+              
+              </p>
+            </div>
+            <div class="col-lg-6">
+              <h3 class="h6">Billing address</h3>
+              <address>
+                <strong>{{deliveryDetails.name}}</strong><br>
+                {{deliveryDetails.address}}<br>
+                {{deliveryDetails.pincode}}<br>
+                <a title="Phone">Ph:</a> {{deliveryDetails.phone}}
+              </address>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-4">
+  
+      <div class="card mb-4"  style=" box-shadow: 0px 4px 31px 14px rgba(0, 0, 0, 0.05);">
+        <!-- Shipping information -->
+        <div class="card-body">
+          <h3 class="h6">Shipping Information</h3>
+          {{!-- <strong>FedEx</strong>
+          <span><a href="#" class="text-decoration-underline" target="_blank">FF1234567890</a> <i class="bi bi-box-arrow-up-right"></i> </span> --}}
+          <hr>
+          <h3 class="h6">Address</h3>
+          <address>
+                <strong>{{deliveryDetails.name}}</strong><br>
+                {{deliveryDetails.address}}<br>
+                {{deliveryDetails.pincode}}<br>
+                <a title="Phone">Ph:</a> {{deliveryDetails.phone}}
+              </address>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  </div>
+
+
+  <style>
+
+.card {
+    box-shadow: 0 20px 27px 0 rgba(228, 221, 221, 0.05);
+}
+.card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: 1rem;
+}
+{{!-- .text-reset {
+    --bs-text-opacity: 1;
+    color: inherit!important;
+} --}}
+a {
+    color: #5465ff;
+    text-decoration: none;
+}
+  </style>

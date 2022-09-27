@@ -1,6 +1,7 @@
 const express = require("express");
 const adminhelpers = require("../helpers/admin-healpers");
 const productHelpers = require("../helpers/product-helpers");
+const userHealpers = require("../helpers/user-healpers");
 const router = express.Router();
 
 /* GET home page. */
@@ -261,8 +262,27 @@ res.render("admin/vew-orders",{ admin: true, adminLogin: adminLogin,allOrders})
 })
  })
 
-router.get("/view-order-details/:id",(req,res)=>{
-  
+router.get("/view-order-details/:id",async(req,res)=>{
+  orderId = req.params.id
+  // get total price
+
+await userHealpers.getOrderdProducts(orderId).then((orderDetails)=>{
+
+console.log(orderDetails)
+totalPrice= orderDetails[0].totalPrice,
+deliveryDetails= orderDetails[0].deliveryDetails,
+CurrentStatus= orderDetails[0].status
+PaymentMethod=orderDetails[0].paymentMethod.toUpperCase()
+CurrentDate = orderDetails[0].date
+console.log(PaymentMethod)
+paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
+
+
+  res.render('admin/view-order-details',{admin: true,
+    adminLogin: adminLogin,orderDetails,totalPrice,deliveryDetails,CurrentStatus,PaymentMethod,CurrentDate,paymentStatus})
+})
+
+
 })
 
   
