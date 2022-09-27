@@ -81,7 +81,7 @@ router.post("/user_signin", async (req, res) => {
 
 router.get("/otp", (req, res) => {
   // hard setting for dev mod need to remove
-  // req.session.userLoggin = true;
+  req.session.userLoggin = true;
 
   res.header(
     "Cache-control",
@@ -135,9 +135,17 @@ router.post("/user_registration", (req, res) => {
 
 // cart
 
-router.get("/product-details/:id",(req,res)=>{
+router.get("/product-details/:id", async(req,res)=>{
   const id = req.params.id;
-productHelpers.getProductDetails(id)
+await productHelpers.getProductDetails(id).then((productDetails)=>{
+res.render("users/expand-product",{
+      user: true,
+  userLoggin: req.session.userLoggin,
+  productDetails
+
+})
+})
+
 
 
 })

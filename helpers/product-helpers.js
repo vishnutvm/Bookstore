@@ -136,5 +136,17 @@ module.exports = {
         });
     });
   },
+  getProductDetails:(proId)=>{
+    return new Promise(async(res,rej)=>{
+      let ProductDetails = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTIONS)
+      .findOne({ _id: objectid(proId)})
+      res(ProductDetails)
+    
+    })
+
+
+  }
 
 };
