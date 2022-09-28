@@ -1,12 +1,13 @@
-<div class="wrapper" style="height: 80vh; display: flex; align-items: center; justify-content: center;">
+<div class="wrapper" >
   <div class="container mt-5 mb-5">
-    <div class="row d-flex justify-content-center align-item-center">
+    <div class="row d-flex justify-content-center align-items-center">
       <div class="col-md-12">
-        <div class="card">
-          <div class="row">
-            <div class="col-md-3 ">
-              <div class="images">
-                <div class="text-center" style="width: 250px;">
+        <div class="card mt-4">
+          <div class="row mt-5" style="display: flex;
+    align-items: center;">
+            <div class="col-md-4 ">
+              <div class="images ">
+                <div class="text-center" style="width: 250px;margin:auto" >
                   <img id="main-image" src="/product-images/{{productDetails._id}}.jpg" alt="image" width="100%" />
                 </div>
 
@@ -36,10 +37,10 @@
                 <p style="line-height: 35px;" class="about">{{productDetails.discription}}</p>
 
                 <div class="cart mt-4 align-items-center d-flex gap-4">
-                  <button style="background-color: #f36d98;color: #fff;" class="btn  text-uppercase mr-2 px-4">Add to
-                    Wishlist</button>
-                  <button style="background-color: #4D98AD;color: #fff;" class="btn  text-uppercase mr-2 px-4">Add to
-                    cart</button>
+                  <a style="background-color: #f36d98;color: #fff;" class="btn  text-uppercase mr-2 px-4">Add to
+                    Wishlist</a>
+                  <a onclick="addTocart('{{productDetails._id}}')" style="background-color: #4D98AD;color: #fff;" class="btn  text-uppercase mr-2 px-4">Add to
+                    cart</a>
 
                 </div>
               </div>

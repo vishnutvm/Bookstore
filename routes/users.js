@@ -135,12 +135,20 @@ router.post("/user_registration", (req, res) => {
 
 router.get("/product-details/:id", async(req,res)=>{
   const id = req.params.id;
+  if(req.session.userLoggin){
+    cartCount = await userHealpers.getCartCount(req.session.user._id);
+    req.session.cartCount = cartCount;
+  }
+
 await productHelpers.getProductDetails(id).then((productDetails)=>{
+
+
 res.render("users/expand-product",{
       user: true,
   userLoggin: req.session.userLoggin,
-  productDetails
-
+  productDetails,
+  
+cartCount:req.session.cartCount
 })
 })
 
@@ -328,8 +336,8 @@ router.post("/paypal-payment", (req, res) => {
         "payment_method": "paypal"
     },
     "redirect_urls": {
-        "return_url": "http://localhost:3000/paypal-payment/success",
-        "cancel_url": "http://localhost:3000/paypal-payment/cancel"
+        "return_url": "http://localhost:4000/paypal-payment/success",
+        "cancel_url": "http://localhost:4000/paypal-payment/cancel"
     },
     "transactions": [{
         "item_list": {
