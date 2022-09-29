@@ -33,7 +33,7 @@ router.get("/", async function (req, res, next) {
 
   productHelpers.getAllProduct().then((products) => {
     console.log(req.session.userLoggin);
-    res.render("users/view-product", {
+    res.render("users/home", {
       user: true,
       userLoggin: req.session.userLoggin,
       products,
