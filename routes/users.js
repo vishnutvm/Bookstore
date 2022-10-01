@@ -255,6 +255,7 @@ router.post("/place-order",async(req,res)=>{
   
   // get product
   let products= await userHealpers.getCartProductList(req.body.userId)
+
   // pass form data ,totalprice,product details to place order
 
   userHealpers.placeOrder(req.body,products,totalPrice).then((orderId)=>{
@@ -269,7 +270,8 @@ router.post("/place-order",async(req,res)=>{
       res.json({order,razorpay:true})
     })
     }else{
- console.log("redirceing to genarate paypal section")
+      console.log("redirceing to genarate paypal section")
+
 console.log(totalPrice)
       // generatePaypalPay(totalPrice)
       res.json({totalPrice,paypal:true,orderId})
@@ -340,13 +342,22 @@ paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
 router.post("/razo-verify-payment",(req,res)=>{
   console.log(req.body)
   userHealpers.verifyPayment(req.body).then(()=>{
-    userHealpers.changePaymentStatus(req.body['order[receipt]']).then(()=>{
+    currectStatus='placed'
+    
+    userHealpers.changePaymentStatus(req.body['order[receipt]'],currectStatus).then(()=>{
     console.log("payment success")
       res.json({status:true})
     })
   }).catch((err)=>{
-    console.log(err)
-    res.json({status:false})
+console.log(err)
+    currectStatus='Payment Not Compleeted'
+    
+    userHealpers.changePaymentStatus(req.body['order[receipt]'],currectStatus).then(()=>{
+    console.log("paymement not compeeeet")
+    res.json({status:false}) 
+     })
+ 
+    
   })
 })
 
@@ -356,7 +367,8 @@ router.post("/razo-verify-payment",(req,res)=>{
 
 router.post("/paypal-payment", (req, res) => {
   console.log(req.body)
-  // let totalPrice = req.body.totalPrice;
+  let totalPrice = req.body.totalPrice;
+  req.session.totalPrice=totalPrice
   let orderId =  req.body.orderId
   req.session.user.orderId= orderId
   console.log("the paypal is started to worki")
@@ -374,14 +386,14 @@ router.post("/paypal-payment", (req, res) => {
             "items": [{
                 "name": "Red Sox Hat",
                 "sku": "001",
-                "price": "25.00",
+                "price": ""+totalPrice,
                 "currency": "USD",
-                "quantity": 1
+                "quantity":1
             }]
         },
         "amount": {
             "currency": "USD",
-            "total": "25.00"
+            "total": ""+totalPrice
         },
         "description": "Hat for the best team ever"
     }]
@@ -400,10 +412,9 @@ paypal.payment.create(create_payment_json, function (error, payment) {
  {
       for(let i = 0;i < payment.links.length;i++){
         if(payment.links[i].rel === 'approval_url'){
-          // res.redirect(payment.links[i].href)
-
           res.json({forwardLink: payment.links[i].href});
-           
+          
+          
         }
       }
   }
@@ -415,15 +426,17 @@ paypal.payment.create(create_payment_json, function (error, payment) {
 
 
 router.get("/paypal-payment/success", (req, res) => {
+
   const payerId = req.query.PayerID;
   const paymentId = req.query.paymentId;
+  const totalPrice = req.session.totalPrice
 const orderId= req.session.user.orderId
   const execute_payment_json = {
     "payer_id": payerId,
     "transactions": [{
         "amount": {
             "currency": "USD",
-            "total": "25.00"
+            "total": ""+totalPrice
         }
     }]
   };
@@ -434,26 +447,29 @@ const orderId= req.session.user.orderId
         throw error;
     } else {
       console.log("this pay ment final")
-console.log(payment.transactions[0])
-console.log(payment.transactions[0].amount)
-
-      userHealpers.changePaymentStatus(orderId).then(()=>{
+      currectStatus='placed'
+      userHealpers.changePaymentStatus(orderId,currectStatus).then(()=>{
         console.log("payment success")
-          // res.json({status:true})
-          console.log(JSON.stringify(payment));
-        res.render("users/orderSuccess"); 
-        })
-
-      
-        console.log(JSON.stringify(payment));
         res.render("users/orderSuccess");
+        })
         
         
     }
     
 });
+
 });
 
-router.get("/paypal-payment/cancel", (req, res) => res.send('{Payment Cancelled'));
+router.get("/paypal-payment/cancel",(req,res)=>{
+  // need to replace with the currect payment cancelled notification
+  res.send("payment cancelled")
+  const orderId= req.session.user.orderId
+  currectStatus='Payment Not Compleeted'
+    
+  userHealpers.changePaymentStatus(orderId,currectStatus).then(()=>{
+  console.log("paymement not compeeeet")
+  res.json({status:false}) 
+})
+})
 
 module.exports = router;

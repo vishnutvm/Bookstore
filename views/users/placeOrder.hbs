@@ -204,7 +204,7 @@ $("#checkout-form").submit((e)=>{
       }else if(response.razorpay){
         console.log("online working")
         razorpayPayment(response.order)
-      }else if{
+      }else{
       console.log("calling the paypal")
      paypalPayment(response.totalPrice,response.orderId)
 
@@ -222,7 +222,7 @@ function paypalPayment(totalPrice,orderId){
     url:'/paypal-payment',
     data:{
       totalPrice,
-      orderId
+      orderId,
 
     },
     method:'post',
@@ -283,6 +283,9 @@ function RazoverifyPayment(payment,order){
       if(response.status){
           location.href='/orderSuccess'
       }else{
+
+       // need to render payment faild page
+         location.reload()
         alert("payment faild")
       }
     }

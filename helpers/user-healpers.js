@@ -485,11 +485,11 @@ quantity = parseInt(details.quantity)
   }
     })
   },
-  changePaymentStatus:(orderId)=>{
+  changePaymentStatus:(orderId,currectStatus)=>{
     return new Promise((res,rej)=>{
        db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectid(orderId)},{
       $set:{
-        status:'placed'
+        status:currectStatus
       }
     }).then(()=>{
       res()
