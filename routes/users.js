@@ -1,8 +1,10 @@
 const express = require("express");
 const productHelpers = require("../helpers/product-helpers");
 const userHealpers = require("../helpers/user-healpers");
+const adminHealpers = require('../helpers/admin-healpers')
 const router = express.Router();
 const paypal = require('paypal-rest-sdk');
+
  
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
@@ -30,6 +32,34 @@ router.get("/", async function (req, res, next) {
     cartCount = await userHealpers.getCartCount(req.session.user._id);
     req.session.cartCount = cartCount;
   }
+  const carousels=await adminHealpers.getCarousel()
+  const homeCategory=await  adminHealpers.getHomeCategory()
+  const trendingProduct = await adminHealpers.getTrending();
+
+  
+
+
+    console.log(req.session.userLoggin);
+    res.render("users/home", {
+      user: true,
+      userLoggin: req.session.userLoggin,
+      carousels,
+      cartCount,
+      homeCategory,
+      trendingProduct
+    });
+
+});
+
+
+router.get("/explore-all",async(req,res)=>{
+
+
+  let cartCount = 0;
+  if (req.session.userLoggin) {
+    cartCount = await userHealpers.getCartCount(req.session.user._id);
+    req.session.cartCount = cartCount;
+  }
 
   productHelpers.getAllProduct().then((products) => {
     console.log(req.session.userLoggin);
@@ -37,11 +67,12 @@ router.get("/", async function (req, res, next) {
       user: true,
       userLoggin: req.session.userLoggin,
       products,
-      cartCount,
+      cartCount
     });
   });
-});
 
+
+})
 router.get("/user_signin", (req, res) => {
   if (req.session.userLoggin) {
     res.redirect("/");

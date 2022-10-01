@@ -256,72 +256,142 @@ router.get("/delete-subCategory/:id", (req, res) => {
 
 // Orders listing
 
-router.get("/orders",(req,res)=>{
- adminhelpers.getAllOrders().then((allOrders)=>{
-res.render("admin/vew-orders",{ admin: true, adminLogin: adminLogin,allOrders})
-})
- })
+router.get("/orders", (req, res) => {
+  adminhelpers.getAllOrders().then((allOrders) => {
+    res.render("admin/vew-orders", {
+      admin: true,
+      adminLogin: adminLogin,
+      allOrders,
+    });
+  });
+});
 
-router.get("/view-order-details/:id",async(req,res)=>{
-  orderId = req.params.id
+router.get("/view-order-details/:id", async (req, res) => {
+  orderId = req.params.id;
   // get total price
 
-await userHealpers.getOrderdProducts(orderId).then((orderDetails)=>{
+  await userHealpers.getOrderdProducts(orderId).then((orderDetails) => {
+    console.log(orderDetails);
+    (totalPrice = orderDetails[0].totalPrice),
+      (deliveryDetails = orderDetails[0].deliveryDetails),
+      (CurrentStatus = orderDetails[0].status);
+    PaymentMethod = orderDetails[0].paymentMethod.toUpperCase();
+    CurrentDate = orderDetails[0].date;
+    console.log(PaymentMethod);
+    paymentStatus = PaymentMethod == "COD" ? "pending" : "paid";
 
-console.log(orderDetails)
-totalPrice= orderDetails[0].totalPrice,
-deliveryDetails= orderDetails[0].deliveryDetails,
-CurrentStatus= orderDetails[0].status
-PaymentMethod=orderDetails[0].paymentMethod.toUpperCase()
-CurrentDate = orderDetails[0].date
-console.log(PaymentMethod)
-paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
+    res.render("admin/view-order-details", {
+      admin: true,
+      adminLogin: adminLogin,
+      orderDetails,
+      totalPrice,
+      deliveryDetails,
+      CurrentStatus,
+      PaymentMethod,
+      CurrentDate,
+      paymentStatus,
+    });
+  });
+});
 
+// changing order status
 
-  res.render('admin/view-order-details',{admin: true,
-    adminLogin: adminLogin,orderDetails,totalPrice,deliveryDetails,CurrentStatus,PaymentMethod,CurrentDate,paymentStatus})
-})
+router.get("/statusToPacking/:id", (req, res) => {
+  console.log("packing is working");
+  const orderId = req.params.id;
+  adminhelpers.satusToPacking(orderId).then((response) => {
+    console.log(response);
+    res.redirect("/admin/orders");
+  });
+});
 
+router.get("/statusToShipped/:id", (req, res) => {
+  console.log("shippped is working");
+  const orderId = req.params.id;
+  adminhelpers.satusToShipped(orderId).then((response) => {
+    console.log(response);
+    res.redirect("/admin/orders");
+  });
+});
+router.get("/statusToDeliverd/:id", (req, res) => {
+  console.log("delivery is working");
+  const orderId = req.params.id;
+  adminhelpers.satusToDelivered(orderId).then((response) => {
+    console.log(response);
+    res.redirect("/admin/orders");
+  });
+});
 
-})
+router.get("/cancelOrder/:id", (req, res) => {
+  const orderId = req.params.id;
+  adminhelpers.cancelOrder(orderId).then((response) => {
+    console.log(response);
+    res.redirect("/admin/orders");
+  });
+});
 
-  // changing order status
+router.get("/edit-page", async (req, res) => {
+  const carousels = await adminhelpers.getCarousel();
+  const homeCategory = await adminhelpers.getHomeCategory();
+  const trendingProduct = await adminhelpers.getTrending();
 
-  router.get("/statusToPacking/:id",(req,res)=>{
-    console.log("packing is working")
-    const orderId = req.params.id
-   adminhelpers.satusToPacking(orderId).then((response)=>{
-      console.log(response)
-      res.redirect("/admin/orders")
-    })
-  })
+  const AllCategory = await productHelpers.getAllCategory();
+  const AllProductList = await productHelpers.getAllProduct();
+  console.log(carousels);
 
+  res.render("admin/edit", {
+    admin: true,
+    adminLogin: adminLogin,
+    carousels,
+    AllCategory,
+    AllProductList,
+    homeCategory,
+    trendingProduct,
+  });
+});
 
+router.get("/addcarousel", (req, res) => {
+  res.render("admin/add-carousel", {
+    admin: true,
+    adminLogin: adminLogin,
+    modelJqury: true,
+  });
+});
 
-  router.get("/statusToShipped/:id",(req,res)=>{
-    console.log("shippped is working")
-    const orderId = req.params.id
-   adminhelpers.satusToShipped(orderId).then((response)=>{
-      console.log(response)
-      res.redirect("/admin/orders")
-    })
-  })
-  router.get("/statusToDeliverd/:id",(req,res)=>{
-    console.log("delivery is working")
-    const orderId = req.params.id
-   adminhelpers.satusToDelivered(orderId).then((response)=>{
-      console.log(response)
-      res.redirect("/admin/orders")
-    })
-  })
+router.post("/addcarousel", (req, res) => {
+  adminhelpers.addCarousel(req.body).then((response) => {
+    const id = response.toString();
 
-  router.get("/cancelOrder/:id",(req,res)=>{
-    const orderId = req.params.id
-    adminhelpers.cancelOrder(orderId).then((response)=>{
-      console.log(response)
-      res.redirect("/admin/orders")
-    })
-  })
+    if (req.files) {
+      let image = req.files.image;
+      console.log(image);
+      image.mv("./public/carousel-images/" + id + ".jpg");
+    }
 
+    res.redirect("/admin/edit-page");
+  });
+});
+
+// delete the caursol
+
+router.get("/Delete-caursol/:id", (req, res) => {
+  const caursolId = req.params.id;
+  adminhelpers.deleteCaursol(caursolId).then((response) => {
+    res.redirect("/admin/edit-page");
+  });
+});
+
+// add category to home page by admin
+router.post("/addCategoryToHome", (req, res) => {
+  adminhelpers.addCategoryTohome(req.body).then((response) => {
+    res.redirect("/admin/edit-page");
+  });
+});
+
+router.post("/addTrendingProducts", (req, res) => {
+  adminhelpers.addTrendingProducts(req.body).then((response) => {
+    res.redirect("/admin/edit-page");
+  });
+});
 
 module.exports = router;

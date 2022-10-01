@@ -1,0 +1,376 @@
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/dist/virtual-select.min.css" />
+
+
+
+
+<div class="admin-home-edit-wrapper my-3">
+  <section class="home_banner admin-side-banner">
+    <div
+      id="carouselExampleIndicators"
+      class="carousel slide"
+      data-bs-ride="true"
+    >
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="0"
+          class="active"
+          aria-current="true"
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#carouselExampleIndicators"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        {{#each carousels}}
+          <div class="carousel-item active text-center">
+
+            <img
+              src="/carousel-images/{{this._id}}.jpg"
+              class="d-block w-100"
+              alt="carousel image"
+            />
+          </div>
+
+        {{/each}}
+      </div>
+      <button
+        class="carousel-control-prev"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="carousel-control-next"
+        type="button"
+        data-bs-target="#carouselExampleIndicators"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </section>
+</div>
+
+<div class="table-of-content mb-5">
+
+  <section class="px-5 pt-5">
+
+    <a href="/admin/addcarousel" class="btn btn-primary mb-2">Add carousel</a>
+
+    <div class="table-responsive mt-5">
+      <table class="table table-borderless" id="usertable">
+        <thead class="">
+          <tr
+            class="border border-1 border-seconday border-start-0 border-end-0"
+          >
+            <th scope="col">No</th>
+            <th scope="col">Photo</th>
+            <th scope="col">Name</th>
+            <th scope="col">Action</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {{#each carousels}}
+            <tr>
+              <th scope="row"></th>
+              <td><div style="width: 390px; height:110px">
+
+                  <img
+                    style="width:100%; height:100%; object-fit: cover"
+                    src="/carousel-images/{{this._id}}.jpg"
+                    alt="product"
+                  />
+                </div>
+
+              </td>
+              <td>{{this.name}}</td>
+
+              <td>
+
+                <a
+                  data-bs-toggle="modal"
+                  data-bs-target="#deleteModel{{this._id}}"
+                  class="btn btn-success"
+                >Delete</a>
+
+                <div
+                  class="modal fade"
+                  id="deleteModel{{this._id}}"
+                  tabindex="-1"
+                  aria-labelledby="exampleModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5
+                          class="modal-title text-success"
+                          id="exampleModalLabel"
+                        >Are you sure to Delete {{this.name}} ?</h5>
+
+                      </div>
+
+                      <div class="modal-footer">
+                        <button
+                          type="button"
+                          class="btn btn-secondary"
+                          data-bs-dismiss="modal"
+                        >Cancel</button>
+                        <a
+                          href="/admin/Delete-caursol/{{this._id}}"
+                          type="button"
+                          class="btn btn-success"
+                        >Delete</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </td>
+
+            </tr>
+          {{/each}}
+
+        </tbody>
+      </table>
+    </div>
+
+  </section>
+</div>
+<br />
+<hr />
+<br />
+<div class="category-wrapper">
+
+  <section class="category my-2 ">
+
+<div class="wrapper" >
+  <div class="row col-md-4" style="margin:auto ;" >
+
+
+
+    <form action="/admin/addCategoryToHome" method="post">
+   
+<div style="min-width: 30vw;" class=" select_menu_wrapper">
+
+  <div id="select_category" class="my-3">
+	<label>Select Category</label>
+
+	<select id="multi_option" multiple name="options" placeholder="Native Select" >
+    {{#each AllCategory}}
+	  <option selected value="{{this.name}}">{{this.name}}</option>
+    {{/each}}
+	</select>
+</div>
+
+
+
+    <div style="margin:auto ;" class="add_btn col-md-2">
+      <button type="submit"   class="btn btn-primary mb-2" id="disabled" >Conform</a>
+    </div>
+
+</div>
+
+
+
+</form>
+
+
+
+</div>
+</div>
+
+    
+
+
+
+
+
+    <div class="heading">
+      <h2 class="my-4">Edit category</h2>
+    </div>
+    <div class="align-center-wrapper my-3">
+      <div class="card-wrapper">
+{{#each homeCategory}}
+        <div class="category-card card-3">
+          <p class="card-text">{{this.category}}</p>
+        </div>
+{{/each}}
+      </div>
+
+    </div>
+
+  </section>
+</div>
+<br>
+<hr>
+<br>
+
+
+{{!-- trending product section --}}
+
+<div class="trending">
+  <section class="trending">
+
+
+{{!-- select option --}}
+
+    <form class="px-2" action="/admin/addTrendingProducts" method="post">
+   
+<div style="min-width: 30vw;" class=" select_menu_wrapper">
+
+  <div id="select_category" class="my-3">
+	<label>Select Trending Product</label>
+
+	<select id="multi_option" multiple name="options" placeholder="Native Select" >
+    {{#each AllProductList}}
+	  <option selected value="{{this._id}}">{{this.name}}</option>
+    {{/each}}
+	</select>
+  
+</div>
+
+
+
+    <div style="margin:auto ;" class="add_btn col-md-2">
+      <button type="submit"   class="btn btn-primary mb-2" id="disabled" >Conform</a>
+    </div>
+
+</div>
+
+
+
+</form>
+{{!-- select option end --}}
+
+    <div class="trending-wrapper">
+        <div class="produdt-card-wrapper">
+            <section class="section-products">
+                <div class="container">
+                  <div class="row justify-content-center text-center">
+                    <div class="col-md-8 col-lg-6">
+                      <div class="header">
+                       
+                        <h2 class="my-2">Trending</h2>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+
+{{#each trendingProduct}}
+{{#each this.product}}
+                    <div class="col-md-6 col-lg-4 col-xl-3">
+                      <div id="product-1" class="single-product">
+                        <div class="part-1">
+                          <div  class="div product-img-wrap">
+                                  <img class="img-fluid"    src="/product-images/{{this._id}}.jpg" alt="image">
+                          </div>
+                          {{!-- <ul>
+
+                            <li >
+                          
+                              <a  onclick="addTocart('{{this._id}}')" ><i class="fas fa-shopping-cart"></i></a>
+              
+                    
+                              </li>
+
+                            <li><a href="#"><i  class="fas fa-heart"></i></a></li>
+
+                            <li>
+              
+                              <a href="#"><i class="fas fa-expand"></i></a>
+                              
+                              </li>
+                          </ul> --}}
+                        </div>
+                        <div class="part-2 text-center">
+                          <h3 class="product-title ">{{this.name}}</h3>
+                    
+                          <p>-By {{this.authname}}</p>
+                          <div id="cover">
+                             <h4 class="product-old-price ">500.99</h4>
+                          <h4 class="product-price ">{{this.price}}</h4>
+                          <h4 class="product-offer">(10% off)</h4>
+                          </div>
+                         
+                        </div>
+                      </div>
+                    </div>
+                    {{/each}}
+{{/each}}
+
+                    
+                  </div>
+                </div>
+              </section>
+        </div>
+    </div>
+</section>
+</div>
+
+{{!-- tending product section --}}
+
+
+
+
+
+
+
+<script src="/dist/virtual-select.js"></script>
+
+<script>
+
+
+  $(document).ready( function () { $('#usertable').DataTable(); } );
+
+  	VirtualSelect.init({ 
+	  ele: '#multi_option'
+    
+	});
+
+
+
+
+</script>
+
+<style>
+  .admin-home-edit-wrapper{ width: 100%; } .admin-side-banner{ width: 75vw;
+  margin: auto; }
+ #multi_option{
+	max-width: 100%;
+	width: 350px;
+}
+ #select_category label{
+	display:block;
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+.vscomp-toggle-button{
+	padding: 10px 30px 10px 10px;
+	border-radius: 5px;
+}
+
+
+
+
+
+</style>
