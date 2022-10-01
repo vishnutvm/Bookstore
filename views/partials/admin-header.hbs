@@ -1,58 +1,50 @@
-    <header id="admin-header">
-       
-      <nav>
-         <div class="nav-leftside">
-          <a href="/admin">  <img src="/images/logo.png" alt="images"></a>
-   
-        </div>
+<header id="admin-header">
 
+  <nav>
+    <div class="nav-leftside">
+      <a href="/admin"> <img src="/images/logo.png" alt="images" /></a>
 
-  {{#if adminLogginPage}}
-   
-          <h5 class="admin-panel-text">Adminpanel &nbsp;&nbsp;</h5>
-          
-  {{else}}
+    </div>
 
-            <div  class="menu">
-               <ul>
-    
-                <li  ><a  href="/admin">Dashbord</a></li>
-                <li><a href="/admin/product">Products</a></li>
+    {{#if adminLogginPage}}
 
+      <h5 class="admin-panel-text">Adminpanel &nbsp;&nbsp;</h5>
 
+    {{else}}
 
+      <div class="menu">
+        <ul>
 
-                <li><a href="/admin/orders">Orders</a></li>
-                <li><a href="/admin/users">Users</a></li>
-             
-               </ul>
-            </div>
+          <li><a href="/admin">Dashbord</a></li>
+          <li><a href="/admin/product">Products</a></li>
 
-               <div  class=" login-btn">
-            <a href="/admin/adminLogout" type="button" class="btn nav-btn">Logout</a>
-          </div>
+          <li><a href="/admin/orders">Orders</a></li>
+          <li><a href="/admin/users">Users</a></li>
+          <li><a href="/admin/edit-page">Home</a></li>  
 
-{{/if}}
+        </ul>
+      </div>
 
+      <div class="login-btn">
+        <a
+          href="/admin/adminLogout"
+          type="button"
+          class="btn nav-btn"
+        >Logout</a>
+      </div>
 
-      </nav>
-    </header>
+    {{/if}}
 
+  </nav>
+</header>
 
-{{!-- for toglle the color of menu items on click --}}
-    <script>
+{{! for toglle the color of menu items on click }}
+<script>
 
-      var list = document.querySelectorAll(".menu > ul > li > a ")
+  var list = document.querySelectorAll(".menu > ul > li > a ") for(i in list){
+  list[i].addEventListener("click",function(){ var prevselected =
+  document.querySelectorAll(".active"); if(prevselected.length > 0){
+  prevselected[0].className = prevselected[0].className.replace("active","") }
+  this.className += "active" }) }
 
-for(i in list){
-list[i].addEventListener("click",function(){
-    var prevselected = document.querySelectorAll(".active");
-if(prevselected.length > 0){
-    prevselected[0].className = prevselected[0].className.replace("active","")
-}
-  this.className += "active"
-})
-}
-
-
-    </script>
+</script>

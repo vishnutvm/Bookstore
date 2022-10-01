@@ -13,15 +13,11 @@
           <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
         </div>
         <div class="carousel-inner">
+{{#each carousels}}
           <div class="carousel-item active">
-            <img src="https://dcbookstore.com/uploads/homeslider/images/33925196356396-DEAL-OF-THE-DAY-29-sep.jpg" class="d-block w-100" alt="...">
+            <img    src="/carousel-images/{{this._id}}.jpg" class="d-block w-100" alt="...">
           </div>
-          <div class="carousel-item">
-            <img src="https://dcbookstore.com/uploads/homeslider/images/6749186310964-online-store-banner-50-.jpg" class="d-block w-100" alt="...">
-          </div>
-          <div class="carousel-item">
-            <img src="https://dcbookstore.com/uploads/homeslider/images/6749186310964-online-store-banner-50-.jpg" class="d-block w-100" alt="...">
-          </div>
+      {{/each}}
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -47,23 +43,11 @@
     </div>
     <div class="align-center-wrapper my-3">
         <div class="card-wrapper">
-
+{{#each homeCategory}}
         <div class="category-card card-1">
-<p class="card-text">Tech</p>
+<p class="card-text">{{this.category}}</p>
         </div>
-        <div class="category-card card-1">
-<p class="card-text">Tech</p>
-        </div>
-
-        <div class="category-card card-2">
-<p class="card-text">Tech</p>
-        </div>
-        <div class="category-card card-3">
-<p class="card-text">Tech</p>
-        </div>
-        <div class="category-card card-4">
-<p class="card-text">Tech</p>
-        </div>
+{{/each}}
 
     </div> 
     </div>
@@ -73,7 +57,7 @@
 
 <!-- explore more btn -->
 <section class="view-all-product">
-    <a  href="" class="btn btn-rounded ">Exlpore All</a>
+    <a  href="/explore-all" class="btn btn-rounded ">Exlpore All</a>
 </section>
 <!-- explore more btn ends -->
 
@@ -95,13 +79,13 @@
                   </div>
                   <div class="row">
               
-              
-
+              {{#each trendingProduct}}
+{{#each this.product}}
                     <div class="col-md-6 col-lg-4 col-xl-3">
                       <div id="product-1" class="single-product">
                         <div class="part-1">
                           <div class="div product-img-wrap">
-                                  <img class="img-fluid" src="https://dcbookstore.com/uploads/product/images/96973386288608-vyaja-sakyangal.jpg" alt="image">
+                                  <img class="img-fluid"  src="/product-images/{{this._id}}.jpg" alt="image">
                           </div>
                           <ul>
 
@@ -116,139 +100,25 @@
 
                             <li>
               
-                              <a href="image/book-1.png"><i class="fas fa-expand"></i></a>
+                           <a href="/product-details/{{this._id}}"><i class="fas fa-expand"></i></a>
                               
                               </li>
                           </ul>
                         </div>
                         <div class="part-2 text-center">
-                          <h3 class="product-title ">Book name</h3>
-                    
-                          <p>-By vishnu</p>
+                           <h3 class="product-title ">{{this.name}}</h3>
+                       <p>-By {{this.authname}}</p>
                           <div id="cover">
                              <h4 class="product-old-price ">500.99</h4>
-                          <h4 class="product-price ">800</h4>
+                       <h4 class="product-price ">{{this.price}}</h4>
                           <h4 class="product-offer">(10% off)</h4>
                           </div>
                          
                         </div>
                       </div>
                     </div>
-
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                      <div id="product-1" class="single-product">
-                        <div class="part-1">
-                          <div   class="div product-img-wrap">
-                                  <img class="img-fluid" src="https://dcbookstore.com/uploads/product/images/96973386288608-vyaja-sakyangal.jpg" alt="image">
-                          </div>
-                          <ul>
-
-                            <li >
-                          
-                              <a  onclick="addTocart('{{this._id}}')" ><i class="fas fa-shopping-cart"></i></a>
-              
-                    
-                              </li>
-
-                            <li><a href="#"><i  class="fas fa-heart"></i></a></li>
-
-                            <li>
-              
-                              <a href="image/book-1.png"><i class="fas fa-expand"></i></a>
-                              
-                              </li>
-                          </ul>
-                        </div>
-                        <div class="part-2 text-center">
-                          <h3 class="product-title ">Book name</h3>
-                    
-                          <p>-By vishnu</p>
-                          <div id="cover">
-                             <h4 class="product-old-price ">500.99</h4>
-                          <h4 class="product-price ">800</h4>
-                          <h4 class="product-offer">(10% off)</h4>
-                          </div>
-                         
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                      <div id="product-1" class="single-product">
-                        <div class="part-1">
-                          <div  class="div product-img-wrap">
-                                  <img class="img-fluid" src="https://dcbookstore.com/uploads/product/images/96973386288608-vyaja-sakyangal.jpg" alt="image">
-                          </div>
-                          <ul>
-
-                            <li >
-                          
-                              <a  onclick="addTocart('{{this._id}}')" ><i class="fas fa-shopping-cart"></i></a>
-              
-                    
-                              </li>
-
-                            <li><a href="#"><i  class="fas fa-heart"></i></a></li>
-
-                            <li>
-              
-                              <a href="image/book-1.png"><i class="fas fa-expand"></i></a>
-                              
-                              </li>
-                          </ul>
-                        </div>
-                        <div class="part-2 text-center">
-                          <h3 class="product-title ">Book name</h3>
-                    
-                          <p>-By vishnu</p>
-                          <div id="cover">
-                             <h4 class="product-old-price ">500.99</h4>
-                          <h4 class="product-price ">800</h4>
-                          <h4 class="product-offer">(10% off)</h4>
-                          </div>
-                         
-                        </div>
-                      </div>
-                    </div>
-
-                    <div class="col-md-6 col-lg-4 col-xl-3">
-                      <div id="product-1" class="single-product">
-                        <div class="part-1">
-                          <div  class="div product-img-wrap">
-                                  <img class="img-fluid" src="https://dcbookstore.com/uploads/product/images/96973386288608-vyaja-sakyangal.jpg" alt="image">
-                          </div>
-                          <ul>
-
-                            <li >
-                          
-                              <a  onclick="addTocart('{{this._id}}')" ><i class="fas fa-shopping-cart"></i></a>
-              
-                    
-                              </li>
-
-                            <li><a href="#"><i  class="fas fa-heart"></i></a></li>
-
-                            <li>
-              
-                              <a href="image/book-1.png"><i class="fas fa-expand"></i></a>
-                              
-                              </li>
-                          </ul>
-                        </div>
-                        <div class="part-2 text-center">
-                          <h3 class="product-title ">Book name</h3>
-                    
-                          <p>-By vishnu</p>
-                          <div id="cover">
-                             <h4 class="product-old-price ">500.99</h4>
-                          <h4 class="product-price ">800</h4>
-                          <h4 class="product-offer">(10% off)</h4>
-                          </div>
-                         
-                        </div>
-                      </div>
-                    </div>
-
+                    {{/each}}
+{{/each}}
 
                     
                   </div>
@@ -414,8 +284,6 @@
 
 
 </div>
-
-
 
 
 

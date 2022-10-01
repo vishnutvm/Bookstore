@@ -345,8 +345,11 @@ height: 100%;
 
 @media screen and (max-width:600px) {
     #admin-header .menu ul{
-        gap: 1rem;
+        gap: 10px;
      
+    }
+    #admin-header .menu ul li{
+font-size: 14px;
     }
     nav .nav-leftside{
         width: 5rem;
@@ -439,7 +442,7 @@ gap: 3rem;
 }
 .card-wrapper .category-card .card-text{
     color: #ffff;
-    font-size: 1.75rem;
+    font-size: 1.50rem;
 }
 
 @media screen and (max-width:1024px) {
@@ -448,7 +451,7 @@ gap: 3rem;
     height: 110px;
 }
 .card-wrapper .category-card .card-text{
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 }
 .category .card-wrapper{
     gap: 2rem;
@@ -525,6 +528,8 @@ gap: 3rem;
 
 }
 /* product ends */
+
+
 
 
 
