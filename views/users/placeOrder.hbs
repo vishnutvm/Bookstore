@@ -204,7 +204,7 @@ $("#checkout-form").submit((e)=>{
       }else if(response.razorpay){
         console.log("online working")
         razorpayPayment(response.order)
-      }else{
+      }else if{
       console.log("calling the paypal")
      paypalPayment(response.totalPrice,response.orderId)
 

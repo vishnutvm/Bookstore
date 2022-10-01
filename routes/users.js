@@ -269,8 +269,7 @@ router.post("/place-order",async(req,res)=>{
       res.json({order,razorpay:true})
     })
     }else{
-      console.log("redirceing to genarate paypal section")
-
+ console.log("redirceing to genarate paypal section")
 console.log(totalPrice)
       // generatePaypalPay(totalPrice)
       res.json({totalPrice,paypal:true,orderId})
