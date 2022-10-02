@@ -35,13 +35,27 @@ var adminLogin;
 // };
 
 // admin page
-router.get("/", verifyAdminLogin, function (req, res, next) {
+router.get("/", verifyAdminLogin, async function (req, res, next) {
 
-// redering sales report 
+// // redering sales report 
+const SalesReport = await adminhelpers.getMonthSalesReport()
+const ProductReport = await adminhelpers.getProductReport()
+const totalProducts = await adminhelpers.getTotalProducts()
+const totalOrders = await adminhelpers.getTotalOrders()
+
+let totalsales=0
+SalesReport.forEach((doc)=>{
+totalsales += doc.totalSalesAmount
+})
 
 
 
-  res.render("admin/dashbord", { admin: true, adminLogginPage: false });
+
+  res.render("admin/dashbord", {
+     admin: true,
+      adminLogginPage: false,
+      SalesReport,totalsales,ProductReport,totalProducts,totalOrders
+     });
 });
 
 // admin loggin

@@ -129,7 +129,6 @@ module.exports = {
     console.log(carouselData);
     return new Promise(async (res, rej) => {
       await db
-        .get()
         .collection(collection.CAROUSEL_COLLECTIONS)
         .insertOne(carouselData)
         .then((response) => {
@@ -261,4 +260,95 @@ if(products.options == ''){
       res(trending)
     });
   },
+  getMonthSalesReport:()=>{
+    currentYear = new Date().getFullYear()
+    return new Promise(async(res,rej)=>{
+      let SalesReport =await db.get().collection(collection.ORDER_COLLECTIONS).aggregate([
+       
+          {
+            $match : { "CurrentDate": { $gte: new Date (`${currentYear}-01-01`), $lt: new Date(`${currentYear+1}-01-01`) } }        
+            },
+            {
+              $group:{
+                _id :  "$currentMonth",
+                totalSalesAmount:{$sum:"$totalPrice"},
+                count:{$sum:1}
+              }
+            }
+        
+      ]).toArray()
+
+res(SalesReport)
+
+    })
+  },
+  getProductReport:()=>{
+    currentYear = new Date().getFullYear()
+    return new Promise(async(res,rej)=>{
+      let ProductReport =await db.get().collection(collection.ORDER_COLLECTIONS).aggregate([
+       
+          {
+            $match : { "CurrentDate": { $gte: new Date (`${currentYear}-01-01`), $lt: new Date(`${currentYear+1}-01-01`) } }        
+            },
+            {
+              $unwind:'$products'
+            },
+            {
+              $project:{
+                item:'$products.item',
+                quantity:'$products.quantity'
+              }
+            },
+            {
+              $group:{
+                _id :  "$item",
+                totalSaledProduct:{$sum:"$quantity"},
+              }
+            },
+            {
+              $lookup:{
+                from:collection.PRODUCT_COLLECTIONS,
+                localField:'_id',
+                foreignField:'_id',
+                as:'product'
+              }
+            },
+            {
+              $unwind:'$product'
+            },
+            {
+              $project:{
+                name:'$product.name',
+                totalSaledProduct:1,
+                _id:1
+              }
+            },
+            
+
+
+        
+      ]).toArray()
+console.log(ProductReport)
+res(ProductReport)
+
+    })
+  },
+  getTotalProducts:()=>{
+    return new Promise(async(res,rej)=>{
+     let totalProduct =await db.get().collection(collection.PRODUCT_COLLECTIONS).count()
+
+     res(totalProduct)
+    })
+  
+  },
+  getTotalOrders:()=>{
+    return new Promise(async(res,rej)=>{
+     let totalOrders =await db.get().collection(collection.ORDER_COLLECTIONS).count()
+
+     res(totalOrders)
+    })
+  
+  }
+
+  
 };

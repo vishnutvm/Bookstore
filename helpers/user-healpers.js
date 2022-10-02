@@ -345,9 +345,9 @@ quantity = parseInt(details.quantity)
 
     // getting current time data
     let date_ob = new Date(); 
+
     console.log("the current date is"+date_ob)
     console.log(date_ob.getDate())
-    let currentweek =date_ob.toString().slice(0,3)
     let date = ("0" + date_ob.getDate()).slice(-2);
     let month = ("0" + (date_ob.getMonth() + 1)).slice(-2);
     let year = date_ob.getFullYear();
@@ -358,8 +358,35 @@ quantity = parseInt(details.quantity)
 
       // settig current time
      let currentTime = (year + "-" + month + "-" + date + " / " + hours + ":" + minutes + " " + AmOrPm);
-  
-
+      
+     switch(month){
+      case "1" :month="Jan"
+      break;
+      case "2" :month="Feb"
+      break;
+      case "3" :month="Mar"
+      break;
+      case "4" :month="Apr"
+      break;
+      case "5" :month="May"
+      break;
+      case "6" :month="Jun"
+      break;
+      case "7" :month="Jul"
+      break;
+      case "8" :month="Aug"
+      break;
+      case "9" :month="Sep"
+      break;
+      case "10" :month="Aug"
+      break;
+      case "11" :month="Nov"
+      break;
+      case "12" :month="Dec"
+      break;
+      default:console.log("someting wrong")
+     }
+console.log("the current moth is"+month)
 
 
     let orderObj ={
@@ -369,7 +396,8 @@ quantity = parseInt(details.quantity)
       status:status,
       totalPrice:totalPrice,
       date:currentTime,
-      currentWeek:currentweek,
+      CurrentDate:date_ob,
+      currentMonth:month,
       deliveryDetails:{
         name:orderData.name,
         phone:orderData.phone,

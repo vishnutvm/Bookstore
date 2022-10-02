@@ -39,12 +39,22 @@
 </header>
 
 {{! for toglle the color of menu items on click }}
-<script>
 
-  var list = document.querySelectorAll(".menu > ul > li > a ") for(i in list){
-  list[i].addEventListener("click",function(){ var prevselected =
-  document.querySelectorAll(".active"); if(prevselected.length > 0){
-  prevselected[0].className = prevselected[0].className.replace("active","") }
-  this.className += "active" }) }
+{{!-- <script>
+  var list = document.querySelectorAll(".menu > ul > li > a ") for (i in list) {
+
+      list[i].addEventListener("click", function () {
+
+        var prevselected =
+          document.querySelectorAll(".active");
+           if (prevselected.length > 0) {
+            prevselected[0].className = prevselected[0].className.replace("active", "")
+          }
+        this.className += "active"
+      })
+    }
+
 
 </script>
+
+     --}}

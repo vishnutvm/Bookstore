@@ -9,7 +9,7 @@
               <div class="icon-wrap"><i class='bx bx-dollar' style='color:#ffffff;font-size: 22px;'></i></div>
               <div class="wrap">
                 <p class="text-primary">TOTAL SALES</p>
-                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">83</span>
+                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">{{totalsales}}</span>
               </div>
             </div>
           
@@ -22,7 +22,7 @@
               <div class="icon-wrap"><i class='bx bxs-shopping-bags' style='color:#ffffff;font-size: 22px;' ></i></div>
               <div class="wrap">
                 <p class="text-primary">TOTAL ORDERS</p>
-                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">83</span>
+                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">{{totalOrders}}</span>
               </div>
             </div>
           
@@ -34,7 +34,7 @@
               <div class="icon-wrap"><i class='bx bxs-collection' style='color:#ffffff;font-size: 22px;'  ></i></div>
               <div class="wrap">
                 <p class="text-primary">TOTAL PRODUCTS</p>
-                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">83</span>
+                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">{{totalProducts}}</span>
               </div>
             </div>
           
@@ -62,31 +62,74 @@
       </main>
 
 
+{{!-- salse report start --}}
+<ul class="ulLabel" hidden>
+    {{#each SalesReport}}
+    <input class="Label_val" type="text" value="{{this._id}}">
+    {{/each}}
+</ul>
+<ul class="ulData" hidden>
+    {{#each SalesReport}}
+    <input class="Count_val" type="text" value="{{this.count}}">
+    {{/each}}
+</ul>
+{{!-- salse report start end --}}
+
+{{!-- product report start --}}
+<ul class="ulLabel" hidden>
+    {{#each ProductReport}}
+    <input class="dou_Label_val" type="text" value="{{this.name}}">
+    {{/each}}
+</ul>
+<ul class="ulData" hidden>
+    {{#each ProductReport}}
+    <input class="dou_Count_val" type="text" value="{{this.totalSaledProduct}}">
+    {{/each}}
+</ul>
+
+
+{{!-- product report start end --}}
+
+
+
         <!-- ApexCharts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
     
     
     <!-- End Main -->
     <script>
-    const ctx = document.getElementById('donet');
 
+     
+    const ctx = document.getElementById('donet');
+let doulableVal = document.getElementsByClassName("dou_Label_val")
+let doucountVal = document.getElementsByClassName("dou_Count_val")
+ let labels=[] 
+ let datas=[]
+ let backgroundColor=[]
+ console.log(doulableVal)
+for(x in doulableVal){
+    if(x <= doulableVal.length){
+         labels.push(doulableVal[x].value)
+    datas.push(doucountVal[x].value)
+      const randomColor = Math.floor(Math.random()*16777215).toString(16);
+    backgroundColor.push("#"+randomColor)
+
+    }
+   
+}
+console.log(backgroundColor)
+
+ console.log("debug")
+console.log(doulableVal.length)
     
     const donet = new Chart(ctx, {
     type: 'doughnut',
      data : {
-  labels: [
-    'Red',
-    'Blue',
-    'Yellow'
-  ],
+  labels:labels,
   datasets: [{
-    label: 'My First Dataset',
-    data: [300, 50, 100],
-    backgroundColor: [
-      'rgb(255, 99, 132)',
-      'rgb(54, 162, 235)',
-      'rgb(255, 205, 86)'
-    ],
+    label: 'Products',
+    data: datas,
+    backgroundColor:backgroundColor,
     hoverOffset: 4
   }]
 },
@@ -100,25 +143,30 @@
 });
 
 const ctr = document.getElementById('bar');
-const label = [
-'Mon',
-'Tue',
-'Wed',
-'Thu',
-'Fri',
-'Sat',
-'Sun'
+let lableVal = document.getElementsByClassName("Label_val")
+let countVal = document.getElementsByClassName("Count_val")
+ let label=[] 
+ let data=[]
+for(x in lableVal){
+    if(x <= lableVal.length ){
+         label.push(lableVal[x].value)
+    data.push(countVal[x].value)
+    }
+   
+}
 
-]
+console.log(label)
+//give the data from data base
+// let label=[] 
 
-//give the data form data base
-   const data=[10,20] 
+
+
 const bar = new Chart(ctr, {
 type: 'bar',
  data : {
 labels: label,
 datasets: [{
-label: 'Weekly Sales',
+label: 'Monthly Sales',
 data: data,
 backgroundColor: [
   'rgb(255, 99, 132)'
