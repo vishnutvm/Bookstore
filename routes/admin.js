@@ -36,6 +36,11 @@ var adminLogin;
 
 // admin page
 router.get("/", verifyAdminLogin, function (req, res, next) {
+
+// redering sales report 
+
+
+
   res.render("admin/dashbord", { admin: true, adminLogginPage: false });
 });
 
@@ -257,7 +262,10 @@ router.get("/delete-subCategory/:id", (req, res) => {
 // Orders listing
 
 router.get("/orders", (req, res) => {
+
   adminhelpers.getAllOrders().then((allOrders) => {
+    console.log("debut orders")
+    console.log(allOrders)
     res.render("admin/vew-orders", {
       admin: true,
       adminLogin: adminLogin,

@@ -1,1 +1,141 @@
-<h1>this is admin dash bord</h1>
+   <main  class="main-container">
+
+
+        <div  class="main-cards">
+
+          <div id="admin-dashbord" class="card">
+            <div class="card-inner">
+              
+              <div class="icon-wrap"><i class='bx bx-dollar' style='color:#ffffff;font-size: 22px;'></i></div>
+              <div class="wrap">
+                <p class="text-primary">TOTAL SALES</p>
+                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">83</span>
+              </div>
+            </div>
+          
+          </div>
+
+          <div id="admin-dashbord"  class="card">
+            <div class="card-inner">
+              
+                  
+              <div class="icon-wrap"><i class='bx bxs-shopping-bags' style='color:#ffffff;font-size: 22px;' ></i></div>
+              <div class="wrap">
+                <p class="text-primary">TOTAL ORDERS</p>
+                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">83</span>
+              </div>
+            </div>
+          
+          </div>
+          <div  id="admin-dashbord"  class="card">
+            <div class="card-inner">
+              
+                   
+              <div class="icon-wrap"><i class='bx bxs-collection' style='color:#ffffff;font-size: 22px;'  ></i></div>
+              <div class="wrap">
+                <p class="text-primary">TOTAL PRODUCTS</p>
+                  <span style="text-align:left ;" class="text-primary font-weight-bold count-indication">83</span>
+              </div>
+            </div>
+          
+          </div>
+
+        
+
+        </div>
+
+        <div class="charts" >
+
+         
+
+          <div class="charts-card">
+            <p class="chart-title">Sales Report</p>
+            <canvas id="bar" height="100" width="100">
+            </div>
+            <div class="charts-card">
+              <p class="chart-title">Top Products</p>
+              <canvas id="donet" height="100" width="100">
+              </canvas>
+  
+            </div>
+        </div>
+      </main>
+
+
+        <!-- ApexCharts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js" integrity="sha512-ElRFoEQdI5Ht6kZvyzXhYG9NqjtkmlkfYk0wr6wHxU9JEHakS7UJZNeml5ALk+8IKlU6jDgMabC3vkumRokgJA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>  
+    
+    
+    <!-- End Main -->
+    <script>
+    const ctx = document.getElementById('donet');
+
+    
+    const donet = new Chart(ctx, {
+    type: 'doughnut',
+     data : {
+  labels: [
+    'Red',
+    'Blue',
+    'Yellow'
+  ],
+  datasets: [{
+    label: 'My First Dataset',
+    data: [300, 50, 100],
+    backgroundColor: [
+      'rgb(255, 99, 132)',
+      'rgb(54, 162, 235)',
+      'rgb(255, 205, 86)'
+    ],
+    hoverOffset: 4
+  }]
+},
+    options: {
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+const ctr = document.getElementById('bar');
+const label = [
+'Mon',
+'Tue',
+'Wed',
+'Thu',
+'Fri',
+'Sat',
+'Sun'
+
+]
+
+//give the data form data base
+   const data=[10,20] 
+const bar = new Chart(ctr, {
+type: 'bar',
+ data : {
+labels: label,
+datasets: [{
+label: 'Weekly Sales',
+data: data,
+backgroundColor: [
+  'rgb(255, 99, 132)'
+],
+hoverOffset: 4
+}]
+},
+options: {
+    scales: {
+        y: {
+            beginAtZero: true
+        }
+    }
+}
+});
+      
+    </script>
+    
+
+
