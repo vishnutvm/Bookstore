@@ -348,7 +348,66 @@ res(ProductReport)
      res(totalOrders)
     })
   
-  }
+  },
 
+  getTotalSalesReport:()=>{
+    // giving total sales report (including all the status,payment method,date) no fileteration is given
+
+    return new Promise(async (res, rej) => {
+      let SalesReport = await db
+        .get()
+        .collection(collection.ORDER_COLLECTIONS)
+        .aggregate([
+          {
+            $lookup: {
+              from: collection.USER_COLLECTIONS,
+              localField: "userId",
+              foreignField: "_id",
+              as: "users",
+            }
+          },
+          {
+            $unwind:'$products'
+          },
+          {
+            $project:{
+              users:1,
+              paymentMethod:1,
+              totalPrice:1,
+              date:1,
+              status:1,
+              item:'$products.item',
+              quantity:'$products.quantity'
+            }
+          },
+
+
+          {
+            $lookup:{
+              from:collection.PRODUCT_COLLECTIONS,
+              localField:'item',
+              foreignField:'_id',
+              as:'product'
+            }
+            
+          },
+          {
+            $project:{
+              product:{$arrayElemAt:['$product',0]},
+              users:{$arrayElemAt:['$users',0]},
+              paymentMethod:1,
+              totalPrice:1,
+              date:1,
+              status:1
+            }
+          }
+        ])
+        .toArray();
+        console.log("sales report")
+      console.log(SalesReport);
+      res(SalesReport);
+    });
+
+  }
   
 };

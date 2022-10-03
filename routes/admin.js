@@ -416,4 +416,10 @@ router.post("/addTrendingProducts", (req, res) => {
   });
 });
 
+router.get("/sales-report",(req,res)=>{
+  adminhelpers.getTotalSalesReport()
+})
+
+
+
 module.exports = router;
