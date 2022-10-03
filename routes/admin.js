@@ -3,10 +3,10 @@ const adminhelpers = require("../helpers/admin-healpers");
 const productHelpers = require("../helpers/product-helpers");
 const userHealpers = require("../helpers/user-healpers");
 const router = express.Router();
-const fs = require("fs-extra");
-const path = require("path");
-const hbs = require("handlebars");
 const puppeteer = require("puppeteer");
+const fs = require("fs-extra")
+const path = require("path")
+
 
 /* GET home page. */
 
@@ -40,26 +40,26 @@ var adminLogin;
 
 // admin page
 router.get("/", verifyAdminLogin, async function (req, res, next) {
-  // // redering sales report
-  const SalesReport = await adminhelpers.getMonthSalesReport();
-  const ProductReport = await adminhelpers.getProductReport();
-  const totalProducts = await adminhelpers.getTotalProducts();
-  const totalOrders = await adminhelpers.getTotalOrders();
 
-  let totalsales = 0;
-  SalesReport.forEach((doc) => {
-    totalsales += doc.totalSalesAmount;
-  });
+// // redering sales report 
+const SalesReport = await adminhelpers.getMonthSalesReport()
+const ProductReport = await adminhelpers.getProductReport()
+const totalProducts = await adminhelpers.getTotalProducts()
+const totalOrders = await adminhelpers.getTotalOrders()
+
+let totalsales=0
+SalesReport.forEach((doc)=>{
+totalsales += doc.totalSalesAmount
+})
+
+
+
 
   res.render("admin/dashbord", {
-    admin: true,
-    adminLogginPage: false,
-    SalesReport,
-    totalsales,
-    ProductReport,
-    totalProducts,
-    totalOrders,
-  });
+     admin: true,
+      adminLogginPage: false,
+      SalesReport,totalsales,ProductReport,totalProducts,totalOrders
+     });
 });
 
 // admin loggin
@@ -280,9 +280,10 @@ router.get("/delete-subCategory/:id", (req, res) => {
 // Orders listing
 
 router.get("/orders", (req, res) => {
+
   adminhelpers.getAllOrders().then((allOrders) => {
-    console.log("debut orders");
-    console.log(allOrders);
+    console.log("debut orders")
+    console.log(allOrders)
     res.render("admin/vew-orders", {
       admin: true,
       adminLogin: adminLogin,
@@ -419,49 +420,20 @@ router.post("/addTrendingProducts", (req, res) => {
   });
 });
 
-router.get("/sales-report", async (req, res) => {
+router.get("/sales-report",async(req,res)=>{
+ let SalesReport= await adminhelpers.getTotalSalesReport()
 
-  let SalesReport = await adminhelpers.getTotalSalesReport();
-
-  // settting sales report
-  let compile = async function (data) {
-    const filePath = path.join(process.cwd(), "/views/admin/sales-report.hbs");
-    console.log(filePath);
-    const html = await fs.readFile(filePath, "utf8");
-    console.log(html);
-    return hbs.compile(html)(data);
-  };
-
-
-  (async function () {
-    try {
-      const browser = await puppeteer.launch();
-      const page = await browser.newPage();
-
-      // creatig pdf documentsrinr
-      let jsonSalesReport = JSON.stringify(SalesReport[0])
-      console.log(jsonSalesReport)
-      const content = await compile(jsonSalesReport);
-      await page.setContent(content);
-
-      await page.pdf({
-        path: "output.pdf",
-        format: "A4",
-        printBackground: true,
-      });
-
-      console.log("done Generating pdf");
-
-      await browser.close();
-
-      process.exit();
-    } catch (e) {
-      console.log(e);
-    }
-  })();
   
-});
 
+
+//  res.render("admin/sales-report", {
+//   admin: true,
+//    adminLogginPage: false,
+//    SalesReport,totalsales,ProductReport,totalProducts,totalOrders
+//   });
+
+ sales-report.hbs
+})
 
 
 

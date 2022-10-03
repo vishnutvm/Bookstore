@@ -1,9 +1,7 @@
 const db = require("../config/connections");
 const collection = require("../config/collections");
 const objectId = require("mongodb").ObjectId;
-const puppeteer = require("puppeteer");
-const fs = require("fs-extra");
-const path = require('path')
+
 
 
 module.exports = {
@@ -404,12 +402,7 @@ module.exports = {
     });
 
   },
-  genPdf:()=>{
 
-
-
-    
-  }
 
 };
 
