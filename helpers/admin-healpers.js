@@ -1,6 +1,10 @@
 const db = require("../config/connections");
 const collection = require("../config/collections");
 const objectId = require("mongodb").ObjectId;
+const puppeteer = require("puppeteer");
+const fs = require("fs-extra");
+const path = require('path')
+
 
 module.exports = {
   getAllUsers: () => {
@@ -367,6 +371,7 @@ module.exports = {
   },
 
   getTotalSalesReport:()=>{
+    
     // giving total sales report (including all the status,payment method,date) no fileteration is given
 
     return new Promise(async (res, rej) => {
@@ -398,6 +403,12 @@ module.exports = {
       res(SalesReport);
     });
 
+  },
+  genPdf:()=>{
+
+
+
+    
   }
 
 };
