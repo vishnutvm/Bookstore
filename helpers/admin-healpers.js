@@ -100,8 +100,6 @@ module.exports = {
               status: "Delivered",
             },
           }
-
-
         )
         .then(() => {
           res();
@@ -160,48 +158,48 @@ module.exports = {
     });
   },
   addCategoryTohome: (categories) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
       // first reseting the collection
-    console.log("showing the input")
-console.log(categories.options)
+      console.log("showing the input");
+      console.log(categories.options);
 
- if(categories.options == ''){
-  console.log("null ")
- await db.get().collection(collection.HOMECATEGORY_COLLECTIONS).deleteMany({}).then((response)=>{
-  res()
- })
-
-}else{
-  console.log("wokring too")
-     await db.get().collection(collection.HOMECATEGORY_COLLECTIONS).deleteMany({})
-
-    let categoriesArry = categories.options.split(",");
-
-      console.log(categoriesArry);
-
-     categoriesArry.forEach((category) => {
-
-        db.get()
+      if (categories.options == "") {
+        console.log("null ");
+        await db
+          .get()
           .collection(collection.HOMECATEGORY_COLLECTIONS)
-          .insertOne({category})
+          .deleteMany({})
           .then((response) => {
-            // passing the resonse it may usefull in future
-            res(response);
-          }).catch((err)=>{
-            console.log(err)
+            res();
           });
-          
-     });
-}
+      } else {
+        console.log("wokring too");
+        await db
+          .get()
+          .collection(collection.HOMECATEGORY_COLLECTIONS)
+          .deleteMany({});
 
+        let categoriesArry = categories.options.split(",");
+
+        console.log(categoriesArry);
+
+        categoriesArry.forEach((category) => {
+          db.get()
+            .collection(collection.HOMECATEGORY_COLLECTIONS)
+            .insertOne({ category })
+            .then((response) => {
+              // passing the resonse it may usefull in future
+              res(response);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
+      }
     });
   },
-  getHomeCategory:()=>{
+  getHomeCategory: () => {
     return new Promise(async (res, rej) => {
-
-      
-
-
       var homeCategory = await db
         .get()
         .collection(collection.HOMECATEGORY_COLLECTIONS)
@@ -212,142 +210,160 @@ console.log(categories.options)
     });
   },
   addTrendingProducts: (products) => {
-    return new Promise(async(res, rej) => {
+    return new Promise(async (res, rej) => {
       // first reseting the collection
 
-if(products.options == ''){
-  db.get().collection(collection.TRENDINGPRODUCT_COLLECIONS).deleteMany({})
-  res()
-}else{
-
-      db.get().collection(collection.TRENDINGPRODUCT_COLLECIONS).deleteMany({})
-
-    let trend = products.options.split(",");
-
-      console.log(trend);
-
-     trend.forEach((product) => {
- product = objectId(product)
+      if (products.options == "") {
         db.get()
           .collection(collection.TRENDINGPRODUCT_COLLECIONS)
-          .insertOne({product})
-          .then((response) => {
-            // passing the resonse it may usefull in future
-            res(response);
-          }).catch((err)=>{
-            console.log(err)
-          });
-          
-     });
-}
+          .deleteMany({});
+        res();
+      } else {
+        db.get()
+          .collection(collection.TRENDINGPRODUCT_COLLECIONS)
+          .deleteMany({});
 
-    });
-  },
-  getTrending:()=>{
-    return new Promise(async (res, rej) => {
+        let trend = products.options.split(",");
 
-      const trending = await db.get().collection(collection.TRENDINGPRODUCT_COLLECIONS).aggregate([
-      {
-        $lookup:{
-          from:collection.PRODUCT_COLLECTIONS,
-          localField:'product',
-          foreignField:'_id',
-          as:'product'
-        }
+        console.log(trend);
+
+        trend.forEach((product) => {
+          product = objectId(product);
+          db.get()
+            .collection(collection.TRENDINGPRODUCT_COLLECIONS)
+            .insertOne({ product })
+            .then((response) => {
+              // passing the resonse it may usefull in future
+              res(response);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        });
       }
-      ]).toArray()
-      // the product details of trending products will get in trending[index].product
-      res(trending)
     });
   },
-  getMonthSalesReport:()=>{
-    currentYear = new Date().getFullYear()
-    return new Promise(async(res,rej)=>{
-      let SalesReport =await db.get().collection(collection.ORDER_COLLECTIONS).aggregate([
-       
+  getTrending: () => {
+    return new Promise(async (res, rej) => {
+      const trending = await db
+        .get()
+        .collection(collection.TRENDINGPRODUCT_COLLECIONS)
+        .aggregate([
           {
-            $match : { "CurrentDate": { $gte: new Date (`${currentYear}-01-01`), $lt: new Date(`${currentYear+1}-01-01`) } }        
+            $lookup: {
+              from: collection.PRODUCT_COLLECTIONS,
+              localField: "product",
+              foreignField: "_id",
+              as: "product",
             },
-            {
-              $group:{
-                _id :  "$currentMonth",
-                totalSalesAmount:{$sum:"$totalPrice"},
-                count:{$sum:1}
-              }
-            }
-        
-      ]).toArray()
-
-res(SalesReport)
-
-    })
+          },
+        ])
+        .toArray();
+      // the product details of trending products will get in trending[index].product
+      res(trending);
+    });
   },
-  getProductReport:()=>{
-    currentYear = new Date().getFullYear()
-    return new Promise(async(res,rej)=>{
-      let ProductReport =await db.get().collection(collection.ORDER_COLLECTIONS).aggregate([
-       
+  getMonthSalesReport: () => {
+    currentYear = new Date().getFullYear();
+    return new Promise(async (res, rej) => {
+      let SalesReport = await db
+        .get()
+        .collection(collection.ORDER_COLLECTIONS)
+        .aggregate([
           {
-            $match : { "CurrentDate": { $gte: new Date (`${currentYear}-01-01`), $lt: new Date(`${currentYear+1}-01-01`) } }        
+            $match: {
+              CurrentDate: {
+                $gte: new Date(`${currentYear}-01-01`),
+                $lt: new Date(`${currentYear + 1}-01-01`),
+              },
             },
-            {
-              $unwind:'$products'
+          },
+          {
+            $group: {
+              _id: "$currentMonth",
+              totalSalesAmount: { $sum: "$totalPrice" },
+              count: { $sum: 1 },
             },
-            {
-              $project:{
-                item:'$products.item',
-                quantity:'$products.quantity'
-              }
-            },
-            {
-              $group:{
-                _id :  "$item",
-                totalSaledProduct:{$sum:"$quantity"},
-              }
-            },
-            {
-              $lookup:{
-                from:collection.PRODUCT_COLLECTIONS,
-                localField:'_id',
-                foreignField:'_id',
-                as:'product'
-              }
-            },
-            {
-              $unwind:'$product'
-            },
-            {
-              $project:{
-                name:'$product.name',
-                totalSaledProduct:1,
-                _id:1
-              }
-            },
-            
+          },
+        ])
+        .toArray();
 
-
-        
-      ]).toArray()
-console.log(ProductReport)
-res(ProductReport)
-
-    })
+      res(SalesReport);
+    });
   },
-  getTotalProducts:()=>{
-    return new Promise(async(res,rej)=>{
-     let totalProduct =await db.get().collection(collection.PRODUCT_COLLECTIONS).count()
-
-     res(totalProduct)
-    })
-  
+  getProductReport: () => {
+    currentYear = new Date().getFullYear();
+    return new Promise(async (res, rej) => {
+      let ProductReport = await db
+        .get()
+        .collection(collection.ORDER_COLLECTIONS)
+        .aggregate([
+          {
+            $match: {
+              CurrentDate: {
+                $gte: new Date(`${currentYear}-01-01`),
+                $lt: new Date(`${currentYear + 1}-01-01`),
+              },
+            },
+          },
+          {
+            $unwind: "$products",
+          },
+          {
+            $project: {
+              item: "$products.item",
+              quantity: "$products.quantity",
+            },
+          },
+          {
+            $group: {
+              _id: "$item",
+              totalSaledProduct: { $sum: "$quantity" },
+            },
+          },
+          {
+            $lookup: {
+              from: collection.PRODUCT_COLLECTIONS,
+              localField: "_id",
+              foreignField: "_id",
+              as: "product",
+            },
+          },
+          {
+            $unwind: "$product",
+          },
+          {
+            $project: {
+              name: "$product.name",
+              totalSaledProduct: 1,
+              _id: 1,
+            },
+          },
+        ])
+        .toArray();
+      console.log(ProductReport);
+      res(ProductReport);
+    });
   },
-  getTotalOrders:()=>{
-    return new Promise(async(res,rej)=>{
-     let totalOrders =await db.get().collection(collection.ORDER_COLLECTIONS).count()
+  getTotalProducts: () => {
+    return new Promise(async (res, rej) => {
+      let totalProduct = await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTIONS)
+        .count();
 
-     res(totalOrders)
-    })
-  
+      res(totalProduct);
+    });
+  },
+  getTotalOrders: () => {
+    return new Promise(async (res, rej) => {
+      let totalOrders = await db
+        .get()
+        .collection(collection.ORDER_COLLECTIONS)
+        .count();
+
+      res(totalOrders);
+    });
   },
 
   getTotalSalesReport:()=>{
@@ -367,40 +383,14 @@ res(ProductReport)
             }
           },
           {
-            $unwind:'$products'
-          },
-          {
-            $project:{
-              users:1,
-              paymentMethod:1,
-              totalPrice:1,
-              date:1,
-              status:1,
-              item:'$products.item',
-              quantity:'$products.quantity'
-            }
-          },
-
-
-          {
             $lookup:{
               from:collection.PRODUCT_COLLECTIONS,
-              localField:'item',
+              localField:'products.item',
               foreignField:'_id',
               as:'product'
             }
-            
+
           },
-          {
-            $project:{
-              product:{$arrayElemAt:['$product',0]},
-              users:{$arrayElemAt:['$users',0]},
-              paymentMethod:1,
-              totalPrice:1,
-              date:1,
-              status:1
-            }
-          }
         ])
         .toArray();
         console.log("sales report")
@@ -409,5 +399,13 @@ res(ProductReport)
     });
 
   }
-  
+
 };
+
+
+
+
+
+
+
+

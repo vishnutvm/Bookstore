@@ -416,8 +416,15 @@ router.post("/addTrendingProducts", (req, res) => {
   });
 });
 
-router.get("/sales-report",(req,res)=>{
-  adminhelpers.getTotalSalesReport()
+router.get("/sales-report",async(req,res)=>{
+ let SalesReport= await adminhelpers.getTotalSalesReport()
+
+ res.render("admin/sales-report", {
+  admin: true,
+   adminLogginPage: false,
+   SalesReport
+  });
+
 })
 
 
