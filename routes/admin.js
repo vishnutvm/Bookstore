@@ -3,9 +3,7 @@ const adminhelpers = require("../helpers/admin-healpers");
 const productHelpers = require("../helpers/product-helpers");
 const userHealpers = require("../helpers/user-healpers");
 const router = express.Router();
-const puppeteer = require("puppeteer");
-const fs = require("fs-extra")
-const path = require("path")
+const excelJs = require('exceljs')
 
 
 /* GET home page. */
@@ -423,18 +421,62 @@ router.post("/addTrendingProducts", (req, res) => {
 router.get("/sales-report",async(req,res)=>{
  let SalesReport= await adminhelpers.getTotalSalesReport()
 
-  
+  console.log(SalesReport)
+ res.render("admin/sales-report", {
+  admin: true,
+   adminLogginPage: false,
+   SalesReport
+  });
 
 
-//  res.render("admin/sales-report", {
-//   admin: true,
-//    adminLogginPage: false,
-//    SalesReport,totalsales,ProductReport,totalProducts,totalOrders
-//   });
-
- sales-report.hbs
 })
 
+router.get("/export_to_excel",async(req,res)=>{
+  let SalesReport= await adminhelpers.getTotalSalesReport()
+
+   
+  try{
+    
+    const workbook=new  excelJs.Workbook();
+
+    const worksheet= workbook.addWorksheet("Sales Report")
+
+    worksheet.columns = [
+     {header:"S no.",key:"s_no"},
+     {header:"OrderID",key:"_id"},
+     {header:"User",key:"name"},
+     {header:"Date",key:"date"},
+    //  {header:"Products",key:"products"},
+    //  {header:"Method",key:"payment"},
+    //  {header:"status",key:"status"},
+    //  {header:"Amount",key:"amount"},
+
+    ];
+    let counter = 1;
+    SalesReport.forEach((report)=>{
+     report.s_no = counter;
+     report.name=report.users[0].name;
+     worksheet.addRow(report)
+     counter++
+    })
+
+    worksheet.getRow(1).eachCell((cell) =>{
+     cell.font = {bold:true};
+    })
+// console.log("finaly resolving the promic ")
+
+res.header(
+"Content-Type",
+"application/vnd.oppenxmlformats-officedocument.spreadsheatml.sheet"
+);
+res.header("Content-Disposition",'attachment; filename=report.xlsx')
+
+workbook.xlsx.write(res)
+    
+   }catch(err){
+     console.log(err.message)
+   }
+})
 
 
 module.exports = router;

@@ -1,8 +1,7 @@
 const db = require("../config/connections");
 const collection = require("../config/collections");
 const objectId = require("mongodb").ObjectId;
-
-
+const excelJs = require('exceljs')
 
 module.exports = {
   getAllUsers: () => {
@@ -369,7 +368,6 @@ module.exports = {
   },
 
   getTotalSalesReport:()=>{
-    
     // giving total sales report (including all the status,payment method,date) no fileteration is given
 
     return new Promise(async (res, rej) => {
@@ -402,8 +400,50 @@ module.exports = {
     });
 
   },
+//   exportReportxcel:(SalesReport,res)=>{
+//     return new Promise(async(resolve,reject)=>{
+//       try{
+//        const workbook=new  excelJs.Workbook();
 
+//        const worksheet= workbook.addWorksheet("Sales Report")
 
+//        worksheet.columns = [
+//         {header:"S no.",key:"s_no"},
+//         {header:"OrderID",key:"_id"},
+//         {header:"User",key:"name"},
+//         {header:"Date",key:"date"},
+//         // {header:"Products",key:"products"},
+//         // {header:"Method",key:"payment"},
+//         // {header:"status",key:"status"},
+//         // {header:"Amount",key:"amount"},
+
+//        ];
+//        let counter = 1;
+//        SalesReport.forEach((report)=>{
+//         report.s_no = counter;
+//         report.name=report.users[0].name;
+//         worksheet.addRow(report)
+//         counter++
+//        })
+
+//        worksheet.getRow(1).eachCell((cell) =>{
+//         cell.font = {bold:true};
+//        })
+// // console.log("finaly resolving the promic ")
+
+// res.header(
+//   "Content-Type",
+//   "application/vnd.oppenxmlformats-officedocument.spreadsheatml.sheet"
+//  );
+//  res.header("Content-Disposition",'attachment; filename=report.xlsx')
+
+// workbook.xlsx.write()
+       
+//       }catch(err){
+//         console.log(err.message)
+//       }
+//     })
+//   }
 };
 
 
