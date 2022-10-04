@@ -224,6 +224,7 @@ router.get("/manage-category", verifyAdminLogin, (req, res) => {
   });
 });
 
+
 router.get("/add-category", verifyAdminLogin, (req, res) => {
   res.render("admin/add-category", { admin: true, adminLogin: adminLogin });
 });
@@ -232,6 +233,40 @@ router.post("/add-category", (req, res) => {
     res.redirect("/admin/manage-category");
   });
 });
+
+
+
+// product offer management
+router.get("/manage-productOffer", verifyAdminLogin, (req, res) => {
+  // productHelpers.getAllCategory().then((category) => {
+  //   res.render("admin/view-category", {
+  //     admin: true,
+  //     adminLogin: adminLogin,
+  //     category,
+  //   });
+  // });
+
+  res.render("admin/product-offer", {
+    admin: true,
+    adminLogin: adminLogin,
+
+  });
+});
+
+
+// add product offer
+
+router.get("/add-product_offer", verifyAdminLogin, (req, res) => {
+  res.render("admin/add-category", { admin: true, adminLogin: adminLogin });
+});
+router.post("/add-category", (req, res) => {
+  productHelpers.addCategory(req.body).then((response) => {
+    res.redirect("/admin/manage-category");
+  });
+});
+
+
+
 
 // delete category
 
@@ -446,16 +481,20 @@ router.get("/export_to_excel",async(req,res)=>{
      {header:"OrderID",key:"_id"},
      {header:"User",key:"name"},
      {header:"Date",key:"date"},
-    //  {header:"Products",key:"products"},
-    //  {header:"Method",key:"payment"},
-    //  {header:"status",key:"status"},
-    //  {header:"Amount",key:"amount"},
+     {header:"Products",key:"products"},
+     {header:"Method",key:"paymentMethod"},
+     {header:"status",key:"status"},
+     {header:"Amount",key:"totalPrice"},
 
     ];
     let counter = 1;
     SalesReport.forEach((report)=>{
      report.s_no = counter;
+     report.products="";
      report.name=report.users[0].name;
+     report.product.forEach((eachProduct)=>{
+      report.products += eachProduct.name+","
+     })
      worksheet.addRow(report)
      counter++
     })

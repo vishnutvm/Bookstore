@@ -338,7 +338,10 @@ height: 100%;
     }
     
 
-
+.down_btn_wrap{
+    display: flex;
+    justify-content: center;
+}
 
   
 }
