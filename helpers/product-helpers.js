@@ -4,8 +4,12 @@ const objectid = require("mongodb").ObjectId;
 
 module.exports = {
   addProduct: (productdata) => {
+
     console.log(productdata)
     return new Promise(async (res, rej) => {
+      productdata.discount=0,
+      productdata.finalPrice= productdata.price - productdata.discount
+
       await db
         .get()
         .collection(collection.PRODUCT_COLLECTIONS)
@@ -16,6 +20,8 @@ module.exports = {
     });
   },
   getAllProduct: () => {
+
+
     return new Promise(async (res, rej) => {
       let product = await db
         .get()
@@ -23,7 +29,11 @@ module.exports = {
         .find()
         .toArray();
       res(product);
+
+
     });
+
+
   },
   addCategory: (categoryName) => {
     return new Promise((res, rej) => {

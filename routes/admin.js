@@ -53,6 +53,7 @@ totalsales += doc.totalSalesAmount
 
 
 
+
   res.render("admin/dashbord", {
      admin: true,
       adminLogginPage: false,
@@ -236,34 +237,6 @@ router.post("/add-category", (req, res) => {
 
 
 
-// product offer management
-router.get("/manage-productOffer", verifyAdminLogin, (req, res) => {
-  // productHelpers.getAllCategory().then((category) => {
-  //   res.render("admin/view-category", {
-  //     admin: true,
-  //     adminLogin: adminLogin,
-  //     category,
-  //   });
-  // });
-
-  res.render("admin/product-offer", {
-    admin: true,
-    adminLogin: adminLogin,
-
-  });
-});
-
-
-// add product offer
-
-router.get("/add-product_offer", verifyAdminLogin, (req, res) => {
-  res.render("admin/add-category", { admin: true, adminLogin: adminLogin });
-});
-router.post("/add-category", (req, res) => {
-  productHelpers.addCategory(req.body).then((response) => {
-    res.redirect("/admin/manage-category");
-  });
-});
 
 
 
@@ -516,6 +489,49 @@ workbook.xlsx.write(res)
      console.log(err.message)
    }
 })
+
+
+// product offer management
+router.get("/manage-productOffer", verifyAdminLogin, async(req, res) => {
+  let offers =await adminhelpers.getAllOffers()
+  console.log(offers)
+  res.render("admin/product-offer", {
+    admin: true,
+    adminLogin: adminLogin,
+    offers
+  });
+});
+
+
+// add product offer
+
+router.get("/add-product_offer", verifyAdminLogin,async (req, res) => {
+
+  const AllProductList = await productHelpers.getAllProduct();
+
+  res.render("admin/add-product-offers", { admin: true,
+     adminLogin: adminLogin,
+     AllProductList
+     });
+});
+
+router.post("/add-product_offer", (req, res) => {
+
+
+  adminhelpers.addProductOffer(req.body).then((response) => {
+    res.redirect("/admin/manage-productOffer");
+  });
+
+
+});
+
+router.get("/delete-prod-offer/:id", (req, res) => {
+  const offId = req.params.id;
+  adminhelpers.deleteOffer(offId).then((response) => {
+    console.log(response);
+    res.redirect("/admin/manage-productOffer");
+  });
+});
 
 
 module.exports = router;

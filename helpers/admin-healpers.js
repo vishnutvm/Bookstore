@@ -1,7 +1,7 @@
 const db = require("../config/connections");
 const collection = require("../config/collections");
 const objectId = require("mongodb").ObjectId;
-const excelJs = require('exceljs')
+const excelJs = require("exceljs");
 
 module.exports = {
   getAllUsers: () => {
@@ -367,7 +367,7 @@ module.exports = {
     });
   },
 
-  getTotalSalesReport:()=>{
+  getTotalSalesReport: () => {
     // giving total sales report (including all the status,payment method,date) no fileteration is given
 
     return new Promise(async (res, rej) => {
@@ -381,75 +381,84 @@ module.exports = {
               localField: "userId",
               foreignField: "_id",
               as: "users",
-            }
+            },
           },
           {
-            $lookup:{
-              from:collection.PRODUCT_COLLECTIONS,
-              localField:'products.item',
-              foreignField:'_id',
-              as:'product'
-            }
-
+            $lookup: {
+              from: collection.PRODUCT_COLLECTIONS,
+              localField: "products.item",
+              foreignField: "_id",
+              as: "product",
+            },
           },
         ])
         .toArray();
-        console.log("sales report")
+      console.log("sales report");
       console.log(SalesReport);
       res(SalesReport);
     });
-
   },
-//   exportReportxcel:(SalesReport,res)=>{
-//     return new Promise(async(resolve,reject)=>{
-//       try{
-//        const workbook=new  excelJs.Workbook();
+  addProductOffer: (offerData) => {
+  let productsArray =offerData.options.split(",");
+  let products=[];
 
-//        const worksheet= workbook.addWorksheet("Sales Report")
+    productsArray.forEach((prod)=>{
 
-//        worksheet.columns = [
-//         {header:"S no.",key:"s_no"},
-//         {header:"OrderID",key:"_id"},
-//         {header:"User",key:"name"},
-//         {header:"Date",key:"date"},
-//         // {header:"Products",key:"products"},
-//         // {header:"Method",key:"payment"},
-//         // {header:"status",key:"status"},
-//         // {header:"Amount",key:"amount"},
+   
 
-//        ];
-//        let counter = 1;
-//        SalesReport.forEach((report)=>{
-//         report.s_no = counter;
-//         report.name=report.users[0].name;
-//         worksheet.addRow(report)
-//         counter++
-//        })
+products.push({"product":objectId(prod)})
+    })
+    console.log(offerData);
+    const offer = {
+      name: offerData.name,
+      value: offerData.value,
+      include: products
+    };
+    console.log(offer);
 
-//        worksheet.getRow(1).eachCell((cell) =>{
-//         cell.font = {bold:true};
-//        })
-// // console.log("finaly resolving the promic ")
+    return new Promise((res, rej) => {
+      db.get()
+        .collection(collection.OFFER_COLLECIONS)
+        .insertOne(offer)
+        .then((response) => {
+          // passing the resonse it may usefull in future
+          console.log(response);
+          res(response);
+        });
+    });
+  },
+  getAllOffers: () => {
+    return new Promise((res, rej) => {
+      let offers = db
+        .get()
+        .collection(collection.OFFER_COLLECIONS)
+        .aggregate([
+          {
+            $lookup: {
+              from: collection.PRODUCT_COLLECTIONS,
+              localField: "include.product",
+              foreignField: "_id",
+              as: "products",
+            },
+          }
+        ])
 
-// res.header(
-//   "Content-Type",
-//   "application/vnd.oppenxmlformats-officedocument.spreadsheatml.sheet"
-//  );
-//  res.header("Content-Disposition",'attachment; filename=report.xlsx')
 
-// workbook.xlsx.write()
-       
-//       }catch(err){
-//         console.log(err.message)
-//       }
-//     })
-//   }
+
+        .toArray();
+      res(offers);
+    });
+  },
+  deleteOffer:(id)=>{
+    return new Promise((res, rej) => {
+      db.get()
+        .collection(collection.OFFER_COLLECIONS)
+        .deleteOne({ _id: objectId(id) })
+        .then((response) => {
+          res(response);
+        });
+    });
+
+
+  }
 };
-
-
-
-
-
-
-
-

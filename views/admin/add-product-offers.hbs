@@ -1,0 +1,68 @@
+<!-- Font Awesome -->
+<link rel="stylesheet" href="/dist/virtual-select.min.css" />
+
+
+
+<section  class="d-flex justify-content-center " >
+  <div class=" container row  d-flex justify-content-center ">
+    <div class="ml-5 col-md-6">
+      <h2 class="text-center my-5 ">Add Product Offer</h2>
+      <form class="d-flex aling-item-center flex-column" action="/admin/add-product_offer" method="post" >
+        
+        <input id="offerInput" type="text" name="name" class="form-control mb-3" placeholder="Offer Name" required>
+        <input id="offerValue" type="text" name="value" class="form-control mb-3" placeholder="Offer value in %" required>
+
+
+
+
+<div class="wrap">
+    	<select id="multi_option" multiple name="options" placeholder="Select products" >
+    {{#each AllProductList}}
+	  <option  value="{{this._id}}">{{this.name}}</option>
+    {{/each}}
+
+	</select>
+</div>
+
+
+        <button  style="background-color:#EF3772; color:#fff;" type="submit" class="btn mt-1" required>Submit</button>
+
+      </form>
+    </div>
+  </div>
+</section>
+
+
+
+
+<script src="/dist/virtual-select.js"></script>
+
+
+<script>
+
+  	VirtualSelect.init({ 
+	  ele: '#multi_option'
+    
+	});
+
+
+</script>
+
+
+<style>
+
+ #multi_option{
+	max-width: 100%;
+
+}
+ #select_category label{
+	display:block;
+	font-size: 18px;
+	font-weight: 700;
+	margin-bottom: 5px;
+}
+.vscomp-toggle-button{
+	padding: 10px 30px 10px 10px;
+	border-radius: 5px;
+}
+</style>
