@@ -43,9 +43,19 @@
       
             <p>-By {{this.authname}}</p>
             <div id="cover">
-               <h4 class="product-old-price ">500.99</h4>
-            <h4 class="product-price ">{{this.price}}</h4>
-            <h4 class="product-offer">(10% off)</h4>
+{{#if this.offer}}
+
+  <h4 class="product-old-price ">{{this.price}}</h4>
+            <h4 class="product-price ">{{this.finalPrice}}</h4>
+            <h4 class="product-offer">({{this.discount}}% off)</h4>
+
+            {{else}}
+
+<h4 class="product-price ">{{this.price}}</h4>
+{{/if}}
+
+
+
             </div>
            
           </div>

@@ -328,6 +328,7 @@ quantity = parseInt(details.quantity)
       
       // console.log(x.quantity)
       // console.log(x.product.price)
+      // console.log(x.product.finalPrice)
        total= (x.quantity) * (x.product.finalPrice)
        console.log(total)
        grandTotal += total

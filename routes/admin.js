@@ -172,12 +172,10 @@ router.post("/EditProduct/:id", (req, res) => {
   const id = req.params.id;
   productHelpers.editProduct(req.body, id).then((response) => {
     res.redirect("/admin/product");
-    console.log(req.files.image);
-    if (req.body) {
+    if (req.files) {
       console.log("this have image");
       console.log(id);
       let image = req.files.image;
-      console.log(image);
 
       image.mv("./public/product-images/" + id + ".jpg");
     }
@@ -494,7 +492,6 @@ workbook.xlsx.write(res)
 // product offer management
 router.get("/manage-productOffer", verifyAdminLogin, async(req, res) => {
   let offers =await adminhelpers.getAllOffers()
-  console.log(offers)
   res.render("admin/product-offer", {
     admin: true,
     adminLogin: adminLogin,
@@ -507,7 +504,7 @@ router.get("/manage-productOffer", verifyAdminLogin, async(req, res) => {
 
 router.get("/add-product_offer", verifyAdminLogin,async (req, res) => {
 
-  const AllProductList = await productHelpers.getAllProduct();
+  const AllProductList = await productHelpers.getAllProductWithoutOffer();
 
   res.render("admin/add-product-offers", { admin: true,
      adminLogin: adminLogin,
@@ -527,6 +524,7 @@ router.post("/add-product_offer", (req, res) => {
 
 router.get("/delete-prod-offer/:id", (req, res) => {
   const offId = req.params.id;
+  console.log(offId)
   adminhelpers.deleteOffer(offId).then((response) => {
     console.log(response);
     res.redirect("/admin/manage-productOffer");

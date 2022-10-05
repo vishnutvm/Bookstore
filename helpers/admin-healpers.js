@@ -399,20 +399,17 @@ module.exports = {
     });
   },
   addProductOffer: (offerData) => {
-  let productsArray =offerData.options.split(",");
-  let products=[];
+    let productsArray = offerData.options.split(",");
+    let products = [];
 
-    productsArray.forEach((prod)=>{
-
-   
-
-products.push({"product":objectId(prod)})
-    })
+    productsArray.forEach((prod) => {
+      products.push({ product: objectId(prod) });
+    });
     console.log(offerData);
     const offer = {
       name: offerData.name,
       value: offerData.value,
-      include: products
+      include: products,
     };
     console.log(offer);
 
@@ -423,7 +420,37 @@ products.push({"product":objectId(prod)})
         .then((response) => {
           // passing the resonse it may usefull in future
           console.log(response);
-          res(response);
+
+          products.forEach(async (val) => {
+            val.product;
+
+            let product = await db
+              .get()
+              .collection(collection.PRODUCT_COLLECTIONS)
+              .findOne({ _id: objectId(val.product) });
+            console.log(product);
+            var finalprice =
+              parseInt(product.price) -
+              (parseInt(product.price) * offerData.value) / 100;
+
+            console.log(offerData.value);
+
+            db.get()
+              .collection(collection.PRODUCT_COLLECTIONS)
+              .updateOne(
+                { _id: val.product },
+                {
+                  $set: {
+                    discount: offerData.value,
+                    finalPrice: finalprice,
+                    offer: true,
+                  },
+                }
+              )
+              .then(() => {
+                res();
+              });
+          });
         });
     });
   },
@@ -440,25 +467,54 @@ products.push({"product":objectId(prod)})
               foreignField: "_id",
               as: "products",
             },
-          }
+          },
         ])
-
-
 
         .toArray();
       res(offers);
     });
   },
-  deleteOffer:(id)=>{
-    return new Promise((res, rej) => {
-      db.get()
-        .collection(collection.OFFER_COLLECIONS)
-        .deleteOne({ _id: objectId(id) })
-        .then((response) => {
-          res(response);
-        });
+  deleteOffer: (offId) => {
+    return new Promise(async (res, rej) => {
+
+
+      let offerData = await db
+      .get()
+      .collection(collection.OFFER_COLLECIONS)
+      .aggregate([
+        {
+          $match: { _id: objectId(offId) },
+        }
+      ]).toArray()
+
+      offerData[0].include.forEach(async (eachProd)=>{
+
+      let singleProd= await db.get().collection(collection.PRODUCT_COLLECTIONS).find({_id:eachProd.product}).toArray()
+
+        db.get().collection(collection.PRODUCT_COLLECTIONS).updateOne(
+               { _id: eachProd.product },
+                {
+                  $set: {
+                    discount: 0,
+                    finalPrice:singleProd[0].price ,
+                    offer: false,
+                  },
+                }
+        )
+      })
+
+
+      await db.get().collection(collection.OFFER_COLLECIONS).deleteOne(({_id:objectId(offId)}))
+
+
+
+
+
+
+
+      console.log("debug data");
+  
+      res();
     });
-
-
-  }
+  },
 };

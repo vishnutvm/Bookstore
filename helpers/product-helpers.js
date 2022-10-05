@@ -7,9 +7,9 @@ module.exports = {
 
     console.log(productdata)
     return new Promise(async (res, rej) => {
-      productdata.discount=0,
-      productdata.finalPrice= productdata.price - productdata.discount
-
+      productdata.discount=0;
+      productdata.finalPrice= productdata.price - productdata.discount;
+      productdata.offer=false;
       await db
         .get()
         .collection(collection.PRODUCT_COLLECTIONS)
@@ -156,6 +156,22 @@ module.exports = {
     
     })
 
+
+  },
+  getAllProductWithoutOffer:()=>{
+
+    return new Promise(async (res, rej) => {
+
+      let product = await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTIONS).aggregate([
+          {
+            $match:{offer:false}
+          }
+        ]).toArray()
+      res(product);
+
+    });
 
   }
 
