@@ -474,9 +474,9 @@ router.get("/export_to_excel", async (req, res) => {
 
 // product offer stars
 
-router.get("/manage-productOffer", verifyAdminLogin, async (req, res) => {
+router.get("/offer-management", verifyAdminLogin, async (req, res) => {
   let offers = await adminhelpers.getAllOffers();
-  res.render("admin/product-offer", {
+  res.render("admin/manage-offer", {
     admin: true,
     adminLogin: adminLogin,
     offers,
@@ -497,30 +497,19 @@ router.get("/add-product_offer", verifyAdminLogin, async (req, res) => {
 
 router.post("/add-product_offer", (req, res) => {
   adminhelpers.addProductOffer(req.body).then((response) => {
-    res.redirect("/admin/manage-productOffer");
+    res.redirect("/admin/offer-management");
   });
 });
 
-router.get("/delete-prod-offer/:id", (req, res) => {
+router.get("/delete-offer/:id", (req, res) => {
   const offId = req.params.id;
   console.log(offId);
   adminhelpers.deleteOffer(offId).then((response) => {
     console.log(response);
-    res.redirect("/admin/manage-productOffer");
+    res.redirect("/admin/offer-management");
   });
 });
 // product offer ends
-
-// category offer starts
-
-router.get("/mange-categoryOffer", verifyAdminLogin, async (req, res) => {
-  // let offers =await adminhelpers.getAllCategoryOffers()
-  res.render("admin/category-offer", {
-    admin: true,
-    adminLogin: adminLogin,
-    // offers
-  });
-});
 
 // add category offer
 
@@ -538,8 +527,8 @@ router.get("/add-category_offer", verifyAdminLogin, async (req, res) => {
 
 router.post("/add_category_offer", (req, res) => {
   adminhelpers.addCategoryOffer(req.body).then((response) => {
-    res.redirect("/admin/mange-categoryOffer");
-  });
+    res.redirect("/admin/offer-management");
+  }); 
 });
 
 

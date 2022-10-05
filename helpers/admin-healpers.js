@@ -400,6 +400,7 @@ module.exports = {
   },
 
   addProductOffer: (offerData) => {
+    console.log(offerData)
     let productsArray = offerData.options.split(",");
     let products = [];
 
@@ -410,6 +411,7 @@ module.exports = {
     const offer = {
       name: offerData.name,
       value: offerData.value,
+      offerType:offerData.offerType,
       include: products,
     };
     console.log(offer);
@@ -540,6 +542,7 @@ console.log(productsArray)
     const offer = {
       name: offerData.name,
       value: offerData.value,
+      offerType:offerData.offerType,
       include: products,
     };
     console.log(offer);

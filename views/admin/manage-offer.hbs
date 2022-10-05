@@ -8,11 +8,21 @@
 
 <section class="px-5 pt-5  ">
 
-    <a href="/admin/add-product_offer" class="btn btn-primary mb-2">Add Offer</a>
+    {{!-- <a href="/admin/add-product_offer" class="btn btn-primary mb-2">Add Offer</a> --}}
     
 
-    {{!-- category --}}
+    {{!-- offers --}}
 
+<div class="btn-group">
+  <a  class="btn btn-primary dropdown-toggle mb-2" data-bs-toggle="dropdown" aria-expanded="false">
+  Add Offer
+  </a>
+  <ul class="dropdown-menu">
+    <li ><a class="dropdown-item" href="/admin/add-product_offer">Product Offer</a></li>
+    <li><a class="dropdown-item" href="/admin/add-category_offer">Category Offer</a></li>
+
+  </ul>
+</div>
 
 
 
@@ -25,6 +35,7 @@
       <tr class="border border-1 border-seconday border-start-0 border-end-0">
         <th class="fit" scope="col">#</th>
         <th  class="fit"  scope="col">Name</th>
+        <th  class="fit"  scope="col">Type</th>
         <th  class="fit"  scope="col">Value</th>
         <th  class="fit"  scope="col">Products</th>
         <th class="fit"   scope="col">Delete</th>
@@ -38,13 +49,16 @@
         <td  class="fit" >
           {{this.name}}
         </td>  
+        <td class="fit">
+          {{this.offerType}} Offer
+        </td>
         <td  class="fit" >
           {{this.value}}
         </td>  
         <td  class="fit" >
         {{#each this.products}}
 
-          {{this.name}}<br> 
+          {{this.name}}({{this.category}})<br> 
 
         {{/each}}
         </td>
@@ -67,7 +81,7 @@
   
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-        <a href="/admin/delete-prod-offer/{{this._id}}" type="button" class="btn btn-danger">Delete</a>
+        <a href="/admin/delete-offer/{{this._id}}" type="button" class="btn btn-danger">Delete</a>
       </div>
     </div>
   </div>
