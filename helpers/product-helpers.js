@@ -35,11 +35,12 @@ module.exports = {
 
 
   },
-  addCategory: (categoryName) => {
+  addCategory: (category) => {
+    category.offer=false;
     return new Promise((res, rej) => {
       db.get()
         .collection(collection.CATEGORY_COLLECTIONS)
-        .insertOne(categoryName)
+        .insertOne(category)
         .then((response) => {
           // passing the resonse it may usefull in future
           res(response);
@@ -173,6 +174,20 @@ module.exports = {
 
     });
 
-  }
+  },
+  getAllCategoryWithoutOffer: () => {
+    return new Promise((res, rej) => {
+      let category = db
+        .get()
+        .collection(collection.CATEGORY_COLLECTIONS).aggregate([
+          {
+            $match:{offer:false}
+          }
+        ]).toArray()
+        console.log(category)
+      res(category);
+    });
+  },
+
 
 };

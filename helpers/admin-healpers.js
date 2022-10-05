@@ -398,6 +398,7 @@ module.exports = {
       res(SalesReport);
     });
   },
+
   addProductOffer: (offerData) => {
     let productsArray = offerData.options.split(",");
     let products = [];
@@ -517,4 +518,71 @@ module.exports = {
       res();
     });
   },
+
+  addCategoryOffer: async (offerData) => {
+
+// giving the product Array
+let categories = offerData.options.split(",");
+
+
+console.log(categories)
+let productsArray = await db.get().collection(collection.PRODUCT_COLLECTIONS).find({category:{$in:categories}}).toArray() 
+console.log("debugPrduct")
+console.log(productsArray)
+
+    // let productsArray = offerData.options.split(",");
+    let products = [];
+
+    productsArray.forEach((prod) => {
+      products.push({ product: prod._id });
+    });
+    console.log(offerData);
+    const offer = {
+      name: offerData.name,
+      value: offerData.value,
+      include: products,
+    };
+    console.log(offer);
+
+    return new Promise((res, rej) => {
+      db.get()
+        .collection(collection.OFFER_COLLECIONS)
+        .insertOne(offer)
+        .then((response) => {
+          // passing the resonse it may usefull in future
+          console.log(response);
+
+          products.forEach(async (val) => {
+            val.product;
+
+            let product = await db
+              .get()
+              .collection(collection.PRODUCT_COLLECTIONS)
+              .findOne({ _id: objectId(val.product) });
+            console.log(product);
+            var finalprice =
+              parseInt(product.price) -
+              (parseInt(product.price) * offerData.value) / 100;
+
+            console.log(offerData.value);
+
+            db.get()
+              .collection(collection.PRODUCT_COLLECTIONS)
+              .updateOne(
+                { _id: val.product },
+                {
+                  $set: {
+                    discount: offerData.value,
+                    finalPrice: finalprice,
+                    offer: true,
+                  },
+                }
+              )
+              .then(() => {
+                res();
+              });
+          });
+        });
+    });
+  }
 };

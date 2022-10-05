@@ -3,8 +3,7 @@ const adminhelpers = require("../helpers/admin-healpers");
 const productHelpers = require("../helpers/product-helpers");
 const userHealpers = require("../helpers/user-healpers");
 const router = express.Router();
-const excelJs = require('exceljs')
-
+const excelJs = require("exceljs");
 
 /* GET home page. */
 
@@ -38,27 +37,26 @@ var adminLogin;
 
 // admin page
 router.get("/", verifyAdminLogin, async function (req, res, next) {
+  // // redering sales report
+  const SalesReport = await adminhelpers.getMonthSalesReport();
+  const ProductReport = await adminhelpers.getProductReport();
+  const totalProducts = await adminhelpers.getTotalProducts();
+  const totalOrders = await adminhelpers.getTotalOrders();
 
-// // redering sales report 
-const SalesReport = await adminhelpers.getMonthSalesReport()
-const ProductReport = await adminhelpers.getProductReport()
-const totalProducts = await adminhelpers.getTotalProducts()
-const totalOrders = await adminhelpers.getTotalOrders()
-
-let totalsales=0
-SalesReport.forEach((doc)=>{
-totalsales += doc.totalSalesAmount
-})
-
-
-
-
+  let totalsales = 0;
+  SalesReport.forEach((doc) => {
+    totalsales += doc.totalSalesAmount;
+  });
 
   res.render("admin/dashbord", {
-     admin: true,
-      adminLogginPage: false,
-      SalesReport,totalsales,ProductReport,totalProducts,totalOrders
-     });
+    admin: true,
+    adminLogginPage: false,
+    SalesReport,
+    totalsales,
+    ProductReport,
+    totalProducts,
+    totalOrders,
+  });
 });
 
 // admin loggin
@@ -223,7 +221,6 @@ router.get("/manage-category", verifyAdminLogin, (req, res) => {
   });
 });
 
-
 router.get("/add-category", verifyAdminLogin, (req, res) => {
   res.render("admin/add-category", { admin: true, adminLogin: adminLogin });
 });
@@ -232,12 +229,6 @@ router.post("/add-category", (req, res) => {
     res.redirect("/admin/manage-category");
   });
 });
-
-
-
-
-
-
 
 // delete category
 
@@ -284,10 +275,9 @@ router.get("/delete-subCategory/:id", (req, res) => {
 // Orders listing
 
 router.get("/orders", (req, res) => {
-
   adminhelpers.getAllOrders().then((allOrders) => {
-    console.log("debut orders")
-    console.log(allOrders)
+    console.log("debut orders");
+    console.log(allOrders);
     res.render("admin/vew-orders", {
       admin: true,
       adminLogin: adminLogin,
@@ -424,112 +414,136 @@ router.post("/addTrendingProducts", (req, res) => {
   });
 });
 
-router.get("/sales-report",async(req,res)=>{
- let SalesReport= await adminhelpers.getTotalSalesReport()
+router.get("/sales-report", async (req, res) => {
+  let SalesReport = await adminhelpers.getTotalSalesReport();
 
-  console.log(SalesReport)
- res.render("admin/sales-report", {
-  admin: true,
-   adminLogginPage: false,
-   SalesReport
+  console.log(SalesReport);
+  res.render("admin/sales-report", {
+    admin: true,
+    adminLogginPage: false,
+    SalesReport,
   });
+});
 
+router.get("/export_to_excel", async (req, res) => {
+  let SalesReport = await adminhelpers.getTotalSalesReport();
 
-})
+  try {
+    const workbook = new excelJs.Workbook();
 
-router.get("/export_to_excel",async(req,res)=>{
-  let SalesReport= await adminhelpers.getTotalSalesReport()
-
-   
-  try{
-    
-    const workbook=new  excelJs.Workbook();
-
-    const worksheet= workbook.addWorksheet("Sales Report")
+    const worksheet = workbook.addWorksheet("Sales Report");
 
     worksheet.columns = [
-     {header:"S no.",key:"s_no"},
-     {header:"OrderID",key:"_id"},
-     {header:"User",key:"name"},
-     {header:"Date",key:"date"},
-     {header:"Products",key:"products"},
-     {header:"Method",key:"paymentMethod"},
-     {header:"status",key:"status"},
-     {header:"Amount",key:"totalPrice"},
-
+      { header: "S no.", key: "s_no" },
+      { header: "OrderID", key: "_id" },
+      { header: "User", key: "name" },
+      { header: "Date", key: "date" },
+      { header: "Products", key: "products" },
+      { header: "Method", key: "paymentMethod" },
+      { header: "status", key: "status" },
+      { header: "Amount", key: "totalPrice" },
     ];
     let counter = 1;
-    SalesReport.forEach((report)=>{
-     report.s_no = counter;
-     report.products="";
-     report.name=report.users[0].name;
-     report.product.forEach((eachProduct)=>{
-      report.products += eachProduct.name+","
-     })
-     worksheet.addRow(report)
-     counter++
-    })
+    SalesReport.forEach((report) => {
+      report.s_no = counter;
+      report.products = "";
+      report.name = report.users[0].name;
+      report.product.forEach((eachProduct) => {
+        report.products += eachProduct.name + ",";
+      });
+      worksheet.addRow(report);
+      counter++;
+    });
 
-    worksheet.getRow(1).eachCell((cell) =>{
-     cell.font = {bold:true};
-    })
-// console.log("finaly resolving the promic ")
+    worksheet.getRow(1).eachCell((cell) => {
+      cell.font = { bold: true };
+    });
+    // console.log("finaly resolving the promic ")
 
-res.header(
-"Content-Type",
-"application/vnd.oppenxmlformats-officedocument.spreadsheatml.sheet"
-);
-res.header("Content-Disposition",'attachment; filename=report.xlsx')
+    res.header(
+      "Content-Type",
+      "application/vnd.oppenxmlformats-officedocument.spreadsheatml.sheet"
+    );
+    res.header("Content-Disposition", "attachment; filename=report.xlsx");
 
-workbook.xlsx.write(res)
-    
-   }catch(err){
-     console.log(err.message)
-   }
-})
+    workbook.xlsx.write(res);
+  } catch (err) {
+    console.log(err.message);
+  }
+});
 
+// product offer stars
 
-// product offer management
-router.get("/manage-productOffer", verifyAdminLogin, async(req, res) => {
-  let offers =await adminhelpers.getAllOffers()
+router.get("/manage-productOffer", verifyAdminLogin, async (req, res) => {
+  let offers = await adminhelpers.getAllOffers();
   res.render("admin/product-offer", {
     admin: true,
     adminLogin: adminLogin,
-    offers
+    offers,
   });
 });
-
 
 // add product offer
 
-router.get("/add-product_offer", verifyAdminLogin,async (req, res) => {
-
+router.get("/add-product_offer", verifyAdminLogin, async (req, res) => {
   const AllProductList = await productHelpers.getAllProductWithoutOffer();
 
-  res.render("admin/add-product-offers", { admin: true,
-     adminLogin: adminLogin,
-     AllProductList
-     });
+  res.render("admin/add-product-offers", {
+    admin: true,
+    adminLogin: adminLogin,
+    AllProductList,
+  });
 });
 
 router.post("/add-product_offer", (req, res) => {
-
-
   adminhelpers.addProductOffer(req.body).then((response) => {
     res.redirect("/admin/manage-productOffer");
   });
-
-
 });
 
 router.get("/delete-prod-offer/:id", (req, res) => {
   const offId = req.params.id;
-  console.log(offId)
+  console.log(offId);
   adminhelpers.deleteOffer(offId).then((response) => {
     console.log(response);
     res.redirect("/admin/manage-productOffer");
   });
 });
+// product offer ends
 
+// category offer starts
+
+router.get("/mange-categoryOffer", verifyAdminLogin, async (req, res) => {
+  // let offers =await adminhelpers.getAllCategoryOffers()
+  res.render("admin/category-offer", {
+    admin: true,
+    adminLogin: adminLogin,
+    // offers
+  });
+});
+
+// add category offer
+
+router.get("/add-category_offer", verifyAdminLogin, async (req, res) => {
+  const AllCategoryList = await productHelpers.getAllCategoryWithoutOffer();
+
+  res.render("admin/add-category-offers", {
+    admin: true,
+    adminLogin: adminLogin,
+    AllCategoryList,
+  });
+});
+
+
+
+router.post("/add_category_offer", (req, res) => {
+  adminhelpers.addCategoryOffer(req.body).then((response) => {
+    res.redirect("/admin/mange-categoryOffer");
+  });
+});
+
+
+
+// category offer ends
 
 module.exports = router;
