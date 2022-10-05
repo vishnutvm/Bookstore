@@ -99,6 +99,7 @@ module.exports = {
           {
             $set: {
               status: "Delivered",
+              deliverd:true
             },
           }
         )

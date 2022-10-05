@@ -76,7 +76,7 @@
                               <div class="form-outline" id="copenwrap">
 
 
-                                <input name="token" style="font-size:10px ;" type="text" id="coupenCode" class="form-control"
+                                <input style="font-size:10px ;" type="text" id="coupenCode" class="form-control"
                                   placeholder="Try New book"/>
 
 
@@ -165,7 +165,7 @@
 
                          
                         </ul>
-                      <input type="text" id="coupenId" name="coupen" hidden>
+                      <input  type="text" id="coupenId"  hidden>
                         <div class="button d-grid ">
                           <button  style="background-color: #eb227ddb;  color: #ffff;" type="submit"  class="btn ">Checkout</button>
                         </div>
@@ -364,7 +364,9 @@ function verifyToken(tokenName){
 
 invalidCoupon.innerText="Token Valid";
 invalidCoupon.style.color="green";
+coupenId.setAttribute("name","coupen")
 coupenId.value=response.found._id
+
 
      addTokenAmt(response.found)
       }else{

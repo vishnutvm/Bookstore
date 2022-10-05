@@ -256,13 +256,14 @@ router.get("/place-order", verifyuserlogin, async (req, res) => {
 router.post("/place-order",async(req,res)=>{
   console.log(req.body);
   // get total price
-  let currentPrice = await userHealpers.getTotalAmount(req.body.userId);
+  let totalPrice = await userHealpers.getTotalAmount(req.body.userId);
 
   let token = await adminHealpers.getApplyToken(req.body.coupen)
   console.log("token Debug")
-  console.log(token)
-  console.log(token[0].value)
-  let totalPrice = parseInt(currentPrice) - parseInt(token[0].value)
+if(token.length >= 1){
+   totalPrice = parseInt(totalPrice) - parseInt(token[0].value)
+}
+ 
   // get product
   let products= await userHealpers.getCartProductList(req.body.userId)
 
@@ -325,6 +326,14 @@ router.get("/cancelOrder/:id",(req,res)=>{
   })
 })
 
+router.get("/returnOrder/:id",(req,res)=>{
+  const orderId = req.params.id
+  userHealpers.returnOrder(orderId).then((response)=>{
+    console.log(response)
+    res.redirect("/orders")
+  })
+})
+
 
 // view orderded proudcts
 router.get("/view-orderd-products/:id",verifyuserlogin,async(req,res)=>{
@@ -341,12 +350,17 @@ CurrentDate = orderDetails[0].date
 console.log(PaymentMethod)
 // paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
 
-if(PaymentMethod == 'COD'){
+if(PaymentMethod == 'COD' && CurrentStatus == 'placed' ){
   paymentStatus = 'pending'
 }else if(CurrentStatus == 'pending' ){
   paymentStatus = 'pending'
   
-}else{
+}else if(CurrentStatus == 'Returned' ){
+  paymentStatus = 'refunded'
+
+}
+
+else{
   paymentStatus = 'paid'
 }
 

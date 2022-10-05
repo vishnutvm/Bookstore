@@ -395,6 +395,7 @@ console.log("the current moth is"+month)
       paymentMethod:orderData.paymentMethod,
       products:products,
       status:status,
+      deliverd:false,
       totalPrice:totalPrice,
       date:currentTime,
       CurrentDate:date_ob,
@@ -540,61 +541,23 @@ console.log("the current moth is"+month)
      res()
    })
    })
+  },
+
+
+  returnOrder:(orderId)=>{
+    return new Promise((res,rej)=>{
+      db.get().collection(collection.ORDER_COLLECTIONS).updateOne({_id:objectid(orderId)},{
+     $set:{
+       status:'Returned'
+     }
+   }).then(()=>{
+     res()
+   })
+   })
   }
 
 
 
-
-//   ,generatePaypalPay:(totalprice)=>{
-// console.log("gen paypal working")
-//     return new Promise((res,rej)=>{
-//         const create_payment_json = {
-//           "intent": "sale",
-//           "payer": {
-//               "payment_method": "paypal"
-//           },
-//           "redirect_urls": {
-//               "return_url": "http://localhost:3000/success",
-//               "cancel_url": "http://localhost:3000/cancel"
-//           },
-//           "transactions": [{
-//               "item_list": {
-//                   "items": [{
-//                       "name": "Vishhnu",
-//                       "sku": "001",
-//                       "price": totalprice.toString(),
-//                       "currency": "USD",
-//                       "quantity": 1
-//                   }]
-//               },
-//               "amount": {
-//                   "currency": "USD",
-//                   "total": totalprice.toString()
-//               },
-//               "description": "Get best books Here"
-//           }]
-//       };
-      
-//       paypal.payment.create(create_payment_json, function (error, payment) {
-//         if (error) {
-//             throw error;
-//         } else {
-//             for(let i = 0;i < payment.links.length;i++){
-//               if(payment.links[i].rel === 'approval_url'){
-//                 res.redirect(payment.links[i].href);
-//               }
-//             }
-//         }
-//       });
-      
-  
-//     }).then((status)=>{
-//       console.log(status)
-//       res()
-//     })
-//   }
-
-  
 
 
 };
