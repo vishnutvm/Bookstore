@@ -329,7 +329,16 @@ CurrentStatus= orderDetails[0].status
 PaymentMethod=orderDetails[0].paymentMethod.toUpperCase()
 CurrentDate = orderDetails[0].date
 console.log(PaymentMethod)
-paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
+// paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
+
+if(PaymentMethod == 'COD'){
+  paymentStatus = 'pending'
+}else if(CurrentStatus == 'pending' ){
+  paymentStatus = 'pending'
+  
+}else{
+  paymentStatus = 'paid'
+}
 
 
   res.render('users/viewOrderdProducts',{user: true,
@@ -343,7 +352,7 @@ router.post("/razo-verify-payment",(req,res)=>{
   console.log(req.body)
   userHealpers.verifyPayment(req.body).then(()=>{
     currectStatus='placed'
-    
+
     userHealpers.changePaymentStatus(req.body['order[receipt]'],currectStatus).then(()=>{
     console.log("payment success")
       res.json({status:true})

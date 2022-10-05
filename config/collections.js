@@ -7,5 +7,7 @@ module.exports={
     ORDER_COLLECTIONS:'order',
     CAROUSEL_COLLECTIONS:'carousel',
     HOMECATEGORY_COLLECTIONS:'homecategory',
-    TRENDINGPRODUCT_COLLECIONS:'trending'
+    TRENDINGPRODUCT_COLLECIONS:'trending',
+    OFFER_COLLECIONS:'offer'
+
 }

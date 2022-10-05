@@ -1,0 +1,121 @@
+
+
+
+<section class="px-5 pt-5 " >
+
+<div class="table-responsive mt-3">
+<div class="down_btn_wrap  mb-3">
+  <div class="btn-group">
+  <a  class="btn btn-primary dropdown-toggle mb-2" data-bs-toggle="dropdown" aria-expanded="false">
+   Download
+  </a>
+  <ul class="dropdown-menu">
+    <li ><a class="dropdown-item" href="/admin/export_to_excel">Excel</a></li>
+    <li><button class="dropdown-item" onclick="myfun('pt')"  >Pdf</button></li>
+
+  </ul>
+</div>
+
+</div>
+
+
+
+
+
+
+<div class="table-wrap" id="pt">
+    <table class="table table-borderless " id="usertable">
+    <thead class="" >
+      <tr class="border border-1 border-seconday border-start-0 border-end-0">
+        <th scope="col">#</th>
+        <th scope="col">Date</th>
+        <th scope="col">OrderID</th>
+        <th scope="col">User</th>
+        <th scope="col">Products</th>
+        <th scope="col">payment</th>
+        <th scope="col">Status</th>
+        <th scope="col">Total</th>
+  
+
+      </tr>
+    </thead>
+    <tbody>
+   {{#each SalesReport}}
+      <tr>
+        <th scope="row"></th>
+        <td>{{this.date}}</td>
+        <td>{{this._id}}</td>
+
+
+
+        <td>
+        {{#each this.users}}
+            {{this.name}}
+        {{/each}}
+            </td>
+
+
+        
+
+        <td>
+       {{#each this.product}}
+            {{this.name}} <br>
+        {{/each}}
+            
+            </td>
+
+
+        <td>{{this.paymentMethod}}</td>
+
+        <td>{{this.status}}</td>
+
+        <td>{{this.totalPrice}}</td>
+  
+    
+  
+
+
+          
+      </tr>
+
+{{/each}}
+
+    </tbody>
+  </table>
+</div>
+
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+<script>
+console.log("script working")
+ function myfun(pt){
+    var bk = document.body.innerHTML;
+    var dv = document.getElementById('pt').innerHTML;
+        document.body.innerHTML = dv;
+        document.body.style.padding="20px"
+        window.print();
+        location.reload();
+
+    }
+
+
+
+
+
+$(document).ready( function () {
+    $('#usertable').DataTable()
+} );
+
+</script>
+
+

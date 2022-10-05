@@ -3,6 +3,8 @@ const adminhelpers = require("../helpers/admin-healpers");
 const productHelpers = require("../helpers/product-helpers");
 const userHealpers = require("../helpers/user-healpers");
 const router = express.Router();
+const excelJs = require('exceljs')
+
 
 /* GET home page. */
 
@@ -47,6 +49,7 @@ let totalsales=0
 SalesReport.forEach((doc)=>{
 totalsales += doc.totalSalesAmount
 })
+
 
 
 
@@ -169,12 +172,10 @@ router.post("/EditProduct/:id", (req, res) => {
   const id = req.params.id;
   productHelpers.editProduct(req.body, id).then((response) => {
     res.redirect("/admin/product");
-    console.log(req.files.image);
-    if (req.body) {
+    if (req.files) {
       console.log("this have image");
       console.log(id);
       let image = req.files.image;
-      console.log(image);
 
       image.mv("./public/product-images/" + id + ".jpg");
     }
@@ -222,6 +223,7 @@ router.get("/manage-category", verifyAdminLogin, (req, res) => {
   });
 });
 
+
 router.get("/add-category", verifyAdminLogin, (req, res) => {
   res.render("admin/add-category", { admin: true, adminLogin: adminLogin });
 });
@@ -230,6 +232,12 @@ router.post("/add-category", (req, res) => {
     res.redirect("/admin/manage-category");
   });
 });
+
+
+
+
+
+
 
 // delete category
 
@@ -415,5 +423,113 @@ router.post("/addTrendingProducts", (req, res) => {
     res.redirect("/admin/edit-page");
   });
 });
+
+router.get("/sales-report",async(req,res)=>{
+ let SalesReport= await adminhelpers.getTotalSalesReport()
+
+  console.log(SalesReport)
+ res.render("admin/sales-report", {
+  admin: true,
+   adminLogginPage: false,
+   SalesReport
+  });
+
+
+})
+
+router.get("/export_to_excel",async(req,res)=>{
+  let SalesReport= await adminhelpers.getTotalSalesReport()
+
+   
+  try{
+    
+    const workbook=new  excelJs.Workbook();
+
+    const worksheet= workbook.addWorksheet("Sales Report")
+
+    worksheet.columns = [
+     {header:"S no.",key:"s_no"},
+     {header:"OrderID",key:"_id"},
+     {header:"User",key:"name"},
+     {header:"Date",key:"date"},
+     {header:"Products",key:"products"},
+     {header:"Method",key:"paymentMethod"},
+     {header:"status",key:"status"},
+     {header:"Amount",key:"totalPrice"},
+
+    ];
+    let counter = 1;
+    SalesReport.forEach((report)=>{
+     report.s_no = counter;
+     report.products="";
+     report.name=report.users[0].name;
+     report.product.forEach((eachProduct)=>{
+      report.products += eachProduct.name+","
+     })
+     worksheet.addRow(report)
+     counter++
+    })
+
+    worksheet.getRow(1).eachCell((cell) =>{
+     cell.font = {bold:true};
+    })
+// console.log("finaly resolving the promic ")
+
+res.header(
+"Content-Type",
+"application/vnd.oppenxmlformats-officedocument.spreadsheatml.sheet"
+);
+res.header("Content-Disposition",'attachment; filename=report.xlsx')
+
+workbook.xlsx.write(res)
+    
+   }catch(err){
+     console.log(err.message)
+   }
+})
+
+
+// product offer management
+router.get("/manage-productOffer", verifyAdminLogin, async(req, res) => {
+  let offers =await adminhelpers.getAllOffers()
+  res.render("admin/product-offer", {
+    admin: true,
+    adminLogin: adminLogin,
+    offers
+  });
+});
+
+
+// add product offer
+
+router.get("/add-product_offer", verifyAdminLogin,async (req, res) => {
+
+  const AllProductList = await productHelpers.getAllProductWithoutOffer();
+
+  res.render("admin/add-product-offers", { admin: true,
+     adminLogin: adminLogin,
+     AllProductList
+     });
+});
+
+router.post("/add-product_offer", (req, res) => {
+
+
+  adminhelpers.addProductOffer(req.body).then((response) => {
+    res.redirect("/admin/manage-productOffer");
+  });
+
+
+});
+
+router.get("/delete-prod-offer/:id", (req, res) => {
+  const offId = req.params.id;
+  console.log(offId)
+  adminhelpers.deleteOffer(offId).then((response) => {
+    console.log(response);
+    res.redirect("/admin/manage-productOffer");
+  });
+});
+
 
 module.exports = router;

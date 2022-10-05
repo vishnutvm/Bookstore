@@ -21,6 +21,8 @@
               <div class="product p-4">
 
                 <div class="mt-4 mb-3">
+
+                  
                   <h5
                     style="font-size:23px  ;"
                     class="text-uppercase"
@@ -29,14 +31,41 @@
                     class="text-uppercase text-muted brand"
                   >-{{productDetails.authname}}</span>
                   <div class="mt-3 price d-flex flex-row align-items-center">
+
+
+{{#if productDetails.offer}}
+
+  {{!-- <h4 class="product-old-price ">{{this.price}}</h4>
+            <h4 class="product-price ">{{this.finalPrice}}</h4>
+            <h4 class="product-offer">({{this.discount}}% off)</h4> --}}
+
                     <span class="act-price me-2">RS.
-                      {{productDetails.price}}</span>
+                      {{productDetails.finalPrice}}</span>
                     <div class="ml-2">
-                      <small class="dis-price">RS. 59</small>
-                      <span>40% OFF</span>
+                      <small class="dis-price">{{productDetails.price}}</small>
+                      <span>{{productDetails.discount}}% OFF</span>
                     </div>
+
+
+            {{else}}
+
+
+
+
+<h4 class="product-price ">{{productDetails.price}}</h4>
+
+
+{{/if}}
+
+
+
+
                   </div>
                 </div>
+
+
+
+
                 <p
                   style="line-height: 35px;"
                   class="about"
