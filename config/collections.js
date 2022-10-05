@@ -8,6 +8,8 @@ module.exports={
     CAROUSEL_COLLECTIONS:'carousel',
     HOMECATEGORY_COLLECTIONS:'homecategory',
     TRENDINGPRODUCT_COLLECIONS:'trending',
-    OFFER_COLLECIONS:'offer'
+    OFFER_COLLECIONS:'offer',
+    COUPENCODE_COLLECTIONS:'coupen'
+
 
 }

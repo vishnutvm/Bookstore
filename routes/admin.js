@@ -535,4 +535,43 @@ router.post("/add_category_offer", (req, res) => {
 
 // category offer ends
 
+
+// adding coupen code 
+router.get("/manage-coupen", verifyAdminLogin, (req, res) => {
+  adminhelpers.getAllCoupen().then((coupen) => {
+
+     res.render("admin/view-coupen", {
+    admin: true,
+    adminLogin: adminLogin,
+    coupen
+  });
+    
+  });
+ 
+
+  router.get("/add-coupen", verifyAdminLogin, (req, res) => {
+    res.render("admin/add-coupen-page", { admin: true, adminLogin: adminLogin });
+  });
+
+  router.post("/add-coupen", (req, res) => {
+    adminhelpers.addCoupen(req.body).then((response) => {
+      res.redirect("/admin/manage-coupen");
+      
+    });
+  });
+
+  router.get("/delete-coupen/:id", (req, res) => {
+    const id = req.params.id;
+    adminhelpers.deleteCoupen(id).then((response) => {
+      console.log(response);
+      res.redirect("/admin/manage-coupen");
+    });
+  });
+  
+
+
+
+
+});
+
 module.exports = router;

@@ -68,7 +68,28 @@
                       </div>
                       <div class="card-body">
                         <ul class="list-group list-group-flush">
-                     
+                       <li class="coupon list-group-item d-flex justify-content-between align-items-center px-0 ">
+                          Apply Coupon
+                          <span>
+                            
+
+                              <div class="form-outline" id="copenwrap">
+
+
+                                <input name="token" style="font-size:10px ;" type="text" id="coupenCode" class="form-control"
+                                  placeholder="Try New book"/>
+
+
+
+                               <a id="add-coupen-btn" class="apply" style="display:none ;" ><i class='bx bxs-discount' style='color:#df147c'  ></i></a>
+
+<a id="coupon_notworking"  style="font-size:10px;color:red;margin-left: 10px;" ></a>
+                              </div>
+                         
+                          </span>
+                         
+                        
+                        </li>
                           <li
                             class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-2">
                             <div>
@@ -76,8 +97,8 @@
                              
                                 <p class="mb-0">(including GST)</p>
                               
-                            </div>
-                            <span>${{totalPrice}}</span>
+                            </div><span>$<span id="finalCheckoutPrice">{{totalPrice}}</span></span>
+                            
                           </li>
                              
                           
@@ -144,6 +165,7 @@
 
                          
                         </ul>
+                      <input type="text" id="coupenId" name="coupen" hidden>
                         <div class="button d-grid ">
                           <button  style="background-color: #eb227ddb;  color: #ffff;" type="submit"  class="btn ">Checkout</button>
                         </div>
@@ -166,7 +188,10 @@
               </div>
               
       
-    
+
+
+
+
               </form>
 
 
@@ -292,9 +317,96 @@ function RazoverifyPayment(payment,order){
   })
 }
 
+//coupen code 
+
+let input = document.getElementById("coupenCode")
+let addcoupnBtn = document.getElementById("add-coupen-btn")
+let invalidCoupon = document.getElementById("coupon_notworking")
+let coupenId = document.getElementById("coupenId")
+{{!-- hide and show the valdate copenBTN --}}
+
+input.addEventListener("input",(event)=>{
+ if(input.value != ''){
+
+ addcoupnBtn.style.display="block";
+} else{
+   addcoupnBtn.style.display="none";
+}
+})
+
+addcoupnBtn.addEventListener("click",(event)=>{
+  tokenName = input.value
+  verifyToken(tokenName);
+})
+
+
+
+{{!-- ajax fun for checking the token --}}
+
+function verifyToken(tokenName){
+
+
+  $.ajax({
+    url:'/verify-token',
+    data:{
+    tokenName
+    },
+    method:'post',
+    success:(response)=>{
+      if(response.token){
+
+   input.style.border="1px solid green";
+   input.disabled = true
+  addcoupnBtn.style.display="none";
+
+
+   
+
+invalidCoupon.innerText="Token Valid";
+invalidCoupon.style.color="green";
+coupenId.value=response.found._id
+
+     addTokenAmt(response.found)
+      }else{
+         input.style.border="1px solid red"
+        invalidCoupon.innerText="Invalid Token"
+       // need to render payment faild page
+         
+      }
+    }
+  })
+
+
+
+
+}
+
+function addTokenAmt(found){
+const finalCheckoutPrice = document.getElementById("finalCheckoutPrice")
+
+let currentPrice =parseInt(finalCheckoutPrice.innerText) 
+console.log(currentPrice)
+
+
+finalPrice = currentPrice - parseInt(found.value)
+console.log(finalPrice)
+
+finalCheckoutPrice.innerText =""+ finalPrice
+}
+
 </script>
 
 
 <style>
+
+  #copenwrap{
+    position: relative;
+  }
+#add-coupen-btn{
+  position: absolute;
+  top: 0;
+  right: 5px;
+  font-size: 1.5rem;
+}
 
 </style>

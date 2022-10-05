@@ -587,5 +587,56 @@ console.log(productsArray)
           });
         });
     });
+  },
+  addCoupen:(coupenData)=>{
+    return new Promise((res, rej) => {
+      db.get()
+        .collection(collection.COUPENCODE_COLLECTIONS)
+        .insertOne(coupenData)
+        .then((response) => {
+          // passing the resonse it may usefull in future
+          res(response);
+        });
+    });
+
+  },
+  getAllCoupen:()=>{
+    return new Promise((res, rej) => {
+      let coupen = db
+        .get()
+        .collection(collection.COUPENCODE_COLLECTIONS)
+        .find()
+        .toArray();
+      res(coupen);
+    });
+  },deleteCoupen: (id) => {
+    console.log("delete stared");
+    console.log(id);
+    return new Promise((res, rej) => {
+      db.get()
+        .collection(collection.COUPENCODE_COLLECTIONS)
+        .deleteOne({ _id: objectId(id) })
+        .then((response) => {
+          // passing the response. may use later
+          res(response);
+        });
+    });
   }
+  ,
+  getApplyToken:(tokenId)=>{
+    return new Promise((res, rej) => {
+      let coupen = db
+        .get()
+        .collection(collection.COUPENCODE_COLLECTIONS)
+        .find({_id:objectId(tokenId)})
+        .toArray();
+      res(coupen);
+    });
+  }
+
+
 };
+
+
+
+

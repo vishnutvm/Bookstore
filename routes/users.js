@@ -189,6 +189,7 @@ cartCount:req.session.cartCount
 
 
 router.get("/cart", verifyuserlogin, async (req, res) => {
+
   let totalPrice = await userHealpers.getTotalAmount(req.session.user._id);
   req.session.totalPrice = totalPrice;
   cartCount = await userHealpers.getCartCount(req.session.user._id);
@@ -201,7 +202,9 @@ router.get("/cart", verifyuserlogin, async (req, res) => {
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
     totalPrice: totalPrice,
+  
   });
+
 });
 
 // add to cart
@@ -232,6 +235,7 @@ router.get("/remove-product", (req, res, next) => {
 
 //order page
 router.get("/place-order", verifyuserlogin, async (req, res) => {
+
   console.log("enterd in")
   // changed total price in the session for render new updated price in the cart
   let totalPrice = await userHealpers.getTotalAmount(req.session.user._id);
@@ -243,6 +247,7 @@ router.get("/place-order", verifyuserlogin, async (req, res) => {
     cartCount: req.session.cartCount,
     totalPrice: req.session.totalPrice,
     user:req.session.user
+
   });
 });
 
@@ -251,8 +256,13 @@ router.get("/place-order", verifyuserlogin, async (req, res) => {
 router.post("/place-order",async(req,res)=>{
   console.log(req.body);
   // get total price
-  let totalPrice = await userHealpers.getTotalAmount(req.body.userId);
-  
+  let currentPrice = await userHealpers.getTotalAmount(req.body.userId);
+
+  let token = await adminHealpers.getApplyToken(req.body.coupen)
+  console.log("token Debug")
+  console.log(token)
+  console.log(token[0].value)
+  let totalPrice = parseInt(currentPrice) - parseInt(token[0].value)
   // get product
   let products= await userHealpers.getCartProductList(req.body.userId)
 
@@ -370,6 +380,23 @@ console.log(err)
   })
 })
 
+
+router.post("/verify-token",async (req,res)=>{
+  let offers = await adminHealpers.getAllCoupen()
+  console.log(req.body.tokenName)
+  
+  var found = offers.find(e => e.name == ''+req.body.tokenName)
+  console.log(found)
+if(found == undefined){
+  res.json({token:false}) 
+
+}else{
+
+  res.json({token:true,found}) 
+}
+
+
+})
 
 
 
