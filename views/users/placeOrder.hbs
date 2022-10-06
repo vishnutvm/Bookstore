@@ -28,12 +28,12 @@
 <div class="ml-5 col-md-6">
       <div class="d-flex aling-item-center flex-column" >
         
-        <input type="text" name="name" class="form-control mb-3" placeholder="Full Name" required>
+        <input value="{{user.name}}" type="text" name="name" class="form-control mb-3" placeholder="Full Name" required>
 
 
-        <input type="number" name="phone" class="form-control mb-3" placeholder="Phone Number" required>
+        <input value="{{user.phone}}" type="number" name="phone" class="form-control mb-3" placeholder="Phone Number" required>
 
-        <textarea type="text" name="address" class="form-control mb-3" placeholder="Enter Your Address" rows="3"></textarea>
+        <textarea id="address_feald" type="text" name="address" class="form-control mb-3" placeholder="Enter Your Address" rows="3"></textarea>
 
             <input type="text" name="pincode" class="form-control mb-3" placeholder="Pincode" required>
 
@@ -44,11 +44,19 @@
 
 
 
-         {{!-- adding address entering page --}}
-
 
 
                     <div class="pt-5">
+
+
+         {{!-- adding address entering page --}}
+         <div id="userAddressFeald" class="row pb-4 col-sm-6 ms-1">
+          <textarea id="previousAddress" type="text"  class="form-control mb-3" placeholder="Your Address" rows="2">
+{{billingDetails.address}}</textarea>
+<a  id="userThisAddress" class="btn btn-sm btn-primary"> Use this adddres</a>
+         </div>
+
+
                       <h6 class="mb-0"><a href="/" class="text-body"><i
                             class="fas fa-long-arrow-alt-left me-2"></i>Back to shop</a></h6>
                     </div>
@@ -395,6 +403,21 @@ console.log(finalPrice)
 
 finalCheckoutPrice.innerText =""+ finalPrice
 }
+
+
+
+{{!-- adddresss  --}}
+
+
+let addressBtn = document.getElementById("userThisAddress")
+let address_feald = document.getElementById("address_feald")
+let previousAddress = document.getElementById("previousAddress")
+let userAddressFeald = document.getElementById("userAddressFeald")
+addressBtn.addEventListener("click",(e)=>{
+address_feald.value=previousAddress.value
+userAddressFeald.style.display="none"
+})
+
 
 </script>
 

@@ -235,6 +235,11 @@ router.get("/remove-product", (req, res, next) => {
 
 //order page
 router.get("/place-order", verifyuserlogin, async (req, res) => {
+let billingDetails =await userHealpers.getalluserData(req.session.user._id)
+
+console.log(billingDetails)
+
+
 
   console.log("enterd in")
   // changed total price in the session for render new updated price in the cart
@@ -246,8 +251,8 @@ router.get("/place-order", verifyuserlogin, async (req, res) => {
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
     totalPrice: req.session.totalPrice,
-    user:req.session.user
-
+    user:req.session.user,
+    billingDetails:billingDetails[0]
   });
 });
 
