@@ -1,0 +1,25 @@
+<section  class="d-flex justify-content-center " >
+  <div class=" container row  d-flex justify-content-center ">
+    <div class="ml-5 col-md-6">
+      <h2 class="text-center my-5 ">Edit Details</h2>
+      <form class="d-flex aling-item-center flex-column" action="/editProfile/{{userdata._id}}" method="post"    enctype="multipart/form-data" >
+    
+        <input type="text" name="name" class="form-control mb-3" placeholder="name" required value="{{userdata.name}}">
+
+        <input type="email" name="email" class="form-control mb-3" placeholder="email" required value="{{userdata.email}}">
+
+        <input type="number" name="phone" class="form-control mb-3" placeholder="phone" required value="{{userdata.phone}}">
+
+        <textarea type="text" name="address" class="form-control mb-3" value="testefhadfi" placeholder="Discription" rows="3" >{{userdata.address}}</textarea>
+
+       
+
+
+
+        <button  style="background-color:#EF3772; color:#fff;" type="submit" class="btn mt-1" required>Submit</button>
+
+      </form>
+    </div>
+  </div>
+</section>
+

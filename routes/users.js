@@ -318,6 +318,10 @@ let orders = await userHealpers.getAllOrders(req.session.user)
     userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,orders})
 })
 
+
+
+
+
 router.get("/cancelOrder/:id",(req,res)=>{
   const orderId = req.params.id
   userHealpers.cancelOrder(orderId).then((response)=>{
@@ -521,5 +525,38 @@ router.get("/paypal-payment/cancel",(req,res)=>{
   res.json({status:false}) 
 })
 })
+// 
+
+
+router.get("/profile",verifyuserlogin,(req,res)=>{
+  // geting orders form database
+ userHealpers.getalluserData(req.session.user._id).then((userdata)=>{
+
+  console.log(userdata)
+  res.render('users/user-profile',{user: true,
+      userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,userdata:userdata[0]})
+  })
+  
+  
+ })
+ router.get("/edit-profile",verifyuserlogin,(req,res)=>{
+  userHealpers.getalluserData(req.session.user._id).then((userdata)=>{
+
+    console.log(userdata)
+    res.render('users/edit-profile-page',{user: true,
+        userLoggin: req.session.userLoggin, cartCount: req.session.cartCount,userdata:userdata[0]})
+    })
+
+ })
+
+ router.post("/editProfile/:id",(req,res)=>{
+  
+  const id = req.params.id;
+  userHealpers.editProfile(req.body,id).then((respose)=>{
+    res.redirect("/profile")
+  })
+ })
+
+
 
 module.exports = router;

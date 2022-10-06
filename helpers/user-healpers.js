@@ -554,10 +554,37 @@ console.log("the current moth is"+month)
      res()
    })
    })
+  },
+  getalluserData:(id)=>{
+    return new Promise(async (res,rej)=>{
+let userDetails =await db.get().collection(collection.USER_COLLECTIONS).find({_id:objectid(id)}).toArray()
+
+res(userDetails)
+   })
+  },
+  editProfile:(userdata,id)=>{
+    console.log(userdata)
+    return new Promise((res, rej) => {
+      db.get()
+        .collection(collection.USER_COLLECTIONS)
+        .updateOne(
+          { _id: objectid(id) },
+          {
+            $set: {
+              name: userdata.name,
+              email:userdata.email,
+              phone:userdata.phone,
+              address:userdata.address
+              
+   
+            },
+          }
+        )
+        .then((response) => {
+          res(response.insertedId);
+        });
+    }); 
   }
-
-
-
 
 
 };
