@@ -11,16 +11,6 @@ const client = require('twilio')(accountSID,authToken)
 const bcrypt = require("bcrypt");
 
 
-// paypal
-// const paypal = require('paypal-rest-sdk');
- 
-// paypal.configure({
-
-
-//   'mode': 'sandbox', //sandbox or live
-//   'client_id': 'AUMW-aazthVYZUjcjvCRbCZMO1pR0D13gMD_WwL7AgdEIKoTILry3B9rQGzOtZrhqlQZPcYnLD-Vuixu',
-//   'client_secret': 'EPOay6fgqj301VsRw7Gw27GWFPcUpj5ugz-eBSY9MHPvwiyJLk4nvYStQK60m3LjUzaWlsc1O4b57FdH'
-// });
 
 
 

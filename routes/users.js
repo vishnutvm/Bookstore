@@ -171,7 +171,9 @@ router.get("/product-details/:id", async(req,res)=>{
     req.session.cartCount = cartCount;
   }
 
-await productHelpers.getProductDetails(id).then((productDetails)=>{
+
+
+ productHelpers.getProductDetails(id).then((productDetails)=>{
 
 
 res.render("users/expand-product",{
@@ -220,6 +222,7 @@ router.get("/add-to-cart/:id", verifyuserlogin, (req, res) => {
 router.post("/change-pro-quantity", (req, res, next) => {
   console.log(req.body);
   userHealpers.changeProductCount(req.body).then((response) => {
+    response.val= 10
     res.json(response);
   });
 });
