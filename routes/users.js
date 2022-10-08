@@ -5,7 +5,7 @@ const adminHealpers = require('../helpers/admin-healpers')
 const router = express.Router();
 const paypal = require('paypal-rest-sdk');
 
- 
+ var content
 paypal.configure({
   'mode': 'sandbox', //sandbox or live
   'client_id': 'AUMW-aazthVYZUjcjvCRbCZMO1pR0D13gMD_WwL7AgdEIKoTILry3B9rQGzOtZrhqlQZPcYnLD-Vuixu',
@@ -63,16 +63,21 @@ router.get("/explore-all",async(req,res)=>{
 
   productHelpers.getAllProduct().then((products) => {
     console.log(req.session.userLoggin);
+     content="vishnu"
     res.render("users/view-product", {
       user: true,
       userLoggin: req.session.userLoggin,
-      products,
-      cartCount
+      // products,
+      cartCount,
+      content
     });
   });
 
 
 })
+
+
+
 router.get("/user_signin", (req, res) => {
   if (req.session.userLoggin) {
     res.redirect("/");
@@ -183,6 +188,10 @@ res.render("users/expand-product",{
   
 cartCount:req.session.cartCount
 })
+
+}).catch((err)=>{
+  console.log("log err"+err)
+  res.render("./error",{message:err.message})
 })
 
 
@@ -218,6 +227,17 @@ router.get("/add-to-cart/:id", verifyuserlogin, (req, res) => {
       res.json({ status: true });
     });
 });
+
+// test
+router.get("/filter", verifyuserlogin, (req, res) => {
+  console.log("api test call");
+  content="sofi"
+      res.json({ content:content });
+
+});
+
+
+
 
 router.post("/change-pro-quantity", (req, res, next) => {
   console.log(req.body);
@@ -564,7 +584,6 @@ router.get("/profile",verifyuserlogin,(req,res)=>{
     res.redirect("/profile")
   })
  })
-
 
 
 module.exports = router;
