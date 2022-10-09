@@ -49,12 +49,15 @@ router.get("/", async function (req, res, next) {
 });
 
 router.get("/explore-all", async (req, res) => {
+
+
   let cartCount = 0;
   if (req.session.userLoggin) {
     cartCount = await userHealpers.getCartCount(req.session.user._id);
     req.session.cartCount = cartCount;
   }
   let allCategory = await productHelpers.getAllCategory();
+  let allSubCategory= await productHelpers.getAllSubCategory()
   productHelpers.getAllProduct().then((products) => {
     console.log(req.session.userLoggin);
     content = "vishnu";
@@ -65,6 +68,7 @@ router.get("/explore-all", async (req, res) => {
       cartCount,
       content,
       allCategory,
+      allSubCategory
     });
   });
 });

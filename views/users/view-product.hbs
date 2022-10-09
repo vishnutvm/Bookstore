@@ -43,51 +43,34 @@
 					</div>
 				</article> <!-- filter-group  .// -->
 
-				{{!-- <article class="filter-group">
+
+<form id="langFilter" method="post"></form>
+				<article class="filter-group">
 					<header class="card-header">
 						<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
 							<i class="icon-control fa fa-chevron-down"></i>
-							<h6 class="title">Category</h6>
+							<h6 class="title">Language</h6>
 						</a>
 					</header>
 					<div class="filter-content collapse show" id="collapse_2" style="">
 						<div class="card-body">
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" checked="" class="custom-control-input">
-								<div class="custom-control-label">Mercedes
-									<b class="badge badge-pill badge-light float-right">120</b>
-								</div>
-							</label>
+							{{#each allSubCategory}}
 
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" checked="" class="custom-control-input">
-								<div class="custom-control-label">Toyota
-									<b class="badge badge-pill badge-light float-right">15</b>
-								</div>
-							</label>
+<label class="custom-control custom-checkbox">
 
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" checked="" class="custom-control-input">
-								<div class="custom-control-label">Mitsubishi
-									<b class="badge badge-pill badge-light float-right">35</b>
-								</div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" checked="" class="custom-control-input">
-								<div class="custom-control-label">Nissan
-									<b class="badge badge-pill badge-light float-right">89</b>
-								</div>
-							</label>
-							<label class="custom-control custom-checkbox">
-								<input type="checkbox" class="custom-control-input">
-								<div class="custom-control-label">Honda
-									<b class="badge badge-pill badge-light float-right">30</b>
-								</div>
-							</label>
+<input value="{{this.name}}" type="checkbox" checked="" class="custom-control-input sub-category-name" name="subCategoryName" >
+
+<div class="custom-control-label"><span>{{this.name}}</span>
+<b class="badge badge-pill badge-light float-right">120</b>
+</div>
+</label>
+
+
+							{{/each}}
 						</div> <!-- card-body.// -->
 					</div>
 				</article> <!-- filter-group .// -->
-				<article class="filter-group">
+				{{!-- <article class="filter-group">
 					<header class="card-header">
 						<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
 							<i class="icon-control fa fa-chevron-down"></i>
@@ -279,7 +262,7 @@
 				},
 				method: 'post',
 				success: function (data) {
-console.log(data)
+					console.log(data)
 					printData(data.products);
 				},
 				error: function () {
@@ -291,44 +274,44 @@ console.log(data)
 			})
 
 		}
-let wrap = document.querySelector("#product_row")
+		let wrap = document.querySelector("#product_row")
 
-function printData(data){
+		function printData(data) {
 
 
 
-		 while (wrap.firstChild) {
+			while (wrap.firstChild) {
 				wrap.removeChild(wrap.lastChild);
 
-			} 
+			}
 
-if(data.length>0){
-for(let i in data){
-	console.log(data[i])
-addElement(data[i])
-}
+			if (data.length > 0) {
+				for (let i in data) {
+					console.log(data[i])
+					addElement(data[i])
+				}
 
-}else{
-	let div = document.createElement("div");
-	div.classList = "w-100 d-flex align-item-center justify-content-center"
-	div.innerHTML = "<p>Not found any match</p>"
+			} else {
+				let div = document.createElement("div");
+				div.classList = "w-100 d-flex align-item-center justify-content-center"
+				div.innerHTML = "<p>Not found any match</p>"
 
-wrap.appendChild(div)
-}
-
-
-
-}
-function addElement(data){
+				wrap.appendChild(div)
+			}
 
 
 
+		}
+		function addElement(data) {
 
-let div = document.createElement("div");
 
-div.className = "single-product-card col-md-6 col-lg-4 col-xl-3"
 
-div.innerHTML = `<div id="product-1" class="single-product">
+
+			let div = document.createElement("div");
+
+			div.className = "single-product-card col-md-6 col-lg-4 col-xl-3"
+
+			div.innerHTML = `<div id="product-1" class="single-product">
 							<div class="part-1">
 
 								<div style="width:300px;height:300px;" class="div">
@@ -381,44 +364,57 @@ div.innerHTML = `<div id="product-1" class="single-product">
 						</div>`
 
 
-wrap.appendChild(div)
+			wrap.appendChild(div)
 
 
 
 
 
-}
-		
+		}
 
 
 
-{{!-- change color on selected category --}}
 
-var category = document.querySelectorAll(".filterCategory") 
-console.log(category)
-        for (let e of category) {
-console.log(e)
-e.addEventListener("click",function(){
-      
+		//change color on selected category
 
-        let prevselected =
-          document.querySelectorAll(".active");
-           if (prevselected.length > 0) {
-            prevselected[0].className = prevselected[0].className.replace("active", "")
-          }
-        this.className += "active"
-      })
-    }
+		var category = document.querySelectorAll(".filterCategory")
+		console.log(category)
+		for (let e of category) {
+			console.log(e)
+			e.addEventListener("click", function () {
+
+
+				let prevselected =
+					document.querySelectorAll(".active");
+				if (prevselected.length > 0) {
+					prevselected[0].className = prevselected[0].className.replace("active", "")
+				}
+				this.className += "active"
+			})
+		}
+
+
+
+
+
+// sub category filter
+
+
+   $('input[name=subCategoryName]').change(function () {
+	let data = $('#langFilter').serialize
+	console.log(data)
+    $.ajax({
+       url: '/products/langFilter',
+       method: "post",
+       data: data
+       success: (response) => {
+        
+       }
+    })
+
+ });
+
+
 
 
 	</script>
-
-
-
-
-
-
-  
-
-
-
