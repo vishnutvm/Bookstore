@@ -4,12 +4,11 @@ const objectid = require("mongodb").ObjectId;
 
 module.exports = {
   addProduct: (productdata) => {
-
-    console.log(productdata)
+    console.log(productdata);
     return new Promise(async (res, rej) => {
-      productdata.discount=0;
-      productdata.finalPrice= productdata.price - productdata.discount;
-      productdata.offer=false;
+      productdata.discount = 0;
+      productdata.finalPrice = productdata.price - productdata.discount;
+      productdata.offer = false;
       await db
         .get()
         .collection(collection.PRODUCT_COLLECTIONS)
@@ -20,8 +19,6 @@ module.exports = {
     });
   },
   getAllProduct: () => {
-
-
     return new Promise(async (res, rej) => {
       let product = await db
         .get()
@@ -29,16 +26,10 @@ module.exports = {
         .find()
         .toArray();
       res(product);
-
-
     });
-
-
   },
 
-
-  getFillterdProduct:(category)=>{
-
+  getFillterdProduct: (category) => {
     return new Promise(async (res, rej) => {
       let product = await db
         .get()
@@ -46,14 +37,73 @@ module.exports = {
         .find({ category: category })
         .toArray();
       res(product);
-
-
     });
-
-
   },
+
+  advancedFilter: (subCategory, currectCategory, minPrice, maxPrice) => {
+    let ArraysubCategory = [];
+  
+    let isArray = Array.isArray(subCategory);
+
+    if (isArray) {
+      ArraysubCategory = subCategory;
+    } else {
+      ArraysubCategory.push(subCategory);
+    }
+
+    return new Promise(async (res, rej) => {
+  
+     minPrice = parseInt(minPrice)
+     maxPrice = parseInt(maxPrice)
+     console.log(minPrice);
+     console.log(maxPrice);
+      var product;
+      if (currectCategory == "All") {
+        product = await db
+          .get()
+          .collection(collection.PRODUCT_COLLECTIONS)
+          .aggregate(
+            [
+              { $match:
+                 { 
+            subcategory: { $in: ArraysubCategory },
+          finalPrice: {
+            $gte:minPrice ,
+            $lt:maxPrice ,
+          }, } }
+        ])
+          .toArray();
+      }
+      else {
+        product = await db
+          .get()
+          .collection(collection.PRODUCT_COLLECTIONS)
+          .aggregate([
+            {
+              $match: {
+                subcategory: { $in: ArraysubCategory },
+                category: currectCategory,
+                finalPrice: {
+                  $gte:minPrice ,
+                  $lt:maxPrice ,
+                },
+              },
+            },
+          ])
+          .toArray();
+
+
+          
+      }
+
+      console.log(product);
+
+      res(product);
+    });
+  },
+
   addCategory: (category) => {
-    category.offer=false;
+    category.offer = false;
     return new Promise((res, rej) => {
       db.get()
         .collection(collection.CATEGORY_COLLECTIONS)
@@ -155,7 +205,7 @@ module.exports = {
               discription: editedData.discription,
               category: editedData.category,
               subcategory: editedData.subcategory,
-              stock:editedData.stock
+              stock: editedData.stock,
             },
           }
         )
@@ -164,52 +214,46 @@ module.exports = {
         });
     });
   },
-  getProductDetails:(proId)=>{
-    return new Promise(async(res,rej)=>{
-      try{
-        let ProductDetails = await db
-        .get()
-        .collection(collection.PRODUCT_COLLECTIONS)
-        .findOne({ _id: objectid(proId)})
-        res(ProductDetails)
-      
-      }catch(err){
-        rej(err)
-      }
-     
-    })
-
-
-  },
-  getAllProductWithoutOffer:()=>{
-
+  getProductDetails: (proId) => {
     return new Promise(async (res, rej) => {
-
+      try {
+        let ProductDetails = await db
+          .get()
+          .collection(collection.PRODUCT_COLLECTIONS)
+          .findOne({ _id: objectid(proId) });
+        res(ProductDetails);
+      } catch (err) {
+        rej(err);
+      }
+    });
+  },
+  getAllProductWithoutOffer: () => {
+    return new Promise(async (res, rej) => {
       let product = await db
         .get()
-        .collection(collection.PRODUCT_COLLECTIONS).aggregate([
+        .collection(collection.PRODUCT_COLLECTIONS)
+        .aggregate([
           {
-            $match:{offer:false}
-          }
-        ]).toArray()
+            $match: { offer: false },
+          },
+        ])
+        .toArray();
       res(product);
-
     });
-
   },
   getAllCategoryWithoutOffer: () => {
     return new Promise((res, rej) => {
       let category = db
         .get()
-        .collection(collection.CATEGORY_COLLECTIONS).aggregate([
+        .collection(collection.CATEGORY_COLLECTIONS)
+        .aggregate([
           {
-            $match:{offer:false}
-          }
-        ]).toArray()
-        console.log(category)
+            $match: { offer: false },
+          },
+        ])
+        .toArray();
+      console.log(category);
       res(category);
     });
   },
-
-
 };

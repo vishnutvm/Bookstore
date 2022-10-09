@@ -77,7 +77,7 @@ router.post("/product/filter", async (req, res) => {
   console.log(req.body.category)
   console.log("new api cal");
   let products
-if(req.body.category == 'all'){
+if(req.body.category == 'All'){
    products = await productHelpers.getAllProduct()
 
 }else{
@@ -88,6 +88,25 @@ if(req.body.category == 'all'){
   res.json({products});
 
 });
+router.post("/products/langFilter", async (req, res) => {
+  console.log(req.body)
+const subCategory = req.body.subCategoryName;
+const currectCategory = req.body.currentCategory;
+const minPrice = req.body.min_val;
+const maxPrice = req.body.max_val;
+
+
+
+
+let products = await productHelpers.advancedFilter(subCategory, currectCategory,minPrice,maxPrice)
+  res.json({products});
+
+});
+
+
+
+
+
 
 router.get("/user_signin", (req, res) => {
   if (req.session.userLoggin) {

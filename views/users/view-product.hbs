@@ -31,7 +31,7 @@
 							</form>
 
 							<ul class="list-menu" id="filter_menu">
-								<li class="fw-bold filterCategory  active" onclick="categoryFilter('all')"><a
+								<li class="fw-bold filterCategory  active" onclick="categoryFilter('All')"><a
 										style="cursor:pointer ">All</a> </li>
 								{{#each allCategory}}
 								<li class="filterCategory   " onclick="categoryFilter('{{this.name}}')"><a
@@ -44,33 +44,42 @@
 				</article> <!-- filter-group  .// -->
 
 
-<form id="langFilter" method="post"></form>
-				<article class="filter-group">
-					<header class="card-header">
-						<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
-							<i class="icon-control fa fa-chevron-down"></i>
-							<h6 class="title">Language</h6>
-						</a>
-					</header>
-					<div class="filter-content collapse show" id="collapse_2" style="">
-						<div class="card-body">
-							{{#each allSubCategory}}
+				<form id="langFilter" method="post">
+					<article class="filter-group">
+						<header class="card-header">
+							<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
+								<i class="icon-control fa fa-chevron-down"></i>
+								<h6 class="title">Language</h6>
+							</a>
+						</header>
+						<div class="filter-content collapse show" id="collapse_2" style="">
+							<div class="card-body">
+								{{#each allSubCategory}}
 
-<label class="custom-control custom-checkbox">
+								<label class="custom-control custom-checkbox">
 
-<input value="{{this.name}}" type="checkbox" checked="" class="custom-control-input sub-category-name" name="subCategoryName" >
+									<input value="{{this.name}}" type="checkbox" checked=""
+										class="custom-control-input sub-category-name" name="subCategoryName">
 
-<div class="custom-control-label"><span>{{this.name}}</span>
-<b class="badge badge-pill badge-light float-right">120</b>
-</div>
-</label>
+									<div class="custom-control-label"><span>{{this.name}}</span>
+										<b class="badge badge-pill badge-light float-right">120</b>
+									</div>
+								</label>
 
 
-							{{/each}}
-						</div> <!-- card-body.// -->
-					</div>
-				</article> <!-- filter-group .// -->
-				{{!-- <article class="filter-group">
+								{{/each}}
+							</div> <!-- card-body.// -->
+						</div>
+					</article>
+
+					<input value="All" type="text" name="currentCategory" id="currentCategory" hidden>
+
+
+
+			
+
+				<!-- filter-group .// -->
+			 <article class="filter-group">
 					<header class="card-header">
 						<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
 							<i class="icon-control fa fa-chevron-down"></i>
@@ -83,24 +92,24 @@
 							<div class="form-row">
 								<div class="form-group col-md-6">
 									<label>Min</label>
-									<input class="form-control" placeholder="$0" type="number">
+									<input value="0" name="min_val" id="min_val" class="form-control" placeholder="$0" type="number">
 								</div>
 								<div class="form-group text-right col-md-6">
 									<label>Max</label>
-									<input class="form-control" placeholder="$1,0000" type="number">
+									<input name="max_val" id="max_val"  class="form-control" placeholder="$1,0000" type="number" value="100000">
 								</div>
 							</div> <!-- form-row.// -->
-							<button class="btn btn-block btn-primary my-1">Apply</button>
+							<a onclick="filter()" class="btn btn-block btn-primary my-1">Apply</a>
 						</div><!-- card-body.// -->
 					</div>
 				</article> <!-- filter-group .// -->
-				--}}
+			
 
 			</div> <!-- card.// -->
 
 		</aside>
 
-
+	</form>
 		{{!--filt section ends --}}
 
 
@@ -300,6 +309,9 @@
 			}
 
 
+			//  inserting the current category in dummy data for later use
+
+			document.getElementById("currentCategory").value = document.querySelector(".active").innerText;
 
 		}
 		function addElement(data) {
@@ -308,10 +320,11 @@
 
 
 			let div = document.createElement("div");
-
 			div.className = "single-product-card col-md-6 col-lg-4 col-xl-3"
 
-			div.innerHTML = `<div id="product-1" class="single-product">
+
+if(data.offer){
+div.innerHTML = `<div id="product-1" class="single-product">
 							<div class="part-1">
 
 								<div style="width:300px;height:300px;" class="div">
@@ -343,33 +356,77 @@
 								<h3 class="product-title">${data.name}</h3>
 
 								<p>-By ${data.authname}</p>
-
+<div id="price-wrapper">
 								<div id="cover">
-									{{#if this.offer}}
+							
 
 									<h4 class="product-old-price ">${data.price}</h4>
 									<h4 class="product-price ">${data.finalPrice}</h4>
 									<h4 class="product-offer">(${data.discount}% off)</h4>
 
-									{{else}}
 
-									<h4 class="product-price ">{{this.price}}</h4>
-									{{/if}}
+
+								</div>
+</div>
+							</div>
+						</div>`
+
+}else{
+	div.innerHTML = `<div id="product-1" class="single-product">
+							<div class="part-1">
+
+								<div style="width:300px;height:300px;" class="div">
+									<img class="img-fluid" src="/product-images/${data._id}.jpg" alt="image">
+								</div>
+
+								<ul>
+									{{!-- add to cart --}}
+									<li>
+
+
+
+										<a onclick="addTocart('${data._id}')"><i class="fas fa-shopping-cart"></i></a>
+
+
+									</li>
+									{{!-- add to fav --}}
+									<li><a href="#"><i class="fas fa-heart"></i></a></li>
+									{{!-- detail view --}}
+									<li>
+
+										<a href="/product-details/${data._id}"><i class="fas fa-expand"></i></a>
+
+									</li>
+								</ul>
+							</div>
+							<div class="part-2 text-center">
+								<p class="categoryName" hidden>${data.category}</p>
+								<h3 class="product-title">${data.name}</h3>
+
+								<p>-By ${data.authname}</p>
+<div id="price-wrapper">
+								<div id="cover">
+								
+									
+									<h4 class="product-price">${data.price}</h4>
+									
 
 
 
 								</div>
-
+</div>
 							</div>
 						</div>`
 
+}
+
+			
+
+
 
 			wrap.appendChild(div)
-
-
-
-
-
+		
+	
 		}
 
 
@@ -382,7 +439,6 @@
 		for (let e of category) {
 			console.log(e)
 			e.addEventListener("click", function () {
-
 
 				let prevselected =
 					document.querySelectorAll(".active");
@@ -397,22 +453,26 @@
 
 
 
-// sub category filter
+		// sub category filter
 
 
-   $('input[name=subCategoryName]').change(function () {
-	let data = $('#langFilter').serialize
-	console.log(data)
-    $.ajax({
-       url: '/products/langFilter',
-       method: "post",
-       data: data
-       success: (response) => {
-        
-       }
-    })
 
- });
+		$('input[name=subCategoryName]').change(filter) 
+
+function filter(){
+
+$.ajax({
+				url: '/products/langFilter',
+				method: "post",
+				data: $('#langFilter').serialize(),
+				success: (response) => {
+					printData(response.products);
+				}
+			})
+
+}
+			
+		
 
 
 
