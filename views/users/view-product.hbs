@@ -1,261 +1,424 @@
-
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
 
 <div class=" container all-product-section">
 
 	<div class="row ">
-{{!--filt section starts --}}
+		{{!--filt section starts --}}
 
 
 
-	<aside class="col-md-3 py-3">
+		<aside class="col-md-3 py-3">
+
+			<div class="card">
+				<article class="filter-group">
+					<header class="card-header">
+						<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+							<i class="icon-control fa fa-chevron-down"></i>
+							<h6 class="title">Product Search</h6>
+						</a>
+					</header>
+					<div class="filter-content collapse show" id="collapse_1" style="">
+						<div class="card-body">
+							<form class="pb-3">
+								<div class="input-group">
+									<input id="serchFilter" type="text" class="form-control" placeholder="Search">
+									<div class="input-group-append">
+										<button class="btn btn-light" type="button"><i
+												class="fa fa-search"></i></button>
+									</div>
+								</div>
+							</form>
+
+							<ul class="list-menu" id="filter_menu">
+								<li class="fw-bold filterCategory  active" onclick="categoryFilter('all')"><a
+										style="cursor:pointer ">All</a> </li>
+								{{#each allCategory}}
+								<li class="filterCategory   " onclick="categoryFilter('{{this.name}}')"><a
+										style="cursor:pointer">{{this.name}}</a> </li>
+								{{/each}}
+							</ul>
+
+						</div> <!-- card-body.// -->
+					</div>
+				</article> <!-- filter-group  .// -->
+
+				{{!-- <article class="filter-group">
+					<header class="card-header">
+						<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
+							<i class="icon-control fa fa-chevron-down"></i>
+							<h6 class="title">Category</h6>
+						</a>
+					</header>
+					<div class="filter-content collapse show" id="collapse_2" style="">
+						<div class="card-body">
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">Mercedes
+									<b class="badge badge-pill badge-light float-right">120</b>
+								</div>
+							</label>
+
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">Toyota
+									<b class="badge badge-pill badge-light float-right">15</b>
+								</div>
+							</label>
+
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">Mitsubishi
+									<b class="badge badge-pill badge-light float-right">35</b>
+								</div>
+							</label>
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" checked="" class="custom-control-input">
+								<div class="custom-control-label">Nissan
+									<b class="badge badge-pill badge-light float-right">89</b>
+								</div>
+							</label>
+							<label class="custom-control custom-checkbox">
+								<input type="checkbox" class="custom-control-input">
+								<div class="custom-control-label">Honda
+									<b class="badge badge-pill badge-light float-right">30</b>
+								</div>
+							</label>
+						</div> <!-- card-body.// -->
+					</div>
+				</article> <!-- filter-group .// -->
+				<article class="filter-group">
+					<header class="card-header">
+						<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+							<i class="icon-control fa fa-chevron-down"></i>
+							<h6 class="title">Price range </h6>
+						</a>
+					</header>
+					<div class="filter-content collapse show" id="collapse_3" style="">
+						<div class="card-body">
+
+							<div class="form-row">
+								<div class="form-group col-md-6">
+									<label>Min</label>
+									<input class="form-control" placeholder="$0" type="number">
+								</div>
+								<div class="form-group text-right col-md-6">
+									<label>Max</label>
+									<input class="form-control" placeholder="$1,0000" type="number">
+								</div>
+							</div> <!-- form-row.// -->
+							<button class="btn btn-block btn-primary my-1">Apply</button>
+						</div><!-- card-body.// -->
+					</div>
+				</article> <!-- filter-group .// -->
+				--}}
+
+			</div> <!-- card.// -->
+
+		</aside>
+
+
+		{{!--filt section ends --}}
+
+
+
+
+		{{!-- showing products --}}
+
+		<section class="section-products col-md-9">
+
+
+
+			<div class="container">
+				<div class="row justify-content-center text-center">
+					<div class="col-md-8 col-lg-6">
+						<div class="header">
+
+							<h2>Showing Books</h2>
+						</div>
+					</div>
+				</div>
+
+				<div id="product_row" class="row">
+
+
+
+					{{#each products}}
+
+					{{!-- product --}}
+					<div class="single-product-card col-md-6 col-lg-4 col-xl-3">
+						<div id="product-1" class="single-product">
+							<div class="part-1">
+
+								<div style="width:300px;height:300px;" class="div">
+									<img class="img-fluid" src="/product-images/{{this._id}}.jpg" alt="image">
+								</div>
+
+								<ul>
+									{{!-- add to cart --}}
+									<li>
+
+
+
+										<a onclick="addTocart('{{this._id}}')"><i class="fas fa-shopping-cart"></i></a>
+
+
+									</li>
+									{{!-- add to fav --}}
+									<li><a href="#"><i class="fas fa-heart"></i></a></li>
+									{{!-- detail view --}}
+									<li>
+
+										<a href="/product-details/{{this._id}}"><i class="fas fa-expand"></i></a>
+
+									</li>
+								</ul>
+							</div>
+							<div class="part-2 text-center">
+								<p class="categoryName" hidden>{{this.category}}</p>
+								<h3 class="product-title">{{this.name}}</h3>
+
+								<p>-By {{this.authname}}</p>
+
+								<div id="cover">
+									{{#if this.offer}}
+
+									<h4 class="product-old-price ">{{this.price}}</h4>
+									<h4 class="product-price ">{{this.finalPrice}}</h4>
+									<h4 class="product-offer">({{this.discount}}% off)</h4>
+
+									{{else}}
+
+									<h4 class="product-price ">{{this.price}}</h4>
+									{{/if}}
+
+
+
+								</div>
+
+							</div>
+						</div>
+					</div>
+					{{/each}}
+				</div>
+			</div>
+		</section>
+
+		{{!-- showing products ends --}}
+
+
+	</div>
+
+	<style>
+		.icon-control {
+			margin-top: 5px;
+			float: right;
+			font-size: 80%;
+		}
+
+
+
+		.btn-light {
+			background-color: #fff;
+			border-color: #e4e4e4;
+		}
+
+		.list-menu {
+			list-style: none;
+			margin: 0;
+			padding-left: 0;
+		}
+
+		.list-menu a {
+			color: #343a40;
+		}
+	</style>
+
+
+
+	<script>
+		//js for search 
+		let serchInput = document.getElementById("serchFilter")
+		serchInput.addEventListener("keyup", filterProducts);
+		// asigning the area to filter
+		let filterEreaClass = ".product-title"
+
+		function filterProducts() {
+			let filterValu = serchInput.value.toUpperCase();
+
+			let item = document.querySelectorAll(".single-product-card")
+
+			for (let i = 0; i < item.length; i++) {
+				let span = item[i].querySelector(filterEreaClass)
+
+
+
+				if (span.innerHTML.toUpperCase().indexOf(filterValu) > -1) {
+
+					item[i].style.display = "initial"
+				} else {
+					item[i].style.display = "none"
+				}
+			}
+		}
+		// js for search ends
+
+
+
+		// js for category vise filter
+		let categoryFilter = (category) => {
+
+
+			//getting the products category wise
+
+
+			$.ajax({
+				url: '/product/filter',
+				data: {
+					category
+				},
+				method: 'post',
+				success: function (data) {
+console.log(data)
+					printData(data.products);
+				},
+				error: function () {
+					alert('error');
+				}
+
+
+
+			})
+
+		}
+let wrap = document.querySelector("#product_row")
+
+function printData(data){
+
+
+
+		 while (wrap.firstChild) {
+				wrap.removeChild(wrap.lastChild);
+
+			} 
+
+if(data.length>0){
+for(let i in data){
+	console.log(data[i])
+addElement(data[i])
+}
+
+}else{
+	let div = document.createElement("div");
+	div.classList = "w-100 d-flex align-item-center justify-content-center"
+	div.innerHTML = "<p>Not found any match</p>"
+
+wrap.appendChild(div)
+}
+
+
+
+}
+function addElement(data){
+
+
+
+
+let div = document.createElement("div");
+
+div.className = "single-product-card col-md-6 col-lg-4 col-xl-3"
+
+div.innerHTML = `<div id="product-1" class="single-product">
+							<div class="part-1">
+
+								<div style="width:300px;height:300px;" class="div">
+									<img class="img-fluid" src="/product-images/${data._id}.jpg" alt="image">
+								</div>
+
+								<ul>
+									{{!-- add to cart --}}
+									<li>
+
+
+
+										<a onclick="addTocart('${data._id}')"><i class="fas fa-shopping-cart"></i></a>
+
+
+									</li>
+									{{!-- add to fav --}}
+									<li><a href="#"><i class="fas fa-heart"></i></a></li>
+									{{!-- detail view --}}
+									<li>
+
+										<a href="/product-details/${data._id}"><i class="fas fa-expand"></i></a>
+
+									</li>
+								</ul>
+							</div>
+							<div class="part-2 text-center">
+								<p class="categoryName" hidden>${data.category}</p>
+								<h3 class="product-title">${data.name}</h3>
+
+								<p>-By ${data.authname}</p>
+
+								<div id="cover">
+									{{#if this.offer}}
+
+									<h4 class="product-old-price ">${data.price}</h4>
+									<h4 class="product-price ">${data.finalPrice}</h4>
+									<h4 class="product-offer">(${data.discount}% off)</h4>
+
+									{{else}}
+
+									<h4 class="product-price ">{{this.price}}</h4>
+									{{/if}}
+
+
+
+								</div>
+
+							</div>
+						</div>`
+
+
+wrap.appendChild(div)
+
+
+
+
+
+}
 		
-<div class="card">
-	<article class="filter-group">
-		<header class="card-header">
-			<a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
-				<i class="icon-control fa fa-chevron-down"></i>
-				<h6 class="title">Product Search</h6>
-			</a>
-		</header>
-		<div class="filter-content collapse show" id="collapse_1" style="">
-			<div class="card-body">
-				<form class="pb-3">
-				<div class="input-group">
-				  <input type="text" class="form-control" placeholder="Search">
-				  <div class="input-group-append">
-				    <button class="btn btn-light" type="button"><i class="fa fa-search"></i></button>
-				  </div>
-				</div>
-				</form>
-				
-				<ul class="list-menu">
-				<li><a href="#">People  </a></li>
-				<li><a href="#">Watches </a></li>
-				<li><a href="#">Cinema  </a></li>
-				<li><a href="#">Clothes  </a></li>
-				<li><a href="#">Home items </a></li>
-				<li><a href="#">Animals</a></li>
-				<li><a href="#">People </a></li>
-				</ul>
-
-			</div> <!-- card-body.// -->
-		</div>
-	</article> <!-- filter-group  .// -->
-	<article class="filter-group">
-		<header class="card-header">
-			<a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
-				<i class="icon-control fa fa-chevron-down"></i>
-				<h6 class="title">Category</h6>
-			</a>
-		</header>
-		<div class="filter-content collapse show" id="collapse_2" style="">
-			<div class="card-body">
-				<label class="custom-control custom-checkbox">
-				  <input type="checkbox" checked="" class="custom-control-input">
-				  <div class="custom-control-label">Mercedes  
-				  	<b class="badge badge-pill badge-light float-right">120</b>  </div>
-				</label>
-
-				<label class="custom-control custom-checkbox">
-				  <input type="checkbox" checked="" class="custom-control-input">
-				  <div class="custom-control-label">Toyota 
-				  	<b class="badge badge-pill badge-light float-right">15</b>  </div>
-				</label>
-
-				<label class="custom-control custom-checkbox">
-				  <input type="checkbox" checked="" class="custom-control-input">
-				  <div class="custom-control-label">Mitsubishi 
-				  	<b class="badge badge-pill badge-light float-right">35</b> </div>
-				</label>
-				<label class="custom-control custom-checkbox">
-				  <input type="checkbox" checked="" class="custom-control-input">
-				  <div class="custom-control-label">Nissan 
-				  	<b class="badge badge-pill badge-light float-right">89</b> </div>
-				</label>
-				<label class="custom-control custom-checkbox">
-				  <input type="checkbox" class="custom-control-input">
-				  <div class="custom-control-label">Honda 
-				  	<b class="badge badge-pill badge-light float-right">30</b>  </div>
-				</label>
-	</div> <!-- card-body.// -->
-		</div>
-	</article> <!-- filter-group .// -->
-	<article class="filter-group">
-		<header class="card-header">
-			<a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
-				<i class="icon-control fa fa-chevron-down"></i>
-				<h6 class="title">Price range </h6>
-			</a>
-		</header>
-		<div class="filter-content collapse show" id="collapse_3" style="">
-			<div class="card-body">
-			
-				<div class="form-row">
-				<div class="form-group col-md-6">
-				  <label>Min</label>
-				  <input class="form-control" placeholder="$0" type="number">
-				</div>
-				<div class="form-group text-right col-md-6">
-				  <label>Max</label>
-				  <input class="form-control" placeholder="$1,0000" type="number">
-				</div>
-				</div> <!-- form-row.// -->
-				<button class="btn btn-block btn-primary my-1">Apply</button>
-			</div><!-- card-body.// -->
-		</div>
-	</article> <!-- filter-group .// -->
-	<article class="filter-group">
-		<header class="card-header">
-			<a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
-				<i class="icon-control fa fa-chevron-down"></i>
-				<h6 class="title">Sizes </h6>
-			</a>
-		</header>
-		<div class="filter-content collapse show" id="collapse_4" style="">
-			<div class="card-body">
-			  <label class="checkbox-btn">
-			    <input type="checkbox">
-			    <span class="btn btn-light"> XS </span>
-			  </label>
-
-			  <label class="checkbox-btn">
-			    <input type="checkbox">
-			    <span class="btn btn-light"> SM </span>
-			  </label>
-
-			  <label class="checkbox-btn">
-			    <input type="checkbox">
-			    <span class="btn btn-light"> LG </span>
-			  </label>
-
-			  <label class="checkbox-btn">
-			    <input type="checkbox">
-			    <span class="btn btn-light"> XXL </span>
-			  </label>
-		</div><!-- card-body.// -->
-		</div>
-	</article> <!-- filter-group .// -->
-
-</div> <!-- card.// -->
-
-	</aside>
-
-
-{{!--filt section ends --}}
 
 
 
+{{!-- change color on selected category --}}
 
-  {{!-- showing products --}}
-
-  <section class="section-products col-md-8">
-{{!-- dummy buttn --}}
-    {{!-- <button onclick="clicked()" class="btn btn-primar">click me</button> --}}
-
-
-  <div class="container">
-    <div class="row justify-content-center text-center">
-      <div class="col-md-8 col-lg-6">
-        <div class="header">
-         
-          <h2>Showing All Books</h2>
-        </div>
-      </div>
-    </div>
-
-    <div id="product_row" class="row">
-
-
-
-{{#each products}}
-     {{!-- product --}}
-      <div class="col-md-6 col-lg-4 col-xl-3">
-        <div id="product-1" class="single-product">
-          <div class="part-1">
-            <div style="width:300px;height:300px;"  class="div">
-                    <img class="img-fluid" src="/product-images/{{this._id}}.jpg" alt="image">
-            </div>
-                        
-            <ul>
-              {{!-- add to cart --}}
-              <li >
-
-
-            
-                <a  onclick="addTocart('{{this._id}}')" ><i class="fas fa-shopping-cart"></i></a>
-
+var category = document.querySelectorAll(".filterCategory") 
+console.log(category)
+        for (let e of category) {
+console.log(e)
+e.addEventListener("click",function(){
       
-                </li>
-              {{!-- add to fav --}}
-              <li><a href="#"><i  class="fas fa-heart"></i></a></li>
-              {{!-- detail view --}}
-              <li>
 
-                <a href="/product-details/{{this._id}}"><i class="fas fa-expand"></i></a>
-                
-                </li>
-            </ul>
-          </div>
-          <div class="part-2 text-center">
-            <h3 class="product-title ">{{this.name}}</h3>
-      
-            <p>-By {{this.authname}}</p>
-            <div id="cover">
-{{#if this.offer}}
+        let prevselected =
+          document.querySelectorAll(".active");
+           if (prevselected.length > 0) {
+            prevselected[0].className = prevselected[0].className.replace("active", "")
+          }
+        this.className += "active"
+      })
+    }
 
-  <h4 class="product-old-price ">{{this.price}}</h4>
-            <h4 class="product-price ">{{this.finalPrice}}</h4>
-            <h4 class="product-offer">({{this.discount}}% off)</h4>
 
-            {{else}}
-
-<h4 class="product-price ">{{this.price}}</h4>
-{{/if}}
+	</script>
 
 
 
-            </div>
-           
-          </div>
-        </div>
-      </div>
- {{/each}}
-    </div>
-  </div>
-</section>
-
-  {{!-- showing products ends --}}
-
-
-</div>
-
-<style>
-  .icon-control {
-    margin-top: 5px;
-    float: right;
-    font-size: 80%;
-}
 
 
 
-.btn-light {
-    background-color: #fff;
-    border-color: #e4e4e4;
-}
-
-.list-menu {
-    list-style: none;
-    margin: 0;
-    padding-left: 0;
-}
-.list-menu a {
-    color: #343a40;
-}
-
-</style>
-
+  
 
 
 

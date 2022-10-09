@@ -35,6 +35,23 @@ module.exports = {
 
 
   },
+
+
+  getFillterdProduct:(category)=>{
+
+    return new Promise(async (res, rej) => {
+      let product = await db
+        .get()
+        .collection(collection.PRODUCT_COLLECTIONS)
+        .find({ category: category })
+        .toArray();
+      res(product);
+
+
+    });
+
+
+  },
   addCategory: (category) => {
     category.offer=false;
     return new Promise((res, rej) => {
