@@ -23,6 +23,7 @@ const verifyuserlogin = (req, res, next) => {
 };
 
 /* GET users listing. */
+
 router.get("/", async function (req, res, next) {
   res.header(
     "Cache-control",
@@ -379,6 +380,7 @@ router.get("/place-order", verifyuserlogin, async (req, res) => {
     cartCount: req.session.cartCount,
     totalPrice: req.session.totalPrice,
     user: req.session.user,
+    wishcount:req.session.wishcount,
     billingDetails: billingDetails[0],
   });
 });
@@ -428,6 +430,7 @@ router.get("/orderSuccess", verifyuserlogin, async (req, res) => {
     user: true,
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
+    wishcount:req.session.wishcount,
   });
 });
 
@@ -439,6 +442,7 @@ router.get("/orders", verifyuserlogin, async (req, res) => {
     user: true,
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
+    wishcount:req.session.wishcount,
     orders,
   });
 });
@@ -491,6 +495,7 @@ router.get("/view-orderd-products/:id", verifyuserlogin, async (req, res) => {
       user: true,
       userLoggin: req.session.userLoggin,
       cartCount: req.session.cartCount,
+      wishcount:req.session.wishcount,
       orderDetails,
       totalPrice,
       deliveryDetails,
@@ -651,15 +656,22 @@ router.get("/paypal-payment/cancel", (req, res) => {
 });
 //
 
-router.get("/profile", verifyuserlogin, (req, res) => {
-  // geting orders form database
+router.get("/profile", verifyuserlogin, async (req, res) => {
+
+  //getting orders form database
+  let totalOrders = await userHealpers.getAllOrders(req.session.user);
+
+  // geting userdata form database
   userHealpers.getalluserData(req.session.user._id).then((userdata) => {
     console.log(userdata);
     res.render("users/user-profile", {
       user: true,
       userLoggin: req.session.userLoggin,
       cartCount: req.session.cartCount,
+      wishcount: req.session.wishcount,
       userdata: userdata[0],
+      totalOrders:totalOrders.length
+
     });
   });
 });
@@ -670,6 +682,7 @@ router.get("/edit-profile", verifyuserlogin, (req, res) => {
       user: true,
       userLoggin: req.session.userLoggin,
       cartCount: req.session.cartCount,
+      wishcount:req.session.wishcount,
       userdata: userdata[0],
     });
   });

@@ -35,7 +35,7 @@
 
         <textarea id="address_feald" type="text" name="address" class="form-control mb-3" placeholder="Enter Your Address" rows="3"></textarea>
 
-            <input type="text" name="pincode" class="form-control mb-3" placeholder="Pincode" required>
+            {{!-- <input type="text" name="pincode" class="form-control mb-3" placeholder="Pincode" required> --}}
 
       </div>
     </div>
@@ -51,9 +51,15 @@
 
          {{!-- adding address entering page --}}
          <div id="userAddressFeald" class="row pb-4 col-sm-6 ms-1">
-          <textarea id="previousAddress" type="text"  class="form-control mb-3" placeholder="Your Address" rows="2">
+          <textarea id="adddress1" type="text"  class="form-control mb-3" placeholder="Your Address" rows="2">
 {{billingDetails.address}}</textarea>
-<a  id="userThisAddress" class="btn btn-sm btn-primary"> Use this adddres</a>
+<a  id="userThisAddress1" class="btn btn-sm btn-primary"> + adddres</a>
+         </div>
+         {{!-- adding address entering page --}}
+         <div id="userAddressFeald" class="row pb-4 col-sm-6 ms-1">
+          <textarea id="address2" type="text"  class="form-control mb-3" placeholder="Your Address" rows="2">
+{{billingDetails.address2}}</textarea>
+<a  id="userThisAddress2" class="btn btn-sm btn-primary"> Use this adddres</a>
          </div>
 
 
@@ -409,12 +415,22 @@ finalCheckoutPrice.innerText =""+ finalPrice
 {{!-- adddresss  --}}
 
 
-let addressBtn = document.getElementById("userThisAddress")
+let addressBtn1 = document.getElementById("userThisAddress1")
+let previousAddress1 = document.getElementById("adddress1")
+let addressBtn2 = document.getElementById("userThisAddress2")
+let previousAddress2 = document.getElementById("address2")
+
+
 let address_feald = document.getElementById("address_feald")
-let previousAddress = document.getElementById("previousAddress")
 let userAddressFeald = document.getElementById("userAddressFeald")
-addressBtn.addEventListener("click",(e)=>{
-address_feald.value=previousAddress.value
+
+addressBtn1.addEventListener("click",(e)=>{
+previousAddress1.value=previousAddress.value
+userAddressFeald.style.display="none"
+})
+
+addressBtn2.addEventListener("click",(e)=>{
+previousAddress2.value=previousAddress.value
 userAddressFeald.style.display="none"
 })
 

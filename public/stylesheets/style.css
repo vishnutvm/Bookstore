@@ -705,3 +705,61 @@ gap: 3rem;
 
 
 /* empty cart and wishlist style ends*/
+
+
+
+/* form validations style */
+
+
+
+  
+.form-outline {
+position: relative;
+margin-bottom: 30px;
+}
+
+.form-outline.success input{
+  border-color: #2ecc71;
+}
+.form-outline.error input{
+  border-color: #e74c3c;
+}
+
+
+
+
+.form-outline i{
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  visibility: hidden;
+}
+
+.form-outline.success i.fa-check-circle{
+  color: #2ecc71;
+  visibility: visible;
+}
+
+
+.form-outline.error i.fa-exclamation-circle{
+  color: #e74c3c;
+  visibility: visible;
+}
+
+
+
+.form-outline small{
+  visibility: hidden;
+  position: absolute;
+  left: 10px;
+}
+
+.form-outline.error small{
+color: #e74c3c;
+visibility: visible;
+}
+
+
+
+
+/* form validations style ends */

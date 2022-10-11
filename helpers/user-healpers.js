@@ -462,7 +462,30 @@ quantity = parseInt(details.quantity)
     })
   },
   placeOrder:(orderData,products,totalPrice)=>{
-    return new Promise((res,rej)=>{
+
+
+
+    return new Promise(async (res,rej)=>{
+      //update address
+    
+      
+      await  db.get()
+          .collection(collection.USER_COLLECTIONS)
+          .updateOne(
+            { _id: objectid(orderData.userId) },
+            {
+              $set: {
+                address2:orderData.address,
+              }
+            }
+          )
+    
+
+
+
+
+
+
       console.log(orderData,products,totalPrice);
     let status = orderData.paymentMethod === 'cod'? 'placed' : 'pending';
     // creating obj for insert in order collection
