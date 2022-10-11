@@ -30,15 +30,24 @@
 								</div>
 							</form>
 
-							<ul class="list-menu" id="filter_menu">
+<ul class="list-menu" id="filter_menu">
+{{#if categorySearch}}
+<li class="fw-bold filterCategory active" ><a
+										style="cursor:pointer ">{{category}}</a> </li>
+{{else}}
+
 								<li class="fw-bold filterCategory  active" onclick="categoryFilter('All')"><a
 										style="cursor:pointer ">All</a> </li>
 								{{#each allCategory}}
 								<li class="filterCategory   " onclick="categoryFilter('{{this.name}}')"><a
 										style="cursor:pointer">{{this.name}}</a> </li>
 								{{/each}}
+
+
+{{/if}}
 							</ul>
 
+							
 						</div> <!-- card-body.// -->
 					</div>
 				</article> <!-- filter-group  .// -->
@@ -71,8 +80,14 @@
 							</div> <!-- card-body.// -->
 						</div>
 					</article>
+{{#if categorySearch}}
+				<input value="{{category}}" type="text" name="currentCategory" id="currentCategory" hidden>
 
-					<input value="All" type="text" name="currentCategory" id="currentCategory" hidden>
+{{else}}
+
+				<input value="All" type="text" name="currentCategory" id="currentCategory" hidden>
+{{/if}}
+				
 
 
 
@@ -156,9 +171,11 @@
 
 
 									</li>
-									{{!-- add to fav --}}
-									<li><a href="#"><i class="fas fa-heart"></i></a></li>
-									{{!-- detail view --}}
+								            
+{{!-- wishlist btn --}}
+                            <li><a ><i id="{{this._id}}" onclick="addToWishlist('{{this._id}}')"  class="fas fa-heart wishlist-icon "></i></a></li>
+
+{{!-- wishllist btn --}}
 									<li>
 
 										<a href="/product-details/{{this._id}}"><i class="fas fa-expand"></i></a>
@@ -311,7 +328,11 @@
 
 			//  inserting the current category in dummy data for later use
 
+		
+
 			document.getElementById("currentCategory").value = document.querySelector(".active").innerText;
+
+
 
 		}
 		function addElement(data) {

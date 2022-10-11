@@ -28,14 +28,27 @@
           </div>
           {{!-- fav --}}
           <div class="fav icons">
-          <a href="#"> <i class="bx bx-heart" style="color: #fff"></i></a> 
+          <a href="/wishlist"> <i class="bx bx-heart position-relative " style="color: #fff">
+
+                        {{#if userLoggin}}
+                     
+  <span  id="wish-count" style="font-size: 10px;background-color:#eb227ddb ;" class="position-absolute  start-100 translate-middle badge rounded-pill ">
+{{wishcount}}
+  </span>
+
+
+
+  {{/if}}
+          </i></a> 
           </div>
 
           {{!-- cart --}}
           <div class="fav icons">
            <a href="/cart"> <i class="bx bx-cart position-relative" style="color: #fff">
+
+
             {{#if userLoggin}}
-  <span id="cart-count" style="font-size: 10px;background-color:#eb227ddb ;" class="position-absolute  start-100 translate-middle badge rounded-pill ">
+  <span  id="cart-count" style="font-size: 10px;background-color:#eb227ddb ;" class="position-absolute  start-100 translate-middle badge rounded-pill ">
 {{cartCount}}
   </span>
   {{/if}}

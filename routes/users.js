@@ -29,9 +29,12 @@ router.get("/", async function (req, res, next) {
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
   );
   let cartCount = 0;
+  let wishcount =0
   if (req.session.userLoggin) {
     cartCount = await userHealpers.getCartCount(req.session.user._id);
     req.session.cartCount = cartCount;
+    wishcount = await userHealpers.getWishListCount(req.session.user._id);
+    req.session.wishcount = wishcount;
   }
   const carousels = await adminHealpers.getCarousel();
   const homeCategory = await adminHealpers.getHomeCategory();
@@ -45,6 +48,7 @@ router.get("/", async function (req, res, next) {
     cartCount,
     homeCategory,
     trendingProduct,
+    wishcount
   });
 });
 
@@ -52,9 +56,12 @@ router.get("/explore-all", async (req, res) => {
 
 
   let cartCount = 0;
+  let wishcount =0
   if (req.session.userLoggin) {
     cartCount = await userHealpers.getCartCount(req.session.user._id);
     req.session.cartCount = cartCount;
+    wishcount = await userHealpers.getWishListCount(req.session.user._id);
+    req.session.wishcount = wishcount;
   }
   let allCategory = await productHelpers.getAllCategory();
   let allSubCategory= await productHelpers.getAllSubCategory()
@@ -68,10 +75,44 @@ router.get("/explore-all", async (req, res) => {
       cartCount,
       content,
       allCategory,
-      allSubCategory
+      allSubCategory,
+      wishcount
     });
   });
 });
+
+
+router.get("/products",async (req,res)=>{
+  const category = req.query.category;
+  
+
+ let cartCount = 0;
+   let wishcount =0
+  if (req.session.userLoggin) {
+    cartCount = await userHealpers.getCartCount(req.session.user._id);
+    req.session.cartCount = cartCount;
+    wishcount = await userHealpers.getWishListCount(req.session.user._id);
+    req.session.wishcount = wishcount;
+  }
+
+  let allCategory = await productHelpers.getAllCategory();
+  let allSubCategory= await productHelpers.getAllSubCategory()
+  productHelpers.getFillterdProduct(category).then((products) => {
+
+    res.render("users/view-product", {
+      user: true,
+      userLoggin: req.session.userLoggin,
+      products,
+      cartCount,
+      category,
+      allSubCategory,
+      wishcount,
+    categorySearch:true,
+    });
+  });
+
+  
+})
 
 router.post("/product/filter", async (req, res) => {
   console.log(req.body.category)
@@ -204,6 +245,8 @@ router.get("/product-details/:id", async (req, res) => {
   if (req.session.userLoggin) {
     cartCount = await userHealpers.getCartCount(req.session.user._id);
     req.session.cartCount = cartCount;
+    wishcount = await userHealpers.getWishListCount(req.session.user._id);
+    req.session.wishcount = wishcount;
   }
 
   productHelpers
@@ -213,7 +256,7 @@ router.get("/product-details/:id", async (req, res) => {
         user: true,
         userLoggin: req.session.userLoggin,
         productDetails,
-
+        wishcount :req.session.wishcount,
         cartCount: req.session.cartCount,
       });
     })
@@ -229,33 +272,67 @@ router.get("/cart", verifyuserlogin, async (req, res) => {
   cartCount = await userHealpers.getCartCount(req.session.user._id);
   req.session.cartCount = cartCount;
   let cartProduct = await userHealpers.getAllCart(req.session.user._id);
-
+ 
   res.render("users/cart", {
     cartProduct,
     user: true,
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
     totalPrice: totalPrice,
+    wishcount:req.session.wishcount
   });
 });
+
+
+router.get("/wishlist", verifyuserlogin, async (req, res) => {
+  cartCount = await userHealpers.getCartCount(req.session.user._id);
+  // geting wishlist form database
+  req.session.cartCount = cartCount;
+  wishcount = await userHealpers.getWishListCount(req.session.user._id);
+  req.session.wishcount = wishcount;
+  let wishlist = await userHealpers.getAllWishlist(req.session.user._id);
+
+console.log(wishlist)
+  res.render("users/wishlist", {
+    user: true,
+    userLoggin: req.session.userLoggin,
+    cartCount: req.session.cartCount,
+    wishcount:req.session.wishcount,
+    wishlist
+  });
+});
+
+
+
+
+
 
 // add to cart
 router.get("/add-to-cart/:id", verifyuserlogin, (req, res) => {
   console.log("api call");
   userHealpers
     .addToCart(req.params.id, req.session.user._id)
-    .then((response) => {
+    .then(() => {
       res.json({ status: true });
     });
 });
+// add to wishlist
 
-// // test
-// router.get("/filter", verifyuserlogin, (req, res) => {
-//   console.log("api test call");
-//   content="sofi"
-//       res.json({ content:content });
 
-// });
+router.get("/add-to-Wishlist/:id", verifyuserlogin, (req, res) => {
+  console.log("api call  for wishlist");
+  userHealpers
+    .addToWishlist(req.params.id, req.session.user._id)
+    .then((response) => {
+  console.log("repsonse from db")
+  console.log(response)
+      res.json({ status: true });
+    }).catch((err)=>{
+      res.json({ status: false });
+    });
+});
+
+
 
 router.post("/change-pro-quantity", (req, res, next) => {
   console.log(req.body);
@@ -271,6 +348,17 @@ router.get("/remove-product", (req, res, next) => {
 
   userHealpers.removeProduct(req.query).then((response) => {
     res.redirect("/cart");
+  });
+});
+
+router.get("/remove-wish-product", (req, res, next) => {
+  console.log(req.query);
+  console.log(req.query.cartId);
+  console.log(req.query.proId);
+
+  userHealpers.removeWishlitProduct(req.query).then((response) => {
+    res.redirect("/wishlist");
+
   });
 });
 
@@ -354,6 +442,9 @@ router.get("/orders", verifyuserlogin, async (req, res) => {
     orders,
   });
 });
+
+
+
 
 router.get("/cancelOrder/:id", (req, res) => {
   const orderId = req.params.id;

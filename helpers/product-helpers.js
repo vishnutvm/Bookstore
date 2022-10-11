@@ -57,7 +57,7 @@ module.exports = {
      maxPrice = parseInt(maxPrice)
      console.log(minPrice);
      console.log(maxPrice);
-      var product;
+      let product;
       if (currectCategory == "All") {
         product = await db
           .get()
@@ -140,7 +140,7 @@ module.exports = {
   getAllSubCategory: () => {
     return new Promise(async (res, rej) => {
       console.log("getting sub category working...");
-      let subCategory = await db
+      const subCategory = await db
         .get()
         .collection(collection.SUB_CATEGORY_COLLECTIONS)
         .find()

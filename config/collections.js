@@ -1,3 +1,4 @@
+// collections name for the database
 module.exports={
     USER_COLLECTIONS: 'user',
     PRODUCT_COLLECTIONS:'product',
@@ -9,7 +10,9 @@ module.exports={
     HOMECATEGORY_COLLECTIONS:'homecategory',
     TRENDINGPRODUCT_COLLECIONS:'trending',
     OFFER_COLLECIONS:'offer',
-    COUPENCODE_COLLECTIONS:'coupen'
+    COUPENCODE_COLLECTIONS:'coupen',
+    WISHLIST_COLLECTIONS:'wishlist'
+    
 
 
 }

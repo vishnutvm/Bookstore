@@ -1,12 +1,15 @@
 const db = require("../config/connections");
 const collection = require("../config/collections");
 const objectId = require("mongodb").ObjectId;
-const excelJs = require("exceljs");
+
+
 
 module.exports = {
+
+  // helper function for get all users
   getAllUsers: () => {
     return new Promise(async (res, rej) => {
-      let usersDetails = await db
+      const usersDetails = await db
         .get()
         .collection(collection.USER_COLLECTIONS)
         .find()
@@ -15,6 +18,8 @@ module.exports = {
       res(usersDetails);
     });
   },
+
+    // helper function for block the user
   blockUser: (userId) => {
     console.log(userId);
     return new Promise((resolve, reject) => {
@@ -26,6 +31,7 @@ module.exports = {
         });
     });
   },
+    // helper function for unblock the users
   unblockUser: (userId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -36,9 +42,11 @@ module.exports = {
         });
     });
   },
+
+    // helper function for get All the orederDetails
   getAllOrders: () => {
     return new Promise(async (res, rej) => {
-      let allOrders = await db
+      const allOrders = await db
         .get()
         .collection(collection.ORDER_COLLECTIONS)
         .aggregate([
@@ -56,6 +64,8 @@ module.exports = {
       res(allOrders);
     });
   },
+
+    // helper function for change the order status to packing
   satusToPacking: (orderId) => {
     return new Promise((res, rej) => {
       db.get()
@@ -73,6 +83,8 @@ module.exports = {
         });
     });
   },
+
+    // helper function for change the order status to shipped
   satusToShipped: (orderId) => {
     return new Promise((res, rej) => {
       db.get()
@@ -90,6 +102,7 @@ module.exports = {
         });
     });
   },
+      // helper function for change the order status to deleverd
   satusToDelivered: (orderId) => {
     return new Promise((res, rej) => {
       db.get()
@@ -108,6 +121,7 @@ module.exports = {
         });
     });
   },
+      // helper function for cancel the order by admin
   cancelOrder: (orderId) => {
     return new Promise((res, rej) => {
       db.get()
@@ -125,6 +139,7 @@ module.exports = {
         });
     });
   },
+  // helper function for add carousel in home page by admin
   addCarousel: (carouselData) => {
     console.log(carouselData);
     return new Promise(async (res, rej) => {
@@ -137,6 +152,7 @@ module.exports = {
         });
     });
   },
+    // helper function for get all the carousel
   getCarousel: () => {
     return new Promise(async (res, rej) => {
       var carousels = await db
@@ -148,6 +164,7 @@ module.exports = {
       res(carousels);
     });
   },
+    // helper function for delete added Caursol by admin
   deleteCaursol: (caursolId) => {
     return new Promise(async (res, rej) => {
       db.get()
@@ -159,6 +176,8 @@ module.exports = {
         });
     });
   },
+
+    // helper function for add main categories to home page by admin
   addCategoryTohome: (categories) => {
     return new Promise(async (res, rej) => {
       // first reseting the collection
@@ -181,7 +200,7 @@ module.exports = {
           .collection(collection.HOMECATEGORY_COLLECTIONS)
           .deleteMany({});
 
-        let categoriesArry = categories.options.split(",");
+        const categoriesArry = categories.options.split(",");
 
         console.log(categoriesArry);
 
@@ -200,6 +219,8 @@ module.exports = {
       }
     });
   },
+
+    // helper function for get all the categories in home page added by admin
   getHomeCategory: () => {
     return new Promise(async (res, rej) => {
       var homeCategory = await db
@@ -211,6 +232,8 @@ module.exports = {
       res(homeCategory);
     });
   },
+
+    // helper function for add trending products in home page by admin
   addTrendingProducts: (products) => {
     return new Promise(async (res, rej) => {
       // first reseting the collection
@@ -225,7 +248,7 @@ module.exports = {
           .collection(collection.TRENDINGPRODUCT_COLLECIONS)
           .deleteMany({});
 
-        let trend = products.options.split(",");
+        const trend = products.options.split(",");
 
         console.log(trend);
 
@@ -245,6 +268,7 @@ module.exports = {
       }
     });
   },
+    // helper function for get all trending products 
   getTrending: () => {
     return new Promise(async (res, rej) => {
       const trending = await db
@@ -265,10 +289,11 @@ module.exports = {
       res(trending);
     });
   },
+    // helper function for get monthly sales report
   getMonthSalesReport: () => {
     currentYear = new Date().getFullYear();
     return new Promise(async (res, rej) => {
-      let SalesReport = await db
+      const SalesReport = await db
         .get()
         .collection(collection.ORDER_COLLECTIONS)
         .aggregate([
@@ -293,10 +318,11 @@ module.exports = {
       res(SalesReport);
     });
   },
+    // helper function for get top selling products report
   getProductReport: () => {
     currentYear = new Date().getFullYear();
     return new Promise(async (res, rej) => {
-      let ProductReport = await db
+      const ProductReport = await db
         .get()
         .collection(collection.ORDER_COLLECTIONS)
         .aggregate([
@@ -347,9 +373,11 @@ module.exports = {
       res(ProductReport);
     });
   },
+
+    // helper function for get total products count
   getTotalProducts: () => {
     return new Promise(async (res, rej) => {
-      let totalProduct = await db
+      const totalProduct = await db
         .get()
         .collection(collection.PRODUCT_COLLECTIONS)
         .count();
@@ -357,9 +385,10 @@ module.exports = {
       res(totalProduct);
     });
   },
+     // helper function for get total orders count
   getTotalOrders: () => {
     return new Promise(async (res, rej) => {
-      let totalOrders = await db
+      const totalOrders = await db
         .get()
         .collection(collection.ORDER_COLLECTIONS)
         .count();
@@ -367,12 +396,12 @@ module.exports = {
       res(totalOrders);
     });
   },
-
+   // helper function for get sales report
   getTotalSalesReport: () => {
     // giving total sales report (including all the status,payment method,date) no fileteration is given
 
     return new Promise(async (res, rej) => {
-      let SalesReport = await db
+      const SalesReport = await db
         .get()
         .collection(collection.ORDER_COLLECTIONS)
         .aggregate([

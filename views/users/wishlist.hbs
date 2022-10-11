@@ -1,0 +1,141 @@
+{{#if wishcount}}
+
+
+<section class="h-100 h-custom">
+  <div class="container py-3 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12">
+        <div class="card card-registration card-registration-2" style="border-radius: 15px;">
+          <div class="card-body p-0">
+            <div class="row g-0">
+
+
+              <!-- left side -->
+              <div class="col-lg-8">
+                <div class="p-5">
+                  <div class="d-flex justify-content-between align-items-center mb-5">
+                    <h1 class="fw-bold mb-0 text-black">Wishlist</h1>
+                    {{!-- <h6 class="mb-0 text-muted">3 items</h6> --}}
+                  </div>
+                  <hr class="my-4">
+
+
+
+                  {{#each wishlist}}
+
+                  <div class="row mb-4 d-flex justify-content-between align-items-center">
+                    <div  class="col-md-2 col-lg-2 col-xl-2">
+					<a href="/product-details/{{this.product._id}}" >  <img src="/product-images/{{this.product._id}}.jpg" class="img-fluid rounded-3"
+                        alt="ProductImage"></a>
+                    
+                    </div>
+                    <div class="col-md-3 col-lg-3 col-xl-3">
+                      <h6 class="text-muted">{{this.product.category}}</h6>
+                      <h6 class="text-black mb-0">{{this.product.name}}</h6>
+                    </div>
+
+                    <div class="col-md-3 col-lg-2 col-xl-2 offset-lg-1">
+
+                      <h6 class="mb-0">Rs. {{this.product.finalPrice}}</h6>
+
+                    </div>
+
+                    <div class="col-md-3 col-lg-3 col-xl-2">
+               <a onclick="addTocart('{{this.product._id}}')" class="btn btn-primary btn-sm">Add to cart</a>
+                    </div>
+
+
+                    <div class="col-md-1 col-lg-1 col-xl-1 text-end">
+                      <a data-bs-toggle="modal" data-bs-target="#a{{this.product._id}}Model" class="text-muted"><i
+                          class="fas fa-times"></i></a>
+
+
+
+
+
+                      <div class="modal fade" id="a{{this.product._id}}Model" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title text-danger" id="exampleModalLabel">Are you sure to Remove
+                                {{this.product.name}} ?</h5>
+
+                            </div>
+
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                              <a href="/remove-wish-product/?wishId={{this._id}}&proId={{this.product._id}}" type="button"
+                                class="btn btn-danger">Remove</a>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+
+
+
+
+
+
+
+                    </div>
+                  </div>
+
+                  <hr class="my-4">
+
+                  {{/each}}
+                  <div class="pt-5">
+                    <h6 class="mb-0"><a href="/" class="text-body"><i class="fas fa-long-arrow-alt-left me-2"></i>Back
+                        to shop</a></h6>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {{!-- dummu input for tokens --}}
+
+  
+  {{!-- dummu input for tokens ends --}}
+</section>
+{{else}}
+
+
+
+<div id="empty" class="container-fluid ">
+				 <div class="row p-0" >
+				 
+					<div class="col-md-12 p-0">
+					
+							<div class="card">
+					
+						<div class="card-body cart">
+								<div class="col-sm-12 empty-cart-cls text-center">
+                  <div class="empty_image_wrap" style="width: 130px; height: 130px; margin: auto;">
+
+									<img src="/images/empty_wish.png" width="100" height="100" class="img-fluid mb-4 mr-3">
+                  </div>
+									<h3><strong>Your Wishlist is Empty</strong></h3>
+									<h4>Add something to make me happy <i class='bx bx-wink-smile bx-tada' style='color:#f5489f' ></i></h4>
+									<a href="/explore-all" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+									
+								
+								</div>
+						</div>
+				</div>
+						
+					
+					</div>
+				 
+				 </div>
+				
+				</div>
+
+{{/if}}

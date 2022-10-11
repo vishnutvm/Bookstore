@@ -28,6 +28,29 @@ function addTocart(proId) {
   });
 }
 
-// ajax for sending the checkout form 
 
-// zoom
+// add to wish list ajax
+
+function addToWishlist(proId) {
+  console.log("Wishlist ajax working");
+  $.ajax({
+    url: '/add-to-Wishlist/'+proId,
+    method: 'get',
+    success: (response) => { 
+      if(response.status){
+         let count=$('#wish-count').html()
+
+   
+         count = parseInt(count)+1
+         console.log("the count is +"+count)
+         $("#wish-count").html(count)
+      }
+      
+    },
+  });
+}
+
+
+
+//Add or remove the style
+

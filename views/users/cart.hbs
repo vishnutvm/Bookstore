@@ -1,3 +1,10 @@
+
+{{#if cartCount}}
+{{!-- cart not empty--}}
+
+
+
+
 <section class="h-100 h-custom">
   <div class="container py-3 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
@@ -16,14 +23,12 @@
                   </div>
                   <hr class="my-4">
 
-
-
-                  {{#each cartProduct}}
+         {{#each cartProduct}}
 
                   <div class="row mb-4 d-flex justify-content-between align-items-center">
                     <div class="col-md-2 col-lg-2 col-xl-2">
-                      <img src="/product-images/{{this.product._id}}.jpg" class="img-fluid rounded-3"
-                        alt="ProductImage">
+             	<a href="/product-details/{{this.product._id}}" >  <img src="/product-images/{{this.product._id}}.jpg" class="img-fluid rounded-3"
+                        alt="ProductImage"></a>
                     </div>
                     <div class="col-md-3 col-lg-3 col-xl-3">
                       <h6 class="text-muted">{{this.product.category}}</h6>
@@ -159,7 +164,54 @@
 
 
 
-<script>
+
+
+
+{{else}}
+
+<div id="empty" class="container-fluid ">
+				 <div class="row p-0" >
+				 
+					<div class="col-md-12 p-0">
+					
+							<div class="card">
+					
+						<div class="card-body cart">
+								<div class="col-sm-12 empty-cart-cls text-center">
+                  <div class="empty_image_wrap" style="width: 130px; height: 130px; margin: auto;">
+
+									<img src="/images/empty_cart.png" width="100" height="100" class="img-fluid mb-4 mr-3">
+                  </div>
+									<h3><strong>Your Cart is Empty</strong></h3>
+									<h4>Add something to make me happy  <i class='bx bx-wink-smile bx-tada' style='color:#f5489f' ></i></h4>
+									<a href="/explore-all" class="btn btn-primary cart-btn-transform m-3" data-abc="true">continue shopping</a>
+									
+								
+								</div>
+						</div>
+				</div>
+						
+					
+					</div>
+				 
+				 </div>
+				
+				</div>
+{{!-- cart empty --}}
+{{/if}}
+
+
+
+
+
+
+
+
+
+
+
+
+        <script>
 
   function changeQuantity(prodPrice, cartId, proId, count) {
     console.log("working")
@@ -217,4 +269,3 @@
 
 
 </script>
-

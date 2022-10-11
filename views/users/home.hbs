@@ -44,9 +44,11 @@
     <div class="align-center-wrapper my-3">
         <div class="card-wrapper">
 {{#each homeCategory}}
-        <div class="category-card card-1">
+
+<a href="/products/?category={{this.category}}">   <div class="category-card card-1">
 <p class="card-text">{{this.category}}</p>
-        </div>
+        </div></a>
+     
 {{/each}}
 
     </div> 
@@ -95,8 +97,13 @@
               
                     
                               </li>
+                            
+                            
+            
+{{!-- wishlist btn --}}
+                            <li><a ><i id="{{this._id}}" onclick="addToWishlist('{{this._id}}')"  class="fas fa-heart wishlist-icon "></i></a></li>
 
-                            <li><a href="#"><i  class="fas fa-heart"></i></a></li>
+{{!-- wishllist btn --}}
 
                             <li>
               

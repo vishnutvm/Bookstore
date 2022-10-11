@@ -1,3 +1,4 @@
+//setting up mongodb connection
 const mongoClient = require('mongodb').MongoClient
 const state = {
     db: null
