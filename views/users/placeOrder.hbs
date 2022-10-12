@@ -48,12 +48,12 @@
 
                     <div class="pt-5">
 
-
-         {{!-- adding address entering page --}}
+<div id="userthisAddresWrap">
+           {{!-- adding address entering page --}}
          <div id="userAddressFeald" class="row pb-4 col-sm-6 ms-1">
           <textarea id="adddress1" type="text"  class="form-control mb-3" placeholder="Your Address" rows="2">
 {{billingDetails.address}}</textarea>
-<a  id="userThisAddress1" class="btn btn-sm btn-primary"> + adddres</a>
+<a  id="userThisAddress1" class="btn btn-sm btn-primary"> Use this adddres</a>
          </div>
          {{!-- adding address entering page --}}
          <div id="userAddressFeald" class="row pb-4 col-sm-6 ms-1">
@@ -61,6 +61,8 @@
 {{billingDetails.address2}}</textarea>
 <a  id="userThisAddress2" class="btn btn-sm btn-primary"> Use this adddres</a>
          </div>
+</div>
+
 
 
                       <h6 class="mb-0"><a href="/" class="text-body"><i
@@ -422,15 +424,17 @@ let previousAddress2 = document.getElementById("address2")
 
 
 let address_feald = document.getElementById("address_feald")
-let userAddressFeald = document.getElementById("userAddressFeald")
+let userAddressFeald = document.getElementById("userthisAddresWrap")
 
 addressBtn1.addEventListener("click",(e)=>{
-previousAddress1.value=previousAddress.value
+
+address_feald.value=previousAddress1.value
 userAddressFeald.style.display="none"
 })
 
 addressBtn2.addEventListener("click",(e)=>{
-previousAddress2.value=previousAddress.value
+
+address_feald.value=previousAddress2.value
 userAddressFeald.style.display="none"
 })
 

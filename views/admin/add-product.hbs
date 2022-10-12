@@ -2,16 +2,62 @@
   <div class=" container row  d-flex justify-content-center ">
     <div class="ml-5 col-md-6">
       <h2 class="text-center my-5 ">Add Products</h2>
-      <form class="d-flex aling-item-center flex-column" action="/admin/add-product" method="post"   enctype="multipart/form-data">
+      <form id="productAdd" class="d-flex aling-item-center flex-column" action="/admin/add-product" method="post"   enctype="multipart/form-data">
+          <div class="form-outline ">   <input  id="prodname" type="text" name="name" class="form-control mb-3" placeholder="Name" >
+                                                    {{!-- form validation fald --}}
+
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+
+                    {{!-- form validation ends --}}
+          </div>
+     
+ <div class="form-outline ">
+        <input type="text" id="authname" name="authname" class="form-control mb-3" placeholder="Author name" >
+                                                  {{!-- form validation fald --}}
+
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+
+                    {{!-- form validation ends --}}
+</div>
+
+ <div class="form-outline ">
+        <input id="price" type="number" name="price" class="form-control mb-3" placeholder="Price" >
         
-        <input type="text" name="name" class="form-control mb-3" placeholder="Name" required>
+                                          {{!-- form validation fald --}}
 
-        <input type="text" name="authname" class="form-control mb-3" placeholder="Author name" required>
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
 
-        <input type="number" name="price" class="form-control mb-3" placeholder="Price" required>
+                    {{!-- form validation ends --}}
+      </div>  
+ <div class="form-outline ">
+        <textarea type="text" id="discription" name="discription" class="form-control mb-3" placeholder="discription" rows="3"></textarea>
 
-        <textarea type="text" name="discription" class="form-control mb-3" placeholder="discription" rows="3"></textarea>
-            <input type="text" name="stock" class="form-control mb-3" placeholder="Stock" required>
+                                 {{!-- form validation fald --}}
+
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+
+                    {{!-- form validation ends --}}
+
+        </div>
+
+         <div class="form-outline ">
+            <input type="text" id="stock" name="stock" class="form-control mb-3" placeholder="Stock" >
+                                          {{!-- form validation fald --}}
+
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+
+                    {{!-- form validation ends --}}
+</div>
 {{!-- crop image selection --}}
 
 <div class="row">
@@ -89,7 +135,7 @@
 
 <div class="mb-3">
 
-  <select style="background-color:#4D98AD;color:#fff" class="form-select text-center"  aria-label="Default select example" name="category" required>
+  <select style="background-color:#4D98AD;color:#fff" class="form-select text-center"  aria-label="Default select example" name="category" d>
 
 <option>Category</option>
     {{#each category}}
@@ -101,7 +147,7 @@
 <div class="mb-3">
 
 
-  <select  style="background-color:#4D98AD;color:#fff" class="form-select text-center" aria-label="Default select example " name="subcategory" required>
+  <select  style="background-color:#4D98AD;color:#fff" class="form-select text-center" aria-label="Default select example " name="subcategory" d>
   <option>Sub Category</option>
   {{#each subCategory}}
   <option>{{this.name}}</option>
@@ -110,7 +156,7 @@
 </div>
 
 
-       <button  style="background-color:#EF3772; color:#fff;" type="submit" class="btn mt-1" required>Submit</button> 
+       <button  style="background-color:#EF3772; color:#fff;" type="submit" class="btn mt-1" d>Submit</button> 
        
 
     
@@ -260,6 +306,114 @@ reset.addEventListener("click",()=>{
 
 
 
+
+ const editform = document.getElementById("productAdd")
+  const name = document.getElementById("prodname")
+  const authname = document.getElementById("authname")
+  const price = document.getElementById("price")
+  const stock = document.getElementById("stock")
+  const discription = document.getElementById("discription")
+
+
+  editform.addEventListener("submit", (e) => {
+    
+    //checking input fealds
+    checkInput()
+
+    //chek if all the element valid or not
+    let isSuccess = editform.querySelectorAll(".form-outline.success")
+    let formoutline = editform.querySelectorAll(".form-outline")
+
+    if (isSuccess) {
+      //checking if all the elements have success class
+      if (formoutline.length == isSuccess.length) {
+
+      } else {
+        e.preventDefault();
+      }
+
+    }
+
+
+
+
+  })
+
+
+
+  function checkInput() {
+    //get values form input feald
+    const nameValue = name.value.trim()
+    const authnameValue = authname.value.trim()
+    const discriptionValue = discription.value
+    const priceValue = price.value.trim()
+    const stockValue = stock.value.trim()
+
+
+
+
+    // validation name
+
+    if (nameValue === '') {
+      setErrorFor(name, 'Name connot be blank');
+    } else {
+      setSuccessFor(name)
+    }
+
+    //validating authname
+
+    if (authnameValue === '') {
+      setErrorFor(authname, 'author name cannot be blank');
+    }
+    else{
+      setSuccessFor(authname);
+    }
+    //validating discriptionValue
+
+    if (discriptionValue === '') {
+      setErrorFor(discription, 'discription cannot be blank');
+    }
+    else{
+      setSuccessFor(discription);
+    }
+    //validating price
+
+    if (priceValue === '') {
+      setErrorFor(price, 'price cannot be blank');
+    }
+    else{
+      setSuccessFor(price);
+    }
+
+    if (stockValue === '') {
+      setErrorFor(stock, 'stock cannot be blank');
+    }
+    else{
+      setSuccessFor(stock);
+    }
+
+
+
+  }
+
+
+
+
+
+  //setting error
+  function setErrorFor(input, message) {
+    const formoutline = input.parentElement;
+    const small = formoutline.querySelector('small');
+    small.innerText = message;
+    formoutline.className = 'form-outline error'
+  }
+
+
+  //setting succress
+  function setSuccessFor(input) {
+    const formoutline = input.parentElement;
+    formoutline.className = 'form-outline success'
+  }
 
 
 

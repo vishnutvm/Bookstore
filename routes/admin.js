@@ -200,10 +200,14 @@ router.get("/add-product", verifyAdminLogin, (req, res) => {
 router.post("/add-product", (req, res) => {
   productHelpers.addProduct(req.body).then((response) => {
     let id = response.toString();
-    let image = req.files.image;
-    console.log(image);
+   
 
+    if(req.files.image){
+        
+ let image = req.files.image;
     image.mv("./public/product-images/" + id + ".jpg");
+
+    }
 
     res.redirect("/admin/product");
   });

@@ -726,6 +726,14 @@ margin-bottom: 30px;
 }
 
 
+.form-outline.success textarea{
+  border-color: #2ecc71;
+}
+.form-outline.error textarea{
+  border-color: #e74c3c;
+}
+
+
 
 
 .form-outline i{

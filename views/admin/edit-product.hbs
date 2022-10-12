@@ -2,18 +2,64 @@
   <div class=" container row  d-flex justify-content-center ">
     <div class="ml-5 col-md-6">
       <h2 class="text-center my-5 ">Add Products</h2>
-      <form class="d-flex aling-item-center flex-column" action="/admin/EditProduct/{{editingProduct._id}}" method="post"    enctype="multipart/form-data" >
-    
-        <input type="text" name="name" class="form-control mb-3" placeholder="Name" required value="{{editingProduct.name}}">
+      <form id="editProduct" class="d-flex aling-item-center flex-column" action="/admin/EditProduct/{{editingProduct._id}}" method="post"    enctype="multipart/form-data" >
+     <div class="form-outline ">
+  <input type="text" id="prodname" name="name" class="form-control mb-3" placeholder="Name" required value="{{editingProduct.name}}">
+                                          {{!-- form validation fald --}}
 
-        <input type="text" name="authname" class="form-control mb-3" placeholder="Author name" required value="{{editingProduct.authname}}">
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
 
-        <input type="number" name="price" class="form-control mb-3" placeholder="Price" required value="{{editingProduct.price}}">
+                    {{!-- form validation ends --}}
+     </div>
+      
+     <div class="form-outline ">
+        <input id="authname" type="text" name="authname" class="form-control mb-3" placeholder="Author name" required value="{{editingProduct.authname}}">
+                            {{!-- form validation fald --}}
 
-        <textarea type="text" name="discription" class="form-control mb-3" value="testefhadfi" placeholder="Discription" rows="3" >{{editingProduct.discription}}</textarea>
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
 
-            <input type="text" name="stock" class="form-control mb-3" placeholder="Stock" required  value="{{editingProduct.stock}}">
+                    {{!-- form validation ends --}}
 
+</div>   
+  <div class="form-outline ">
+      <input id="price" type="number" name="price" class="form-control mb-3" placeholder="Price" required value="{{editingProduct.price}}">
+       {{!-- form validation fald --}}
+
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+
+                    {{!-- form validation ends --}}
+  </div>
+  
+  <div class="form-outline ">
+        <textarea id="discription" type="text" name="discription" class="form-control mb-3" value="testefhadfi" placeholder="Discription" rows="3" >{{editingProduct.discription}}</textarea>
+       {{!-- form validation fald --}}
+
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+
+                    {{!-- form validation ends --}}
+       </div>    
+
+         <div class="form-outline ">
+
+
+  
+        <input id="stock" type="text" name="stock" class="form-control mb-3" placeholder="Stock" required  value="{{editingProduct.stock}}">
+              {{!-- form validation fald --}}
+
+                    <i class="fas fa-check-circle"></i>
+                    <i class="fas fa-exclamation-circle"></i>
+                    <small>Error message</small>
+
+                    {{!-- form validation ends --}}
+       </div>
 {{!-- preview image --}}
 <div style="width: 80px; height:110px" class="mb-3">
 
@@ -65,6 +111,121 @@
   
 Imagepreview.src=URL.createObjectURL(event.target.files[0])
   }
+
+
+
+
+ const editform = document.getElementById("editProduct")
+  const name = document.getElementById("prodname")
+  const authname = document.getElementById("authname")
+  const price = document.getElementById("price")
+  const stock = document.getElementById("stock")
+  const discription = document.getElementById("discription")
+
+
+  editform.addEventListener("submit", (e) => {
+    
+    //checking input fealds
+    checkInput()
+
+    //chek if all the element valid or not
+    let isSuccess = editform.querySelectorAll(".form-outline.success")
+    let formoutline = editform.querySelectorAll(".form-outline")
+
+    if (isSuccess) {
+      //checking if all the elements have success class
+      if (formoutline.length == isSuccess.length) {
+
+      } else {
+        e.preventDefault();
+      }
+
+    }
+
+
+
+
+  })
+
+
+
+  function checkInput() {
+    //get values form input feald
+    const nameValue = name.value.trim()
+    const authnameValue = authname.value.trim()
+    const discriptionValue = discription
+    const priceValue = price.value.trim()
+    const stockValue = stock.value.trim()
+
+
+
+
+    // validation name
+
+    if (nameValue === '') {
+      setErrorFor(name, 'Name connot be blank');
+    } else {
+      setSuccessFor(name)
+    }
+
+    //validating authname
+
+    if (authnameValue === '') {
+      setErrorFor(authname, 'author name cannot be blank');
+    }
+    else{
+      setSuccessFor(authname);
+    }
+    //validating discriptionValue
+
+    if (discriptionValue === '') {
+      setErrorFor(discription, 'discription cannot be blank');
+    }
+    else{
+      setSuccessFor(discription);
+    }
+    //validating price
+
+    if (priceValue === '') {
+      setErrorFor(price, 'price cannot be blank');
+    }
+    else{
+      setSuccessFor(price);
+    }
+
+    if (stockValue === '') {
+      setErrorFor(stock, 'stock cannot be blank');
+    }
+    else{
+      setSuccessFor(stock);
+    }
+
+
+
+  }
+
+
+
+
+
+  //setting error
+  function setErrorFor(input, message) {
+    const formoutline = input.parentElement;
+    const small = formoutline.querySelector('small');
+    small.innerText = message;
+    formoutline.className = 'form-outline error'
+  }
+
+
+  //setting succress
+  function setSuccessFor(input) {
+    const formoutline = input.parentElement;
+    formoutline.className = 'form-outline success'
+  }
+
+
+
+
 
 
 
