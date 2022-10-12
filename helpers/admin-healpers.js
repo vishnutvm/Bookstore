@@ -143,7 +143,7 @@ module.exports = {
   addCarousel: (carouselData) => {
     console.log(carouselData);
     return new Promise(async (res, rej) => {
-      await db
+      await db.get()
         .collection(collection.CAROUSEL_COLLECTIONS)
         .insertOne(carouselData)
         .then((response) => {
