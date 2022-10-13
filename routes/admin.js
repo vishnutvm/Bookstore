@@ -4,7 +4,7 @@ const productHelpers = require("../helpers/product-helpers");
 const userHealpers = require("../helpers/user-healpers");
 const router = express.Router();
 const excelJs = require("exceljs");
-const { promises } = require("fs-extra");
+
 
 /* GET home page. */
 
@@ -205,10 +205,10 @@ router.post("/add-product", (req, res) => {
   productHelpers.addProduct(req.body).then((response) => {
     let id = response.toString();
 
-    if (req.files) {
+    // if (req.files) {
       let image = req.files.image;
       image.mv("./public/product-images/" + id + ".jpg");
-    }
+    // }
 
     res.redirect("/admin/product");
   });
