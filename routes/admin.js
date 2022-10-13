@@ -202,13 +202,16 @@ router.get("/add-product", verifyAdminLogin, (req, res) => {
 });
 
 router.post("/add-product", (req, res) => {
+  if(req.file){
+
+  }
   productHelpers.addProduct(req.body).then((response) => {
     let id = response.toString();
 
-    // if (req.files) {
+    if (req.files) {
       let image = req.files.image;
       image.mv("./public/product-images/" + id + ".jpg");
-    // }
+    }
 
     res.redirect("/admin/product");
   });
