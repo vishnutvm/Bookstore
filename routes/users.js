@@ -4,6 +4,7 @@ const userHealpers = require("../helpers/user-healpers");
 const adminHealpers = require("../helpers/admin-healpers");
 const router = express.Router();
 const paypal = require("paypal-rest-sdk");
+const createError = require("http-errors");
 
 var content;
 paypal.configure({
@@ -30,7 +31,7 @@ router.get("/", async function (req, res, next) {
     "no-cache,private, no-store, must-revalidate,max-stale=0,post-check=0"
   );
   let cartCount = 0;
-  let wishcount =0
+  let wishcount = 0;
   if (req.session.userLoggin) {
     cartCount = await userHealpers.getCartCount(req.session.user._id);
     req.session.cartCount = cartCount;
@@ -49,15 +50,13 @@ router.get("/", async function (req, res, next) {
     cartCount,
     homeCategory,
     trendingProduct,
-    wishcount
+    wishcount,
   });
 });
 
 router.get("/explore-all", async (req, res) => {
-
-
   let cartCount = 0;
-  let wishcount =0
+  let wishcount = 0;
   if (req.session.userLoggin) {
     cartCount = await userHealpers.getCartCount(req.session.user._id);
     req.session.cartCount = cartCount;
@@ -65,7 +64,7 @@ router.get("/explore-all", async (req, res) => {
     req.session.wishcount = wishcount;
   }
   let allCategory = await productHelpers.getAllCategory();
-  let allSubCategory= await productHelpers.getAllSubCategory()
+  let allSubCategory = await productHelpers.getAllSubCategory();
   productHelpers.getAllProduct().then((products) => {
     console.log(req.session.userLoggin);
     content = "vishnu";
@@ -77,18 +76,16 @@ router.get("/explore-all", async (req, res) => {
       content,
       allCategory,
       allSubCategory,
-      wishcount
+      wishcount,
     });
   });
 });
 
-
-router.get("/products",async (req,res)=>{
+router.get("/products", async (req, res) => {
   const category = req.query.category;
-  
 
- let cartCount = 0;
-   let wishcount =0
+  let cartCount = 0;
+  let wishcount = 0;
   if (req.session.userLoggin) {
     cartCount = await userHealpers.getCartCount(req.session.user._id);
     req.session.cartCount = cartCount;
@@ -97,9 +94,8 @@ router.get("/products",async (req,res)=>{
   }
 
   let allCategory = await productHelpers.getAllCategory();
-  let allSubCategory= await productHelpers.getAllSubCategory()
+  let allSubCategory = await productHelpers.getAllSubCategory();
   productHelpers.getFillterdProduct(category).then((products) => {
-
     res.render("users/view-product", {
       user: true,
       userLoggin: req.session.userLoggin,
@@ -108,47 +104,37 @@ router.get("/products",async (req,res)=>{
       category,
       allSubCategory,
       wishcount,
-    categorySearch:true,
+      categorySearch: true,
     });
   });
-
-  
-})
+});
 
 router.post("/product/filter", async (req, res) => {
-  console.log(req.body.category)
+  console.log(req.body.category);
   console.log("new api cal");
-  let products
-if(req.body.category == 'All'){
-   products = await productHelpers.getAllProduct()
-
-}else{
-    products = await productHelpers.getFillterdProduct(req.body.category)
-
-   
+  let products;
+  if (req.body.category == "All") {
+    products = await productHelpers.getAllProduct();
+  } else {
+    products = await productHelpers.getFillterdProduct(req.body.category);
   }
-  res.json({products});
-
+  res.json({ products });
 });
 router.post("/products/langFilter", async (req, res) => {
-  console.log(req.body)
-const subCategory = req.body.subCategoryName;
-const currectCategory = req.body.currentCategory;
-const minPrice = req.body.min_val;
-const maxPrice = req.body.max_val;
+  console.log(req.body);
+  const subCategory = req.body.subCategoryName;
+  const currectCategory = req.body.currentCategory;
+  const minPrice = req.body.min_val;
+  const maxPrice = req.body.max_val;
 
-
-
-
-let products = await productHelpers.advancedFilter(subCategory, currectCategory,minPrice,maxPrice)
-  res.json({products});
-
+  let products = await productHelpers.advancedFilter(
+    subCategory,
+    currectCategory,
+    minPrice,
+    maxPrice
+  );
+  res.json({ products });
 });
-
-
-
-
-
 
 router.get("/user_signin", (req, res) => {
   if (req.session.userLoggin) {
@@ -183,7 +169,7 @@ router.post("/user_signin", async (req, res) => {
   });
 });
 
-// otp verification
+// otp verificationp
 
 router.get("/otp", (req, res) => {
   // hard setting for dev mod need to remove
@@ -257,13 +243,13 @@ router.get("/product-details/:id", async (req, res) => {
         user: true,
         userLoggin: req.session.userLoggin,
         productDetails,
-        wishcount :req.session.wishcount,
+        wishcount: req.session.wishcount,
         cartCount: req.session.cartCount,
       });
     })
     .catch((err) => {
       console.log("log err" + err);
-      res.render("./error", { message: err.message });
+      res.render("404", { message: err.message });
     });
 });
 
@@ -273,17 +259,16 @@ router.get("/cart", verifyuserlogin, async (req, res) => {
   cartCount = await userHealpers.getCartCount(req.session.user._id);
   req.session.cartCount = cartCount;
   let cartProduct = await userHealpers.getAllCart(req.session.user._id);
- 
+
   res.render("users/cart", {
     cartProduct,
     user: true,
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
     totalPrice: totalPrice,
-    wishcount:req.session.wishcount
+    wishcount: req.session.wishcount,
   });
 });
-
 
 router.get("/wishlist", verifyuserlogin, async (req, res) => {
   cartCount = await userHealpers.getCartCount(req.session.user._id);
@@ -293,47 +278,38 @@ router.get("/wishlist", verifyuserlogin, async (req, res) => {
   req.session.wishcount = wishcount;
   let wishlist = await userHealpers.getAllWishlist(req.session.user._id);
 
-console.log(wishlist)
+  console.log(wishlist);
   res.render("users/wishlist", {
     user: true,
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
-    wishcount:req.session.wishcount,
-    wishlist
+    wishcount: req.session.wishcount,
+    wishlist,
   });
 });
-
-
-
-
-
 
 // add to cart
 router.get("/add-to-cart/:id", verifyuserlogin, (req, res) => {
   console.log("api call");
-  userHealpers
-    .addToCart(req.params.id, req.session.user._id)
-    .then(() => {
-      res.json({ status: true });
-    });
+  userHealpers.addToCart(req.params.id, req.session.user._id).then(() => {
+    res.json({ status: true });
+  });
 });
 // add to wishlist
-
 
 router.get("/add-to-Wishlist/:id", verifyuserlogin, (req, res) => {
   console.log("api call  for wishlist");
   userHealpers
     .addToWishlist(req.params.id, req.session.user._id)
     .then((response) => {
-  console.log("repsonse from db")
-  console.log(response)
+      console.log("repsonse from db");
+      console.log(response);
       res.json({ status: true });
-    }).catch((err)=>{
+    })
+    .catch((err) => {
       res.json({ status: false });
     });
 });
-
-
 
 router.post("/change-pro-quantity", (req, res, next) => {
   console.log(req.body);
@@ -359,30 +335,36 @@ router.get("/remove-wish-product", (req, res, next) => {
 
   userHealpers.removeWishlitProduct(req.query).then((response) => {
     res.redirect("/wishlist");
-
   });
 });
 
 //order page
 router.get("/place-order", verifyuserlogin, async (req, res) => {
-  let billingDetails = await userHealpers.getalluserData(req.session.user._id);
+  try {
+    let billingDetails = await userHealpers.getalluserData(
+      req.session.user._id
+    );
 
-  console.log(billingDetails);
+    console.log(billingDetails);
 
-  console.log("enterd in");
-  // changed total price in the session for render new updated price in the cart
-  let totalPrice = await userHealpers.getTotalAmount(req.session.user._id);
-  req.session.totalPrice = totalPrice;
+    console.log("enterd in");
+    // changed total price in the session for render new updated price in the cart
+    let totalPrice = await userHealpers.getTotalAmount(req.session.user._id);
+    req.session.totalPrice = totalPrice;
 
-  res.render("users/placeOrder", {
-    user: true,
-    userLoggin: req.session.userLoggin,
-    cartCount: req.session.cartCount,
-    totalPrice: req.session.totalPrice,
-    user: req.session.user,
-    wishcount:req.session.wishcount,
-    billingDetails: billingDetails[0],
-  });
+    res.render("users/placeOrder", {
+      user: true,
+      userLoggin: req.session.userLoggin,
+      cartCount: req.session.cartCount,
+      totalPrice: req.session.totalPrice,
+      user: req.session.user,
+      wishcount: req.session.wishcount,
+      billingDetails: billingDetails[0],
+    });
+  } catch (error) {
+    console.log("log err" + error);
+    res.redirect("/");
+  }
 });
 
 // checkout
@@ -398,7 +380,12 @@ router.post("/place-order", async (req, res) => {
   }
 
   // get product
-  let products = await userHealpers.getCartProductList(req.body.userId);
+  try {
+    var products = await userHealpers.getCartProductList(req.body.userId);
+  } catch (err) {
+    console.log(err);
+    res.render("404");
+  }
 
   // pass form data ,totalprice,product details to place order
 
@@ -430,7 +417,7 @@ router.get("/orderSuccess", verifyuserlogin, async (req, res) => {
     user: true,
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
-    wishcount:req.session.wishcount,
+    wishcount: req.session.wishcount,
   });
 });
 
@@ -442,13 +429,10 @@ router.get("/orders", verifyuserlogin, async (req, res) => {
     user: true,
     userLoggin: req.session.userLoggin,
     cartCount: req.session.cartCount,
-    wishcount:req.session.wishcount,
+    wishcount: req.session.wishcount,
     orders,
   });
 });
-
-
-
 
 router.get("/cancelOrder/:id", (req, res) => {
   const orderId = req.params.id;
@@ -471,40 +455,45 @@ router.get("/view-orderd-products/:id", verifyuserlogin, async (req, res) => {
   orderId = req.params.id;
   // get total price
 
-  await userHealpers.getOrderdProducts(orderId).then((orderDetails) => {
-    console.log(orderDetails);
-    (totalPrice = orderDetails[0].totalPrice),
-      (deliveryDetails = orderDetails[0].deliveryDetails),
-      (CurrentStatus = orderDetails[0].status);
-    PaymentMethod = orderDetails[0].paymentMethod.toUpperCase();
-    CurrentDate = orderDetails[0].date;
-    console.log(PaymentMethod);
-    // paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
+  await userHealpers
+    .getOrderdProducts(orderId)
+    .then((orderDetails) => {
+      console.log(orderDetails);
+      (totalPrice = orderDetails[0].totalPrice),
+        (deliveryDetails = orderDetails[0].deliveryDetails),
+        (CurrentStatus = orderDetails[0].status);
+      PaymentMethod = orderDetails[0].paymentMethod.toUpperCase();
+      CurrentDate = orderDetails[0].date;
+      console.log(PaymentMethod);
+      // paymentStatus= PaymentMethod == 'COD' ? 'pending' : 'paid'
 
-    if (PaymentMethod == "COD" && CurrentStatus == "placed") {
-      paymentStatus = "pending";
-    } else if (CurrentStatus == "pending") {
-      paymentStatus = "pending";
-    } else if (CurrentStatus == "Returned") {
-      paymentStatus = "refunded";
-    } else {
-      paymentStatus = "paid";
-    }
+      if (PaymentMethod == "COD" && CurrentStatus == "placed") {
+        paymentStatus = "pending";
+      } else if (CurrentStatus == "pending") {
+        paymentStatus = "pending";
+      } else if (CurrentStatus == "Returned") {
+        paymentStatus = "refunded";
+      } else {
+        paymentStatus = "paid";
+      }
 
-    res.render("users/viewOrderdProducts", {
-      user: true,
-      userLoggin: req.session.userLoggin,
-      cartCount: req.session.cartCount,
-      wishcount:req.session.wishcount,
-      orderDetails,
-      totalPrice,
-      deliveryDetails,
-      CurrentStatus,
-      PaymentMethod,
-      CurrentDate,
-      paymentStatus,
+      res.render("users/viewOrderdProducts", {
+        user: true,
+        userLoggin: req.session.userLoggin,
+        cartCount: req.session.cartCount,
+        wishcount: req.session.wishcount,
+        orderDetails,
+        totalPrice,
+        deliveryDetails,
+        CurrentStatus,
+        PaymentMethod,
+        CurrentDate,
+        paymentStatus,
+      });
+    })
+    .catch((err) => {
+      res.render("404");
     });
-  });
 });
 
 // razorpay payment system
@@ -550,6 +539,7 @@ router.post("/verify-token", async (req, res) => {
 });
 
 router.post("/paypal-payment", (req, res) => {
+  let PORT = process.env.PORT;
   console.log(req.body);
   let totalPrice = req.body.totalPrice;
   req.session.totalPrice = totalPrice;
@@ -562,8 +552,8 @@ router.post("/paypal-payment", (req, res) => {
       payment_method: "paypal",
     },
     redirect_urls: {
-      return_url: "http://localhost:4000/paypal-payment/success",
-      cancel_url: "http://localhost:4000/paypal-payment/cancel",
+      return_url: `http://localhost:${PORT}/paypal-payment/success`,
+      cancel_url: `http://localhost:${PORT}/paypal-payment/cancel`,
     },
     transactions: [
       {
@@ -657,7 +647,6 @@ router.get("/paypal-payment/cancel", (req, res) => {
 //
 
 router.get("/profile", verifyuserlogin, async (req, res) => {
-
   //getting orders form database
   let totalOrders = await userHealpers.getAllOrders(req.session.user);
 
@@ -670,8 +659,7 @@ router.get("/profile", verifyuserlogin, async (req, res) => {
       cartCount: req.session.cartCount,
       wishcount: req.session.wishcount,
       userdata: userdata[0],
-      totalOrders:totalOrders.length
-
+      totalOrders: totalOrders.length,
     });
   });
 });
@@ -682,7 +670,7 @@ router.get("/edit-profile", verifyuserlogin, (req, res) => {
       user: true,
       userLoggin: req.session.userLoggin,
       cartCount: req.session.cartCount,
-      wishcount:req.session.wishcount,
+      wishcount: req.session.wishcount,
       userdata: userdata[0],
     });
   });

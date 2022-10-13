@@ -2,10 +2,7 @@ const db = require("../config/connections");
 const collection = require("../config/collections");
 const objectId = require("mongodb").ObjectId;
 
-
-
 module.exports = {
-
   // helper function for get all users
   getAllUsers: () => {
     return new Promise(async (res, rej) => {
@@ -19,7 +16,7 @@ module.exports = {
     });
   },
 
-    // helper function for block the user
+  // helper function for block the user
   blockUser: (userId) => {
     console.log(userId);
     return new Promise((resolve, reject) => {
@@ -31,7 +28,7 @@ module.exports = {
         });
     });
   },
-    // helper function for unblock the users
+  // helper function for unblock the users
   unblockUser: (userId) => {
     return new Promise((resolve, reject) => {
       db.get()
@@ -43,7 +40,7 @@ module.exports = {
     });
   },
 
-    // helper function for get All the orederDetails
+  // helper function for get All the orederDetails
   getAllOrders: () => {
     return new Promise(async (res, rej) => {
       const allOrders = await db
@@ -65,7 +62,7 @@ module.exports = {
     });
   },
 
-    // helper function for change the order status to packing
+  // helper function for change the order status to packing
   satusToPacking: (orderId) => {
     return new Promise((res, rej) => {
       db.get()
@@ -84,7 +81,7 @@ module.exports = {
     });
   },
 
-    // helper function for change the order status to shipped
+  // helper function for change the order status to shipped
   satusToShipped: (orderId) => {
     return new Promise((res, rej) => {
       db.get()
@@ -102,7 +99,7 @@ module.exports = {
         });
     });
   },
-      // helper function for change the order status to deleverd
+  // helper function for change the order status to deleverd
   satusToDelivered: (orderId) => {
     return new Promise((res, rej) => {
       db.get()
@@ -112,7 +109,7 @@ module.exports = {
           {
             $set: {
               status: "Delivered",
-              deliverd:true
+              deliverd: true,
             },
           }
         )
@@ -121,7 +118,7 @@ module.exports = {
         });
     });
   },
-      // helper function for cancel the order by admin
+  // helper function for cancel the order by admin
   cancelOrder: (orderId) => {
     return new Promise((res, rej) => {
       db.get()
@@ -143,7 +140,8 @@ module.exports = {
   addCarousel: (carouselData) => {
     console.log(carouselData);
     return new Promise(async (res, rej) => {
-      await db.get()
+      await db
+        .get()
         .collection(collection.CAROUSEL_COLLECTIONS)
         .insertOne(carouselData)
         .then((response) => {
@@ -152,7 +150,7 @@ module.exports = {
         });
     });
   },
-    // helper function for get all the carousel
+  // helper function for get all the carousel
   getCarousel: () => {
     return new Promise(async (res, rej) => {
       var carousels = await db
@@ -164,7 +162,7 @@ module.exports = {
       res(carousels);
     });
   },
-    // helper function for delete added Caursol by admin
+  // helper function for delete added Caursol by admin
   deleteCaursol: (caursolId) => {
     return new Promise(async (res, rej) => {
       db.get()
@@ -177,7 +175,7 @@ module.exports = {
     });
   },
 
-    // helper function for add main categories to home page by admin
+  // helper function for add main categories to home page by admin
   addCategoryTohome: (categories) => {
     return new Promise(async (res, rej) => {
       // first reseting the collection
@@ -220,7 +218,7 @@ module.exports = {
     });
   },
 
-    // helper function for get all the categories in home page added by admin
+  // helper function for get all the categories in home page added by admin
   getHomeCategory: () => {
     return new Promise(async (res, rej) => {
       var homeCategory = await db
@@ -233,7 +231,7 @@ module.exports = {
     });
   },
 
-    // helper function for add trending products in home page by admin
+  // helper function for add trending products in home page by admin
   addTrendingProducts: (products) => {
     return new Promise(async (res, rej) => {
       // first reseting the collection
@@ -268,7 +266,7 @@ module.exports = {
       }
     });
   },
-    // helper function for get all trending products 
+  // helper function for get all trending products
   getTrending: () => {
     return new Promise(async (res, rej) => {
       const trending = await db
@@ -289,7 +287,7 @@ module.exports = {
       res(trending);
     });
   },
-    // helper function for get monthly sales report
+  // helper function for get monthly sales report
   getMonthSalesReport: () => {
     currentYear = new Date().getFullYear();
     return new Promise(async (res, rej) => {
@@ -318,7 +316,7 @@ module.exports = {
       res(SalesReport);
     });
   },
-    // helper function for get top selling products report
+  // helper function for get top selling products report
   getProductReport: () => {
     currentYear = new Date().getFullYear();
     return new Promise(async (res, rej) => {
@@ -374,7 +372,7 @@ module.exports = {
     });
   },
 
-    // helper function for get total products count
+  // helper function for get total products count
   getTotalProducts: () => {
     return new Promise(async (res, rej) => {
       const totalProduct = await db
@@ -385,7 +383,7 @@ module.exports = {
       res(totalProduct);
     });
   },
-     // helper function for get total orders count
+  // helper function for get total orders count
   getTotalOrders: () => {
     return new Promise(async (res, rej) => {
       const totalOrders = await db
@@ -396,7 +394,7 @@ module.exports = {
       res(totalOrders);
     });
   },
-   // helper function for get sales report
+  // helper function for get sales report
   getTotalSalesReport: () => {
     // giving total sales report (including all the status,payment method,date) no fileteration is given
 
@@ -430,7 +428,7 @@ module.exports = {
   },
 
   addProductOffer: (offerData) => {
-    console.log(offerData)
+    console.log(offerData);
     let productsArray = offerData.options.split(",");
     let products = [];
 
@@ -441,7 +439,7 @@ module.exports = {
     const offer = {
       name: offerData.name,
       value: offerData.value,
-      offerType:offerData.offerType,
+      offerType: offerData.offerType,
       include: products,
     };
     console.log(offer);
@@ -509,58 +507,60 @@ module.exports = {
   },
   deleteOffer: (offId) => {
     return new Promise(async (res, rej) => {
-
-
       let offerData = await db
-      .get()
-      .collection(collection.OFFER_COLLECIONS)
-      .aggregate([
-        {
-          $match: { _id: objectId(offId) },
-        }
-      ]).toArray()
+        .get()
+        .collection(collection.OFFER_COLLECIONS)
+        .aggregate([
+          {
+            $match: { _id: objectId(offId) },
+          },
+        ])
+        .toArray();
 
-      offerData[0].include.forEach(async (eachProd)=>{
+      offerData[0].include.forEach(async (eachProd) => {
+        let singleProd = await db
+          .get()
+          .collection(collection.PRODUCT_COLLECTIONS)
+          .find({ _id: eachProd.product })
+          .toArray();
 
-      let singleProd= await db.get().collection(collection.PRODUCT_COLLECTIONS).find({_id:eachProd.product}).toArray()
+        db.get()
+          .collection(collection.PRODUCT_COLLECTIONS)
+          .updateOne(
+            { _id: eachProd.product },
+            {
+              $set: {
+                discount: 0,
+                finalPrice: singleProd[0].price,
+                offer: false,
+              },
+            }
+          );
+      });
 
-        db.get().collection(collection.PRODUCT_COLLECTIONS).updateOne(
-               { _id: eachProd.product },
-                {
-                  $set: {
-                    discount: 0,
-                    finalPrice:singleProd[0].price ,
-                    offer: false,
-                  },
-                }
-        )
-      })
-
-
-      await db.get().collection(collection.OFFER_COLLECIONS).deleteOne(({_id:objectId(offId)}))
-
-
-
-
-
-
+      await db
+        .get()
+        .collection(collection.OFFER_COLLECIONS)
+        .deleteOne({ _id: objectId(offId) });
 
       console.log("debug data");
-  
+
       res();
     });
   },
 
   addCategoryOffer: async (offerData) => {
+    // giving the product Array
+    let categories = offerData.options.split(",");
 
-// giving the product Array
-let categories = offerData.options.split(",");
-
-
-console.log(categories)
-let productsArray = await db.get().collection(collection.PRODUCT_COLLECTIONS).find({category:{$in:categories}}).toArray() 
-console.log("debugPrduct")
-console.log(productsArray)
+    console.log(categories);
+    let productsArray = await db
+      .get()
+      .collection(collection.PRODUCT_COLLECTIONS)
+      .find({ category: { $in: categories } })
+      .toArray();
+    console.log("debugPrduct");
+    console.log(productsArray);
 
     // let productsArray = offerData.options.split(",");
     let products = [];
@@ -572,7 +572,7 @@ console.log(productsArray)
     const offer = {
       name: offerData.name,
       value: offerData.value,
-      offerType:offerData.offerType,
+      offerType: offerData.offerType,
       include: products,
     };
     console.log(offer);
@@ -618,7 +618,7 @@ console.log(productsArray)
         });
     });
   },
-  addCoupen:(coupenData)=>{
+  addCoupen: (coupenData) => {
     return new Promise((res, rej) => {
       db.get()
         .collection(collection.COUPENCODE_COLLECTIONS)
@@ -628,9 +628,8 @@ console.log(productsArray)
           res(response);
         });
     });
-
   },
-  getAllCoupen:()=>{
+  getAllCoupen: () => {
     return new Promise((res, rej) => {
       let coupen = db
         .get()
@@ -639,7 +638,8 @@ console.log(productsArray)
         .toArray();
       res(coupen);
     });
-  },deleteCoupen: (id) => {
+  },
+  deleteCoupen: (id) => {
     console.log("delete stared");
     console.log(id);
     return new Promise((res, rej) => {
@@ -651,22 +651,15 @@ console.log(productsArray)
           res(response);
         });
     });
-  }
-  ,
-  getApplyToken:(tokenId)=>{
+  },
+  getApplyToken: (tokenId) => {
     return new Promise((res, rej) => {
       let coupen = db
         .get()
         .collection(collection.COUPENCODE_COLLECTIONS)
-        .find({_id:objectId(tokenId)})
+        .find({ _id: objectId(tokenId) })
         .toArray();
       res(coupen);
     });
-  }
-
-
+  },
 };
-
-
-
-

@@ -4,6 +4,7 @@ const productHelpers = require("../helpers/product-helpers");
 const userHealpers = require("../helpers/user-healpers");
 const router = express.Router();
 const excelJs = require("exceljs");
+const { promises } = require("fs-extra");
 
 /* GET home page. */
 
@@ -15,7 +16,7 @@ const adminPassword = process.env.adminPassword;
 
 const verifyAdminLogin = (req, res, next) => {
   // hard setting login to true for easy coding
-  req.session.adminLoggin = true;
+  // req.session.adminLoggin = true;
 
   if (req.session.adminLoggin) {
     next();
@@ -73,6 +74,9 @@ router.get("/adminLogin", (req, res) => {
 });
 
 router.post("/adminLogin", function (req, res) {
+  console.log(req.body);
+  console.log(adminUsername);
+  console.log(adminPassword);
   if (req.body.name == adminUsername && req.body.password == adminPassword) {
     req.session.adminLoggin = true;
     console.log("admin log success");
@@ -200,13 +204,10 @@ router.get("/add-product", verifyAdminLogin, (req, res) => {
 router.post("/add-product", (req, res) => {
   productHelpers.addProduct(req.body).then((response) => {
     let id = response.toString();
-   
 
-    if(req.files.image){
-        
- let image = req.files.image;
-    image.mv("./public/product-images/" + id + ".jpg");
-
+    if (req.files) {
+      let image = req.files.image;
+      image.mv("./public/product-images/" + id + ".jpg");
     }
 
     res.redirect("/admin/product");
@@ -527,40 +528,34 @@ router.get("/add-category_offer", verifyAdminLogin, async (req, res) => {
   });
 });
 
-
-
 router.post("/add_category_offer", (req, res) => {
   adminhelpers.addCategoryOffer(req.body).then((response) => {
     res.redirect("/admin/offer-management");
-  }); 
+  });
 });
-
-
 
 // category offer ends
 
-
-// adding coupen code 
+// adding coupen code
 router.get("/manage-coupen", verifyAdminLogin, (req, res) => {
   adminhelpers.getAllCoupen().then((coupen) => {
-
-     res.render("admin/view-coupen", {
-    admin: true,
-    adminLogin: adminLogin,
-    coupen
+    res.render("admin/view-coupen", {
+      admin: true,
+      adminLogin: adminLogin,
+      coupen,
+    });
   });
-    
-  });
- 
 
   router.get("/add-coupen", verifyAdminLogin, (req, res) => {
-    res.render("admin/add-coupen-page", { admin: true, adminLogin: adminLogin });
+    res.render("admin/add-coupen-page", {
+      admin: true,
+      adminLogin: adminLogin,
+    });
   });
 
   router.post("/add-coupen", (req, res) => {
     adminhelpers.addCoupen(req.body).then((response) => {
       res.redirect("/admin/manage-coupen");
-      
     });
   });
 
@@ -571,11 +566,6 @@ router.get("/manage-coupen", verifyAdminLogin, (req, res) => {
       res.redirect("/admin/manage-coupen");
     });
   });
-  
-
-
-
-
 });
 
 module.exports = router;

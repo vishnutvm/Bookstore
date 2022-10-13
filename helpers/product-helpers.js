@@ -42,7 +42,7 @@ module.exports = {
 
   advancedFilter: (subCategory, currectCategory, minPrice, maxPrice) => {
     let ArraysubCategory = [];
-  
+
     let isArray = Array.isArray(subCategory);
 
     if (isArray) {
@@ -52,29 +52,28 @@ module.exports = {
     }
 
     return new Promise(async (res, rej) => {
-  
-     minPrice = parseInt(minPrice)
-     maxPrice = parseInt(maxPrice)
-     console.log(minPrice);
-     console.log(maxPrice);
+      minPrice = parseInt(minPrice);
+      maxPrice = parseInt(maxPrice);
+      console.log(minPrice);
+      console.log(maxPrice);
       let product;
       if (currectCategory == "All") {
         product = await db
           .get()
           .collection(collection.PRODUCT_COLLECTIONS)
-          .aggregate(
-            [
-              { $match:
-                 { 
-            subcategory: { $in: ArraysubCategory },
-          finalPrice: {
-            $gte:minPrice ,
-            $lt:maxPrice ,
-          }, } }
-        ])
+          .aggregate([
+            {
+              $match: {
+                subcategory: { $in: ArraysubCategory },
+                finalPrice: {
+                  $gte: minPrice,
+                  $lt: maxPrice,
+                },
+              },
+            },
+          ])
           .toArray();
-      }
-      else {
+      } else {
         product = await db
           .get()
           .collection(collection.PRODUCT_COLLECTIONS)
@@ -84,16 +83,13 @@ module.exports = {
                 subcategory: { $in: ArraysubCategory },
                 category: currectCategory,
                 finalPrice: {
-                  $gte:minPrice ,
-                  $lt:maxPrice ,
+                  $gte: minPrice,
+                  $lt: maxPrice,
                 },
               },
             },
           ])
           .toArray();
-
-
-          
       }
 
       console.log(product);
