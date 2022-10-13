@@ -179,11 +179,11 @@ module.exports = {
   addCategoryTohome: (categories) => {
     return new Promise(async (res, rej) => {
       // first reseting the collection
-      console.log("showing the input");
-      console.log(categories.options);
+      // console.log("showing the input");
+      // console.log(categories.options);
 
       if (categories.options == "") {
-        console.log("null ");
+        // console.log("null ");
         await db
           .get()
           .collection(collection.HOMECATEGORY_COLLECTIONS)
@@ -192,7 +192,7 @@ module.exports = {
             res();
           });
       } else {
-        console.log("wokring too");
+        // console.log("wokring too");
         await db
           .get()
           .collection(collection.HOMECATEGORY_COLLECTIONS)
@@ -200,7 +200,7 @@ module.exports = {
 
         const categoriesArry = categories.options.split(",");
 
-        console.log(categoriesArry);
+        // console.log(categoriesArry);
 
         categoriesArry.forEach((category) => {
           db.get()
