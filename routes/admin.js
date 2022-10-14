@@ -151,6 +151,7 @@ router.get("/DeleteProduct/:id", (req, res) => {
   });
 });
 
+
 router.get("/EditProduct/:id", (req, res) => {
   const prodId = req.params.id;
   Promise.all([
