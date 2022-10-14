@@ -688,7 +688,7 @@ module.exports = {
     console.log("enterd to verification");
     return new Promise((res, rej) => {
       const crypto = require("crypto");
-      let hmac = crypto.createHmac("sha256", "oq5x15xdQVJG05DyZUcLQa4q");
+      let hmac = crypto.createHmac("sha256", "oq5x15xdQVJG05DyZUcLQa4q");``
 
       hmac.update(
         details["payment[razorpay_order_id]"] +
