@@ -92,8 +92,11 @@ Users can do the following:
 Admins can do the following:
 
 - Login or logout to the admin panel
-- Display sale report
+- Display month wise sales report in bar chart
+- Display product wise sales report in pie chart 
+- Download sals report in pdf and excel 
 - Add products
+- Admin Can crop images all the image before upload
 - Veiw sale reports
 - View, edit or delete their products
 - Change the orders status
