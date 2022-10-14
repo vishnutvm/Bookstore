@@ -22,7 +22,7 @@ NOTE: Please read the RUN section before opening an issue.
 
 The application is deployed to AWS and can be accessed through the following link:
 
-[Shoppi on AWS](https://buyonbookstore.tk/)
+[BUY ON BOOKSTORE](https://buyonbookstore.tk/)
 
 The website resembles a real store and you can add products(Books) to your cart and wishlist and pay for them. If you want to try the checkout process, you can use the dummy card number/ upi/ Internet Bankinng provided by Razorpay for testing . 
 also There is option for Paypal and COD payments
