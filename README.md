@@ -12,7 +12,7 @@
 
 ## Introduction
 
-A virtual ecommerce website using Node js, Express js, and MongoDb.
+A  ecommerce website using Node js, Express js, and MongoDb.
 
 NOTE: Please read the RUN section before opening an issue.
 
