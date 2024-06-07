@@ -3,6 +3,11 @@ const accountSID = process.env.accountSID;
 const serviceID = process.env.serviceID;
 const authToken = process.env.authToken;
 
+
+// razopay
+const RAZORPAY_KEY_ID = process.env.RAZORPAY_KEY_ID;
+const RAZORPAY_KEY_SECRET = process.env.RAZORPAY_KEY_SECRET;
+
 const db = require("../config/connections");
 const collection = require("../config/collections");
 const objectid = require("mongodb").ObjectId;
@@ -13,8 +18,8 @@ const bcrypt = require("bcrypt");
 const Razorpay = require("razorpay");
 
 const instance = new Razorpay({
-  key_id: "rzp_test_iuxZcw2GsP7kC4",
-  key_secret: "oq5x15xdQVJG05DyZUcLQa4q",
+  key_id:  RAZORPAY_KEY_ID ,
+  key_secret:  RAZORPAY_KEY_SECRET
 });
 
 module.exports = {
