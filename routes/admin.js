@@ -11,8 +11,8 @@ const excelJs = require("exceljs");
 // session middleware
 
 // setting id and pass from env
-const adminUsername = process.env.adminUsername || 'superadmin@gmail.com';
-const adminPassword = process.env.adminPassword || '123'
+const adminUsername = process.env.adminUsername;
+const adminPassword = process.env.adminPassword 
 
 const verifyAdminLogin = (req, res, next) => {
   // hard setting login to true for easy coding
